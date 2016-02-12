@@ -62,7 +62,7 @@ export -f fb_devices
 
 function ver()
 {
- for device in `adb_devices` ; do 
+ for device in `adb_devices` ; do
     APver=`adb -s $device shell getprop ro.build.fingerprint | sed -e "s/.*\[//" -e "s/\]//"`
     BPver=`adb -s $device shell getprop gsm.version.baseband | sed -e "s/.*\[//" -e "s/\]//"`
     FSGver=`adb -s $device shell getprop ril.baseband.config.ver_num | sed -e "s/.*\[//" -e "s/\]//"`
@@ -104,12 +104,12 @@ export -f cmp8994
 function root {
    adb root
    adb wait-for-devices
-}   
+}
 
 export -f root
 
 function unsetup() {
-  
+
   root
   adb shell sqlite3 /data/data/com.android.providers.settings/databases/settings.db "update global set value=1 where name='device_provisioned';"
   adb shell sqlite3 /data/data/com.android.providers.settings/databases/settings.db "update secure set value=1 where name='user_setup_complete';"
@@ -147,7 +147,7 @@ function logcat() {
 export -f logcat
 
 function flash_it() {
-if [ ! -n "$1" ]; then 
+if [ ! -n "$1" ]; then
     guess=`ls -1trF fastboot*.tar.gz | tail -1`
     folder=`echo $guess | sed 's/fastboot.//' | sed 's/\.tar\.gz//'`
 else
@@ -171,7 +171,7 @@ function get_keys_version (){
 keys='serialno|version|keys|ro.boot|MBM-NG-V|fingerprint'
 devices=`fb_devices`
 if [ ! -z "$devices" ] ; then
-   getvar | grep -iE $keys 
+   getvar | grep -iE $keys
 fi
 devices=`adb_devices`
   for device in $devices ; do
@@ -219,9 +219,9 @@ function echo_if_dir {
 function ltr {
 
 if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltr $file ;done 
+  for file in $* ; do echo_if_dir $file ; ls -ltr $file ;done
 else
-  ls -ltr 
+  ls -ltr
 fi
 }
 
@@ -279,7 +279,7 @@ export -f ltrt
 function fltrh () {
 
 if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done | head 
+  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done | head
 else
   ls -ltrF  | grep / | head
 fi
@@ -303,7 +303,7 @@ export -f fltr
 function fltrt () {
 
 if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done | tail 
+  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done | tail
 else
   ls -ltrF  | grep / | tail
 fi
@@ -315,7 +315,7 @@ export -f fltrt
 
 function getvar () {
 
-for d in `fb_devices` ; do 
+for d in `fb_devices` ; do
   echo serialno: $d
   if [ -n "$1" ] ; then
     fastboot -s $d getvar $* 2>&1
@@ -349,7 +349,7 @@ export -f mybeep
 function bflash {
 
 echo pushd mbm-ci
-echo unzip blankflash.zip 
+echo unzip blankflash.zip
 echo pushd blankflash
 echo ./qboot blank-flash
 }
@@ -370,7 +370,7 @@ ls -t $($*) | head -1
 
 }
 
-export -f newest 
+export -f newest
 
 function save_partition() {
 
@@ -397,16 +397,16 @@ function save_dev() {
 
 device=$1
 if [ -n "$1" ] ; then
-  for ptv in hob dhob modemst1 modemst2 ; do echo $ptv ;  save_partition $device $ptv ;  done 
+  for ptv in hob dhob modemst1 modemst2 ; do echo $ptv ;  save_partition $device $ptv ;  done
 else
   echo 'Usage: save_dev <serial number>'
-fi 
+fi
 }
 
 export -f save_dev
 
 function save_devs() {
-  for device in `fb_devices` ; 
+  for device in `fb_devices` ;
     do mkdir -p $device &&  pushd $device && save_dev $device && popd ; done
 }
 
@@ -440,7 +440,7 @@ function sideload8994 () {
 
  if [ -e "$1" ] ; then
     device=" -s $1 "
-  else 
+  else
     device=""
  fi
 
@@ -456,7 +456,7 @@ function sideload8994 () {
 export -f sideload8994
 
 function flashem () {
-    
+
     dlist="$*"
     if [ -z "$dlist" ];then
        dlist+=`fb_devices`
@@ -469,7 +469,7 @@ function flashem () {
         gnome-terminal -t "flashing $device..." -x bash -c "flashall.sh -d $device; echo -n \"Press any key to exit...\"; read -n 1 -s"
     done
 }
-        
+
 export -f flashem
 
 function get_relnotes () {
@@ -513,7 +513,7 @@ function jira_rel_crs () {
   for rels in $* ; do
    ((counter++))
     if [ $counter -gt 1 ]; then jira_q="$jira_q or "
-    fi 
+    fi
     jira_q="$jira_q $jira_q_test\"$rels\" "
   done;
   echo "http://idart.mot.com/issues/?jql=$jira_q"
@@ -525,5 +525,52 @@ function conf_call () {
   echo "$1;$2#"
   Type $dial
 }
+
+export -f conf_call
+
+function du2dh {
+ du2d | head
+}
+
+export -f du2dh
+
+function du2d {
+
+  du_d 2
+}
+
+export -f du2d
+
+function du_d (){
+
+  a=$1
+  du --max-depth $a | sort -gr
+}
+
+export -f du_d
+
+function clean_ws {
+
+ perl -lapi -e 's/^\s+$/\n/g' $*
+ perl -lapi -e 's/\s+$//g' $*
+
+#  perl -lapi -e 's/^\s+|\s+$//g' $*
+}
+
+export -f clean_ws
+
+function clean_all_while_space {
+
+for file in *.?pp ;do clean_ws $file ;done
+
+}
+
+export -f clean_all_while_space
+function dev() {
+#ignore input for now, use default
+	pushd ~/tools
+}
+
+export -f dev
 
 
