@@ -1,6 +1,5 @@
 #!/bin/bash -x
 
-
 function me {
   echo $LOGNAME
 }
@@ -551,9 +550,9 @@ export -f du_d
 
 function clean_ws {
 
- perl -lapi -e 's/^\s+$/\n/g' $*
- perl -lapi -e 's/\s+$//g' $*
-
+perl -lapi -e 's/^\s+$|\s+$//g' $*
+# perl -lapi -e 's/^\s+$/\n/g' $*
+# perl -lapi -e 's/\s+$//g' $*
 #  perl -lapi -e 's/^\s+|\s+$//g' $*
 }
 
@@ -573,4 +572,37 @@ function dev() {
 
 export -f dev
 
+function kill_procs(){
 
+if [ -n "$1" ] ; then
+   proc_name=$1
+   echo "killing all proc named $proc_name"
+   for id in `ps -C $proc_name -o pid=` ; do echo "kill $id" ; done
+fi
+}
+export -f kill_procs
+
+function lsx(){
+   find $1  -maxdepth 1  -executable   -type f
+}
+
+export -f lsx
+function show(){
+
+    cat $1 | egrep -v '^#|^$'
+}
+
+export -f show
+alias dirty="cvs status 2>&1 | grep Status |grep  -v 'Status: Up-to-date' | grep -v 'cvs status:'"
+
+#function dirty{
+#    cvs status 2>&1 | grep Status |grep  -v 'Status: Up-to-date' | grep -v 'cvs status:'
+#}
+
+#export -f dirty
+
+
+#this is for CORBA
+export LD_LIBRARY_PATH=/usr/local/lib/
+export OMNINAMES_LOGDIR=/var/log/omniNames/
+alias lsx='find  -type f -executable -maxdepth 1'
