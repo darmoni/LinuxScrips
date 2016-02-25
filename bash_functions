@@ -1,6 +1,5 @@
 #!/bin/bash -x
 
-
 function me {
   echo $LOGNAME
 }
