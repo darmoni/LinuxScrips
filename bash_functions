@@ -587,12 +587,39 @@ function lsx(){
 }
 
 export -f lsx
+
+function dev64 {
+   echo 'xdev64'
+}
+
+function dev {
+   domain="xcastlabs.com"
+   ssh ndarmoni@`dev64`.$domain
+}
+function mount_dev {
+	dev_mounting_point="$HOME/Desktop/sftp"
+    domain="xcastlabs.com"
+    sshfs ndarmoni@`dev64`.$domain:~ $dev_mounting_point
+}
+
+function mount_usr {
+	usr_mounting_point="$HOME/Desktop/usr"
+    domain="xcastlabs.com"
+    mkdir -p $usr_mounting_point
+	if [ $? == 0 ]; then
+	    sshfs ndarmoni@`dev64`.$domain:/usr $usr_mounting_point
+	fi
+}
+
+
+
 function show(){
 
     cat $1 | egrep -v '^#|^$'
 }
 
 export -f show
+
 alias dirty="cvs status 2>&1 | grep Status |grep  -v 'Status: Up-to-date' | grep -v 'cvs status:'"
 
 #function dirty{
