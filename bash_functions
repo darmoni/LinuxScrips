@@ -22,7 +22,7 @@ export refresh
 
 function funcs {
 
-   echo "$HOME/bin/bash_functions"
+   readlink -f ~nir/bin/bash_functions
 }
 
 export -f funcs
@@ -344,6 +344,11 @@ function mybeep () {
 
 export -f mybeep
 
+function playit () {
+
+cvlc --play-and-exit $* 2> /dev/null
+} 
+
 
 function bflash {
 
@@ -527,23 +532,23 @@ function conf_call () {
 
 export -f conf_call
 
-function du2dh {
- du2d | head
+function du2dh (){
+ du2d $* | head
 }
 
 export -f du2dh
 
-function du2d {
+function du2d (){
 
-  du_d 2
+  du_d 2 $*
 }
 
 export -f du2d
 
 function du_d (){
 
-  a=$1
-  du --max-depth $a | sort -gr
+  #a=$1
+  du --max-depth $* | sort -gr
 }
 
 export -f du_d
@@ -583,7 +588,7 @@ fi
 export -f kill_procs
 
 function lsx(){
-   find $1  -maxdepth 1  -executable   -type f
+   find  -maxdepth 1  -executable   -type f $1
 }
 
 export -f lsx
@@ -592,14 +597,33 @@ function dev64 {
    echo 'xdev64'
 }
 
+function webdev {
+   echo 'dev3n1'
+}
+
+function xcweb {
+   domain="xcastlabs.com"
+   ssh xcast@`webdev`.$domain
+}
+
+function xc {
+   domain="xcastlabs.com"
+   ssh xcast@`dev64`.$domain
+}
+
 function dev {
    domain="xcastlabs.com"
    ssh ndarmoni@`dev64`.$domain
 }
+function mount_webdev {
+	dev_mounting_point="$HOME/Desktop/webdev"
+    domain="xcastlabs.com"
+    sshfs xcast@`webdev`.$domain:nir $dev_mounting_point
+}
 function mount_dev {
 	dev_mounting_point="$HOME/Desktop/sftp"
     domain="xcastlabs.com"
-    sshfs ndarmoni@`dev64`.$domain:~ $dev_mounting_point
+    sshfs ndarmoni@`dev64`.$domain:/net/home/ $dev_mounting_point
 }
 
 function mount_usr {
@@ -608,10 +632,9 @@ function mount_usr {
     mkdir -p $usr_mounting_point
 	if [ $? == 0 ]; then
 	    sshfs ndarmoni@`dev64`.$domain:/usr $usr_mounting_point
+      export ACE_ROOT=$usr_mounting_point/local/ACE_wrappers
 	fi
 }
-
-
 
 function show(){
 
@@ -628,8 +651,58 @@ alias dirty="cvs status 2>&1 | grep Status |grep  -v 'Status: Up-to-date' | grep
 
 #export -f dirty
 
+function Column() {
+// column=$1
+ awk '{print $c}' c=${1:-1}
+}
+export -f Column
 
+function ts() {
+unset TS
+
+if [ -z "$*" ]; then
+    TS=`date +%s`
+else
+   echo  "$*" | egrep -q '[^0-9]'
+    if [ $? -eq 0 ];then
+	TS=`date +%s -d "$*" 2>/dev/null`
+    else
+	TS=$*
+    fi
+fi 
+
+LTM=`date -d "1970-01-01 UTC $TS sec" 2>/dev/null`
+if [ $? -ne 0  -o  -z "$TS" ]; then
+    echo Incorrect date: $*
+    exit 1
+fi
+
+UTM=`date -u "+%Y-%m-%d %H:%M:%S UTC" -d "1970-01-01 UTC $TS sec"`
+
+echo -e $TS '  ===>  ' $LTM '  ===>  ' $UTM
+
+}
+export -f ts
+
+export SIP_DOMAIN="10.10.10.55"
+function apt_help () {
+	if [ -z $1 ];then
+		what='netinet/sctp.h'
+	else
+		what=$1
+	fi
+	echo  apt-file search $what
+}
+function cmp_tmp () {
+for file in Makefile *cpp *h ; do echo $file ; diff $file `pwd|sed 's/work_torm/work/'`/$file ;done
+}
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/
+export OMNIORBBASE=/home/nir/omniorb/omniORB-4.2.1
+
 alias lsx='find  -type f -executable -maxdepth 1'
+alias gdbbt='gdb -q -n -ex bt -batch'
+alias gdbbtfull='gdb -q -n -ex "bt full" -batch'
+alias rm='rm -i'
+#usage  mserver]$ for core in `ls -1tr` ; do echo $core ; gdbbt /usr/local/registrator/lib/mserver/app/mapp $core; done > mapp.bt.txt 2>&1
