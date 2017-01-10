@@ -694,8 +694,16 @@ function apt_help () {
 	echo  apt-file search $what
 }
 function cmp_tmp () {
-for file in Makefile *cpp *h ; do echo $file ; diff $file `pwd|sed 's/work_torm/work/'`/$file ;done
+    for file in Makefile *cpp *h ; do echo $file ; diff $file `pwd|sed 's/work_torm/work/'`/$file ;done
 }
+
+
+function get_res_from_pbx () {
+        time=`timestamp | sed 's/[:|-]//g'`;
+            scp xcast@tswitch3.siptalk.com:/usr/local/registrator/lib/mserver/app/cpuload.php.res ~/production.$time.cpuload.php.csv
+        }
+
+
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/

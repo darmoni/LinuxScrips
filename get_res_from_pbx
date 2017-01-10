@@ -1,0 +1,7 @@
+get_res_from tswitch3.siptalk.com
+
+#time=`date +%F-%T | sed 's/[:|-]//g'`;
+#filename=~/production.$time.cpuload
+#time=date -d yesterday +%F| sed 's/-//g'
+#scp xcast@tswitch3.siptalk.com:/usr/local/registrator/lib/mserver/app/cpuload.php.$time.res $filename
+#convert_res_from_pbx.php -i $filename

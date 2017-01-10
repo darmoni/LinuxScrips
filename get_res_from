@@ -1,0 +1,9 @@
+if [ -n "$1" ]; then
+server=$1
+time=`date +%F-%T | sed 's/[:|-]//g'`
+filename=~/$server.$time.cpuload
+yesterday=`date -d yesterday +%F| sed 's/-//g'`
+#echo "$time $server $filename $yesterday"
+scp xcast@$server:/usr/local/registrator/lib/mserver/app/cpuload.php.$yesterday.res $filename
+convert_res_from_pbx.php -i $filename
+fi
