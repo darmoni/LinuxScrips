@@ -25,7 +25,9 @@ $headers = array("Time", "num_queues", "num_agents", "waiting", "logged_in", "av
 require_once 'Spreadsheet/Excel/Writer.php';
 
 // Creating a workbook
-$workbook = new Spreadsheet_Excel_Writer("$res_file.xls");
+$filename = pathinfo($res_file, PATHINFO_DIRNAME);
+$filename .= "/". basename($res_file, '.csv'). '.xls';
+$workbook = new Spreadsheet_Excel_Writer($filename);
 // Creating a worksheet
 $worksheet =& $workbook->addWorksheet('results');
 $topics_row = 0;
