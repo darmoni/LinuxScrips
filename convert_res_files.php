@@ -16,13 +16,31 @@ function _get_source_file_name()
         exit(0);
     }
 }
-
+$files = array();
 $res_file = _get_source_file_name();
+if(!is_file($res_file)) {
+    //$files = glob($res_file);
+    $last_line = exec("ls $res_file", $files);
+    if(count($files)>1) {
+        global $res_file;
+        sort($files);
+        $patterns = array('/\*/', '/\?/');
+        $output_filename = preg_replace($patterns,'_',$res_file);
+        $path_parts = pathinfo($output_filename);
+        $path_parts['filename'] .= '.'.date("Ymdhis");
+        $output_filename = $path_parts['dirname'].'/'.$path_parts['filename'];
+        foreach($files as $res) {
+            if (is_file($res)) system("cat $res >> $output_filename", $retval);
+        }
+        if(is_file($output_filename)) $res_file = $output_filename;
+    }
+}
 $data = fopen($res_file,"r");
 if(!is_resource($data)) die ("Can not open results file $res_file!\n");
-$topics = array("Time", "Queues", "Agents", "Conferences","% Idle", "Load", "Busy");
+
+$topics = array("Time", "Queues", "Agents", "Conferences","% Idle", "Load", "% Busy");
 $headers = array("Time", "Number of queues", "Number of agents", "Waiting Calls", "Logged in", "Available", "Not Available", "Bridges", "Participants", "Idle", 
-    "1 Minute Average Load", "5 Minutes Average Load", "15 Minutes Average Load", "busy");
+    "1 Minute Average Load", "5 Minutes Average Load", "15 Minutes Average Load", "Busy");
 require_once 'Spreadsheet/Excel/Writer.php';
 
 // Creating a workbook
@@ -67,29 +85,17 @@ $worksheet->write($topics_row, 13, $topics[$topic++], $format_title); // last on
 
 // Header
 $worksheet->writeRow($row++, 0, $headers, $format_title);
-//$worksheet->getStyle('A2:N2')->getAlignment()->setWrapText(true);
+
 // The actual data
 while ($line = fgets($data, 2048)) {
-    //$measurements = preg_split("/[\s,]+/",$line);
-    $measurements = explode("\t",$line);
-    $worksheet->writeRow($row, 0, $measurements);
-    $the_row = $row+1;
-    $formula="=100-J$the_row";
-    $worksheet->writeFormula($row,13,$formula);
     $row++;
+    $measurements = array_slice(explode("\t",$line), 0 , count($headers)-1);
+    $formula="=100-J$row";
+    $measurements [] = $formula;
+//    $worksheet->writeFormula($row,13,$formula);
+    $worksheet->writeRow($row-1, 0, $measurements);
 }
 fclose($data);
 
-/*
-$worksheet->write(0, 0, 'Name');
-$worksheet->write(0, 1, 'Age');
-$worksheet->write(1, 0, 'John Smith');
-$worksheet->write(1, 1, 30);
-$worksheet->write(2, 0, 'Johann Schmidt');
-$worksheet->write(2, 1, 31);
-$worksheet->write(3, 0, 'Juan Herrera');
-$worksheet->write(3, 1, 32);
-*/
-// Let's send the file
 $workbook->close();
 ?>

@@ -1,9 +1,19 @@
+if [ -n "$2" ]; then
+_day=$2
+else _day='yesterday'
+fi
 if [ -n "$1" ]; then
 server=$1
 time=`date +%F-%T | sed 's/[:|-]//g'`
-yesterday=`date -d yesterday +%F| sed 's/-//g'`
-filename=~/$server.daily-$yesterday.$time.cpuload.csv
-#echo "$time $server $filename $yesterday"
-scp xcast@$server:/usr/local/registrator/lib/mserver/app/cpuload.php.$yesterday.res $filename && \
-sleep 3; /usr/bin/php -e  /home/nir/bin/convert_res_from_pbx.php -i $filename
+day_command="date -d '$_day' +%Y%m%d"
+the_day=`echo $day_command | $SHELL`
+if [ -n "$2" ]; then
+name='special.daily'
+else
+name='daily'
+fi
+filename=~/capacity/$server.$name-$the_day.$time.cpuload.csv
+#echo "$time $server $filename $the_day"
+scp xcast@$server:/usr/local/registrator/lib/mserver/app/cpuload.php.$the_day.res $filename && \
+sleep 3; /usr/bin/php -e  /home/nir/bin/convert_res_files.php -i $filename
 fi
