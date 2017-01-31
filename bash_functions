@@ -697,6 +697,9 @@ function cmp_tmp () {
     for file in Makefile *cpp *h ; do echo $file ; diff $file `pwd|sed 's/work_torm/work/'`/$file ;done
 }
 
+function switch_on () {
+    ssh xcast@tswitch3.siptalk.com
+}
 
 function get_res_from_pbx () {
         time=`timestamp | sed 's/[:|-]//g'`;

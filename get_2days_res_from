@@ -5,5 +5,5 @@ today=`date -d today +%F| sed 's/-//g'`
 filename=~/capacity/$server.partial-$today.$time.cpuload.csv
 echo "$time $server $filename $today"
 scp xcast@$server:/usr/local/registrator/lib/mserver/app/cpuload.php.$today.res $filename && \
-sleep 3; /usr/bin/php -e /home/nir/bin/convert_res_from_pbx.php -i $filename
+sleep 3; /usr/bin/php -e  /home/nir/bin/convert_res_files.php -i $filename
 fi

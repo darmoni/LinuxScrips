@@ -1,67 +1,58 @@
 #!/usr/bin/php -f
 <?php
-
-
 declare(ticks = 1);
-
-$cmdline;
-$process;
-
-function fwrite_stream($fp, $string) {
-    for ($written = 0; $written < strlen($string); $written += $fwrite) {
-        $fwrite = fwrite($fp, substr($string, $written));
-        if ($fwrite === false) {
-            return $written;
-        }
-    }
-    return $written;
+if (!function_exists('pcntl_signal'))
+{
+    printf("Error, you need to enable the pcntl extension in your php binary, see http://www.php.net/manual/en/pcntl.installation.php for more info%s", PHP_EOL);
+    exit(1);
 }
+
+function test_event_server ($cmdline,$count,$agents,$dial) {
+    echo "cycling($count,$agents)\n";
+    for ($agent = 0 ; $agent < $agents; $agent++) {
+        for ($i= count($dial);$i >=0; $i--)
+        {
+            $who = $dial[$i % count($dial)];$count--;
+//            echo "Call # $count, $who\n";
+            fwrite($cmdline, "b\n");
+            sleep (1);
+//            echo "Call # $count, $who\n";
+            $count++;
+            fwrite($cmdline, "dsip:$who\n");
+            fwrite($cmdline, "T\n");  // switch agent
+        }
+        sleep (1);
+    }
+}
+
 
 function safe_exit($level) {
 global $cmdline;
+global $calls;
 global $process;
 # save stuff
     print("Exiting ...\n");
-    if($level === 1)
+    cleanup($calls, $cmdline);
+/*    if($level === 1)
     for ($i=0;$i< 20; $i++)
     {
         echo "closing calls time $i\n";
-    	fwrite_stream($cmdline, "Tbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbl\n");
-	sleep(1);
+        fwrite_stream($cmdline, "Tbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbl\n");
+        sleep(1);
     }
-            sleep(10);
-            if(is_resource($cmdline)) fclose($cmdline);
-            // It is important that you close any pipes before calling
-            // proc_close in order to avoid a deadlock
-            if (is_resource($process)) $return_value = proc_close($process);
-            else $return_value ='';
-            if (is_resource($process)) $status = proc_get_status($process);
-
-            echo "command returned $return_value\n";
-            if(isset($status)) $exitcode = $status['exitcode'];
-            else $exitcode =0;
-            exit($exitcode);
+*/
+    exit(0);
 }
 
+
 function sig_handler($sig) {
-    switch($sig) {
-        case 1:
-        case SIGINT:
-        # one branch for signal...
-    }
-        print "got sig($sig)\n";
+       print "got sig($sig)\n";
         safe_exit($sig);
 }
 
-pcntl_signal(1,  "sig_handler");
 pcntl_signal(SIGINT,  "sig_handler");
-/*
 pcntl_signal(SIGTERM, "sig_handler");
 pcntl_signal(SIGHUP,  "sig_handler");
-*/
-
-
-
 
 
 /*
@@ -136,7 +127,7 @@ function reload_cache($port, $message)
     if (!$fp) {
 	echo "ERROR: $errno - $errstr<br>\n";
 	} else {
-	fwrite_stream($fp,"$message");
+	fwrite($fp,"$message");
 	fclose($fp);
 	//echo "<script> alert('Sending socket update command'); </script>";
 	print_query("SENDING UDP UPDATE MSG: $message");
@@ -163,53 +154,40 @@ function dbupdateaccounts($query)
 echo exec('baresip -edsip:7160@xcaststaging.voippbxsite.net');
     sleep(10);
 */
-
-const TIMEOUT_SECONDS = 120;
-$duration = TIMEOUT_SECONDS;
-$calls = 100;
-$shortopts  = "";
-$shortopts .= "c:";  // text config file
-//$shortopts .= "v::"; // Optional value
-//$shortopts .= "abc"; // These options do not accept values
-
-$longopts  = array(
-    "config:",     // text config file
-//    "optional::",    // Optional value
-//    "option",        // No value
-//    "opt",           // No value
-);
-$options = getopt($shortopts, $longopts);
-//var_dump($options);
-$output = "/tmp/error-output.txt";
-$cfg_file = "cfg.txt";
-if (isset($options['c'])) $cfg_file = $options['c'];
-$configs=file($cfg_file);
-
-if(isset($configs))
-    while (list($tmp,$line) = each ($configs))
-    {
-        list($cfg,$value) = explode('=', trim($line));
-        print "$cfg=$value\n";
-        if("output" == strtolower($cfg)) $output = $value;
-        else if("duration" == strtolower($cfg)) $duration = $value;
-        else if("calls" == strtolower($cfg)) $calls = $value;
-    }
+function cleanup ($calls, $cmdline){
+    global $agents;
+	if(!is_resource($cmdline)) return;
+//    for ($agent = 0 ; $agent < $agents; $agent++){
+        if(is_numeric($calls)) {
+            echo "Number of calls to close is $calls\n";
+            for ($a_calls= $calls;$a_calls >=0; $a_calls--){
+                fwrite($cmdline, "b\n");
+                usleep(100000);
+                if(1 < $agents) fwrite($cmdline, "T\n");  // switch agent
+            }
+        }
+        sleep(1);
+//    }
+//	sleep(3);
+}
+const TIMEOUT_SECONDS = 2*60;
 
 function testing($count, $dial, $agents)
 {
-    global $output, $duration;
+
     stream_set_blocking(STDIN, 0);
-global $cmdline;
-global $process;
+
     $timeoutStarted = false;
     $timeout = null;
     $break = false;
     $calls = 0;
+    $pid = getmypid();
 
     $descriptorspec = array(
        0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-       1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-       2 => array("file", $output, "a") // stderr is a file to write to
+       //1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+       1 => array("file", "/dev/null","a"),  // stdout is a pipe that the child will write to
+       2 => array("file", "/tmp/error-output$pid.txt", "a") // stderr is a file to write to
     );
 
     // $cwd = '/tmp';
@@ -217,10 +195,9 @@ global $process;
     //$env = array('some_option' => 'aeiou');
 
 
-    //$process = proc_open('netcat -u 10.10.10.55 5555', $descriptorspec, $pipes/*, $cwd, $env*/);
-    //$process = proc_open('netcat -u 10.10.10.78 5555', $descriptorspec, $pipes/*, $cwd, $env*/);
+//    $process = proc_open('/usr/local/bin/baresip', $descriptorspec, $pipes/*, $cwd, $env*/);
     $process = proc_open('netcat -u 127.0.0.1 5555', $descriptorspec, $pipes/*, $cwd, $env*/);
-    //$process = proc_open('/usr/local/bin/baresip', $descriptorspec, $pipes/*, $cwd, $env*/);
+
     if (is_resource($process)) {
             // $pipes now looks like this:
             // 0 => writeable handle connected to child stdin
@@ -229,32 +206,33 @@ global $process;
 
     $cmdline = $pipes[0];
 
-            stream_set_blocking($pipes[1], 0);
-            stream_set_blocking($cmdline, 0);
-                for ($i=0 ; $i < $count; $i++) {
-                    $who = $dial[$i % count($dial)];
-          //          $dial ="dsip:acdtst@xcaststaging.voippbxsite.net\n";
-                    echo "Call # $i, $who\n";
-                    fwrite_stream($cmdline, "dsip:$who@xcaststaging.voippbxsite.net\n");
-                    sleep(1);
-                    fwrite_stream($cmdline, "T");  // switch agent
-                    echo stream_get_contents($pipes[1]);
-                }
+            //stream_set_blocking($pipes[1], 0);
+            stream_set_blocking($cmdline, 1);
+            for ($i=0 ; $i < $count; $i++) {
+                $who = $dial[$i % count($dial)];
+      //          $dial ="dsip:acdtst@xcaststaging.voippbxsite.net\n";
+      //          echo "Call # $i, $who\n";
+                //fwrite($cmdline, "dsip:$who@xcaststaging.voippbxsite.net\n");
+                fwrite($cmdline, "d$who\n");
+                usleep(10000);
+                if($agents>1) fwrite($cmdline, "T\n");  // switch agent
+                //echo stream_get_contents($pipes[1]);
+            }
+            sleep(1);
 
             while (1) {
-                sleep(5);
                 while (false !== ($line = fgets(STDIN))) {
                     echo $line;
                     if('q' == $line[0]) {
                         $calls = intval(substr($line,1));
                         if(is_numeric($calls)){
-                            if (0 == $calls) $calls = 100;
+                            if (0 == $calls) $calls = $count;
                             echo "Number of calls to close is $calls\n";
                             $break = true;
                         }
                     }
                     else
-                    fwrite_stream($cmdline, rtrim($line));
+                    fwrite($cmdline, rtrim($line));
 
                     if ($timeoutStarted) {
                         $timeoutStarted = false;
@@ -262,63 +240,56 @@ global $process;
                     }
                 }
                 if($break) {
-                    for ($agent = 0 ; $agent < count($agents); $agent++) {
+                    cleanup($count,$cmdline);
+		/* for ($agent = 0 ; $agent < count($agents); $agent++) {
                         if(is_numeric($calls)) {
                             echo "Number of calls to close is $calls\n";
-                            for ($a_calls= $calls;$a_calls >=0; $a_calls--){
-                                //fwrite_stream($cmdline, "bT\n");
-                                fwrite_stream($cmdline, "Tbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbl\n");
-
-                                sleep(1);
+                            for ($a_calls= $calls;$a_calls >=0; $a_calls--)
+                            {
+                                fwrite($cmdline, "b");
+                                usleep(300);
                             }
                         }
-/*                        fwrite_stream($cmdline, "T");
-                        echo "switching agent\n";
+                        fwrite($cmdline, "T");  // switch agent
                         usleep(300);
-*/
-                    }
+                    }*/
                     break;
                 }
                 if (feof(STDIN)) {
                     echo "feof\n";
-                    $break=true;
                     break;
                 }
+
                 if (null === $timeout) {
                     $timeout = time();
                     $timeoutStarted = true;
                     continue;
                 }
 
-                if (time() > $timeout + $duration){
+                if (time() > $timeout + TIMEOUT_SECONDS) {
+                    //test_event_server($cmdline,$count/8,$agents,$dial);
                     echo "timeout\n";
-                    $break=true;
+                    cleanup($count,$cmdline);
                     break;
-                }
-                for ($agent = 0 ; $agent < count($agents); $agent++){
+                } /*
+                for ($agent = 0 ; $agent < count($agents); $agent++) {
                         echo "cycling\n";
-                        for ($i= count($dial);$i >=0; $i--){
+                        for ($i= count($dial);$i >=0; $i--)
+                        {
                             $who = $dial[$i % count($dial)];$count--;
                             echo "Call # $count, $who\n";
-                            fwrite_stream($cmdline, "bT\n");
+                            fwrite($cmdline, "b");
                             usleep(300);
                             echo "Call # $count, $who\n";$count++;
-                            fwrite_stream($cmdline, "dsip:$who@xcaststaging.voippbxsite.net\n");
-                            if (time() > $timeout + $duration){
-                                echo "timeout\n";
-                    		$break=true;
-                                break;
-                            }
+                            fwrite($cmdline, "dsip:$who@xcaststaging.voippbxsite.net\n");
+                            fwrite($cmdline, "T");  // switch agent
                         }
-                }
-		//break;
-            }
-            safe_exit(1);
-/*
-            print("writing 'q' into " .$cmdline . "\n");
-            fwrite_stream($cmdline, "q");
+                    } */
+            };
+            //print("writing 'q' into " .$cmdline . "\n");
+            //fwrite($cmdline, "q");
 
-            echo stream_get_contents($pipes[1]);
+            //echo stream_get_contents($pipes[1]);
             $status = proc_get_status($process);
             // check retval
             if ($status === FALSE) {
@@ -331,7 +302,7 @@ global $process;
 
             //fclose($pipes[1]);
 
-            sleep(10);
+            //sleep(3);
             fclose($cmdline);
 
             // It is important that you close any pipes before calling
@@ -340,17 +311,15 @@ global $process;
 
             echo "command returned $return_value\n";
             exit($exitcode);
-
         }
-*/   }
+    }
 }
-echo "dialing - ";
-$dial = array("3000", "3001", "55560");
-$agents = 3;
+$calls = 99;
+#$calls = 256;
+#$calls = 128;
+echo "dialing - calls\n";
+$dial = array("55560", "3000", "3001", "70062", "4703","67892","4701","713300");
+$agents = 2;
 print_r($dial);
-//echo "cat /tmp/error-output.txt\n";
-
-system("/sbin/start-stop-daemon -S -q -x /usr/local/bin/baresip -- -d");
-testing($calls, $dial, $agents);
-
-?>
+// echo "cat /tmp/error-output.txt\n";
+    testing($calls, $dial, $agents);

@@ -79,6 +79,22 @@ function fwrite_streami_file($fp, $string) {
     return $written;
 }
 
+function cleanup ($calls, $cmdline) {
+global $agents;
+                if(!is_resource($cmdline)) return;
+for ($agent = 0 ; $agent < $agents; $agent++) {
+        if(is_numeric($calls)) {
+                echo "Number of calls to close is $calls\n";
+                for ($a_calls= $calls;$a_calls >=0; $a_calls--)
+                {
+                        fwrite($cmdline, "b");
+                }
+        }
+        if(1 < $agents) fwrite($cmdline, "T\n");  // switch agent
+        sleep(1);
+    }
+}
+
 function safe_exit($level) {
 global $cmdline;
 global $process;
@@ -320,7 +336,7 @@ global $process;
                                 usleep(300);
                             }
                         }
-/*                        fwrite_stream($cmdline, "T");  
+/*                        fwrite_stream($cmdline, "T");
                         echo "switching agent\n";
                         usleep(300);
 */
@@ -340,7 +356,7 @@ global $process;
                 if (time() > $timeout + TIMEOUT_SECONDS){
                     echo "timeout\n";
                     break;
-                } 
+                }
                 for ($agent = 0 ; $agent < count($agents); $agent++){
                         echo "cycling\n";
                         for ($i= count($dial);$i >=0; $i--){
@@ -359,7 +375,7 @@ global $process;
                 }
             }
             safe_exit(1);
-/*            
+/*
             print("writing 'q' into " .$cmdline . "\n");
             fwrite_stream($cmdline, "q");
 
@@ -387,7 +403,7 @@ global $process;
             exit($exitcode);
 
         }
-*/   
+*/
 }
 echo "dialing - ";
 $dial = array("8601", "8600", "9801");
