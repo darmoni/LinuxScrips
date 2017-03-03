@@ -1,0 +1,3 @@
+output=/dev/null
+duration=3000
+calls=5

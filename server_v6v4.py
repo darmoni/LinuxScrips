@@ -23,53 +23,57 @@ class ClientThread(Thread):
             print "received data:", data
             if "/bye" in data:
                 conn.send("Bye. Please come again\n")
-                break
-                
-            if "/version" in data:
+                break 
+            elif "/version" in data:
                 conn.send("Demo version\n")
                 
-            if "/echo" in data:
+            elif "/echo" in data:
                 data = data.replace("/echo","")
                 conn.send(data + "\n")
                 conn.send(data)  # echo
+            else:
+                conn.send("Thank you for your interest\n")
                 
         conn.close()
 
 HOST = 'localhost'               # Symbolic name meaning all available interfaces
 PORT = 50007              # Arbitrary non-privileged port
 s = None
-for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC, socket.SOCK_STREAM, 0, socket.AI_PASSIVE):
-    af, socktype, proto, canonname, sa = res
-    try:
-        s = socket.socket(af, socktype, proto)
-    except socket.error as msg:
-        s = None
-        continue
-    try:
-        s.bind(sa)
-        threads = []
-    except socket.error as msg:
-        s.close()
-        s = None
-        continue
-    break
-if s is None:
-    print 'could not open socket'
-    sys.exit(1)
 
 while True:
-    s.listen(4)
-    conn, addr = s.accept()
-    print 'Connected by', addr
-    if af == socket.AF_INET:
-        ip, port = addr
-    else:
-        ip, port, f1, f2 = addr
-    print "Waiting for incoming connections..."
+    for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC, socket.SOCK_STREAM, 0, socket.AI_PASSIVE):
+        af, socktype, proto, canonname, sa = res
+        try:
+            s = socket.socket(af, socktype, proto)
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        except socket.error as msg:
+            s = None
+            continue
+        try:
+            s.bind(sa)
+            threads = []
+        except socket.error as msg:
+            s.close()
+            s = None
+            continue
+
+        s.listen(4)
+        conn, addr = s.accept()
+        print 'Connected by', addr
+        if af == socket.AF_INET:
+            ip, port = addr
+        else:
+            ip, port, f1, f2 = addr
+        print "Waiting for incoming connections..."
+        
+        newthread = ClientThread(ip,port)
+        newthread.start()
+        threads.append(newthread)
     
-    newthread = ClientThread(ip,port)
-    newthread.start()
-    threads.append(newthread)
+    if s is None:
+        print 'could not open socket'
+        sys.exit(1)
+
  
 for t in threads:
     t.join()

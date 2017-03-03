@@ -706,7 +706,11 @@ function get_res_from_pbx () {
             scp xcast@tswitch3.siptalk.com:/usr/local/registrator/lib/mserver/app/cpuload.php.res ~/production.$time.cpuload.php.csv
         }
 
-
+function stage_qman () {
+    echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/ACD/qman qman.nir'
+    echo 'scp qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
+}
+export stage_qman
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/

@@ -21,15 +21,16 @@ class ClientThread(Thread):
             print "received data:", data
             if "/bye" in data:
                 conn.send("Bye. Please come again\n")
-                break
-                
-            if "/version" in data:
+                break 
+            elif "/version" in data:
                 conn.send("Demo version\n")
                 
-            if "/echo" in data:
+            elif "/echo" in data:
                 data = data.replace("/echo","")
                 conn.send(data + "\n")
                 conn.send(data)  # echo
+            else:
+                conn.send("Thank you for your interest\n")
                 
         conn.close()
 
