@@ -249,7 +249,7 @@ global $process;
                                 usleep(300);
                             }
                         }
-/*                        fwrite($cmdline, "T");  
+/*                        fwrite($cmdline, "T");
                         echo "switching agent\n";
                         usleep(300);
 */
@@ -269,7 +269,7 @@ global $process;
                 if (time() > $timeout + TIMEOUT_SECONDS){
                     echo "timeout\n";
                     break;
-                } 
+                }
                 for ($agent = 0 ; $agent < count($agents); $agent++){
                         echo "cycling\n";
                         for ($i= count($dial);$i >=0; $i--){
@@ -287,7 +287,7 @@ global $process;
                 }
             }
             safe_exit();
-/*            
+/*
             print("writing 'q' into " .$cmdline . "\n");
             fwrite($cmdline, "q");
 

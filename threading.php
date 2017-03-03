@@ -9,7 +9,7 @@ class My extends Thread{
 }
 
 for($i=0;$i<2;$i++){
-    $pool[] = new My(); 
+    $pool[] = new My();
 }
 
 foreach($pool as $worker){

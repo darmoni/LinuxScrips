@@ -11,7 +11,7 @@ import signal
 def sig_handler(sig, frame):
     print "got sig(sig)\n"
     safe_exit(sig)
-    
+
 signal.signal(signal.SIGUSR1,sig_handler)
 signal.signal(signal.SIGUSR2,sig_handler)
 signal.signal(signal.SIGINT,sig_handler)

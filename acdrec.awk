@@ -35,7 +35,7 @@ END{
     n = asorti(sum_date, sorted)
     for(i in sorted){
         print "daily duration:",sorted[i],sum_date[sorted[i]];
-    }    
+    }
     n = asorti(count_hour, sorted)
     for(i in sorted){
         print "hourly count:",sorted[i],count_hour[sorted[i]];

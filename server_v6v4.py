@@ -6,16 +6,16 @@ import sys
 
 from threading import Thread
 from SocketServer import ThreadingMixIn
- 
+
 class ClientThread(Thread):
- 
+
     def __init__(self,ip,port):
         Thread.__init__(self)
         self.ip = ip
         self.port = port
         print "[+] New thread started for "+ip+":"+str(port)
- 
- 
+
+
     def run(self):
         while True:
             data = conn.recv(2048)
@@ -23,17 +23,17 @@ class ClientThread(Thread):
             print "received data:", data
             if "/bye" in data:
                 conn.send("Bye. Please come again\n")
-                break 
+                break
             elif "/version" in data:
                 conn.send("Demo version\n")
-                
+
             elif "/echo" in data:
                 data = data.replace("/echo","")
                 conn.send(data + "\n")
                 conn.send(data)  # echo
             else:
                 conn.send("Thank you for your interest\n")
-                
+
         conn.close()
 
 HOST = 'localhost'               # Symbolic name meaning all available interfaces
@@ -65,16 +65,16 @@ while True:
         else:
             ip, port, f1, f2 = addr
         print "Waiting for incoming connections..."
-        
+
         newthread = ClientThread(ip,port)
         newthread.start()
         threads.append(newthread)
-    
+
     if s is None:
         print 'could not open socket'
         sys.exit(1)
 
- 
+
 for t in threads:
     t.join()
 

@@ -1,9 +1,9 @@
 #!/usr/bin/php -f
 <?PHP
 /*
-(PHP 5.2.4) 
+(PHP 5.2.4)
 
-This is an example of multithreading keeping different connections to a mysql database: when children exit they close the connection and others can't use it any more generating problems. In this example I used variable variables to make a different connection per each child. 
+This is an example of multithreading keeping different connections to a mysql database: when children exit they close the connection and others can't use it any more generating problems. In this example I used variable variables to make a different connection per each child.
 
 This scripts loops forever with one mother detached from the terminal and five children 'named' from 1 to 5. When one children sees it's name in the database (one table 'test.tb' with only one field 'test') he lets himself die. To kill children insert their value in the db. The mother suicides only when all children are dead.
 
@@ -72,7 +72,7 @@ global $counter;
 global $pid;
 global $sockets;
 
-function sig_handler($signo) 
+function sig_handler($signo)
 {
 
      switch ($signo) {
@@ -86,7 +86,7 @@ function sig_handler($signo)
             global $pid;
             global $sockets;
             $counter ++;
-            echo "$pid $counter\n";            
+            echo "$pid $counter\n";
             fwrite($sockets[1],"die\n");
             fflush($sockets[1]);
              // handle restart tasks
@@ -104,7 +104,7 @@ function mother() {
     while(count($childs) > 0) {
         foreach($childs as $key => $pid) {
             $res = pcntl_waitpid($pid, $status, WNOHANG);
-            
+
             // If the process has already exited
             if($res == -1 || $res > 0)
                 unset($childs[$key]);
@@ -147,7 +147,7 @@ else // MOTHER GOES ON TO MAKE CHILDREN
     for ($i = 0 ; $i < $count; $i++){
         $pid = pcntl_fork();
         if ($pid == -1) {
-            die("could not fork"); 
+            die("could not fork");
         }
         else if ($pid) {
             $childs[] = $pid;

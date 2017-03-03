@@ -27,13 +27,13 @@ function db_execute( $proc, $query, $err )
 {
     $db = new db_connect();
     print_query($proc.": ".$query);
-    $res = mysql_query($query) or die ($proc.": ".$err.":\n " 
+    $res = mysql_query($query) or die ($proc.": ".$err.":\n "
 				 . mysql_error(). "<br>\n$query\n<br>");
 	return $res;
 }
 
 function db_query( $proc, $query, $err )
-{	
+{
 	$res = db_execute( $proc, $query, $err );
     return mysql_fetch_array($res, MYSQL_ASSOC);
 }
@@ -151,7 +151,7 @@ function testing($count, $dial, $agents)
     // $cwd = '/tmp';
     //$cwd = '.';
     //$env = array('some_option' => 'aeiou');
-    
+
 
     $process = proc_open('/usr/local/bin/baresip', $descriptorspec, $pipes/*, $cwd, $env*/);
     if (is_resource($process)) {
@@ -161,7 +161,7 @@ function testing($count, $dial, $agents)
             // Any error output will be appended to /tmp/error-output.txt
 
     $cmdline = $pipes[0];
-            
+
             stream_set_blocking($pipes[1], 0);
                 for ($i=0 ; $i < $count; $i++) {
                     $who = $dial[$i % count($dial)];
@@ -173,7 +173,7 @@ function testing($count, $dial, $agents)
                     usleep(100000);
                 }
                 sleep(15);
-            
+
             while (1) {
                 while (false !== ($line = fgets(STDIN))) {
                     echo $line;
@@ -249,7 +249,7 @@ function testing($count, $dial, $agents)
                 $exitcode = $status['exitcode'];
                 $pid = -1;
                 echo "Process exited with code: $exitcode\n";
-            
+
             //fclose($pipes[1]);
 
             sleep(10);

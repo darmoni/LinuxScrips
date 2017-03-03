@@ -26,7 +26,7 @@ while True:
         print '[no more data]'
         break
 
-    
+
 #p2 = Popen(["grep","List of active calls"], stdin=p1.stdout, stdout=PIPE)
 #(stdoutdata, stderrdata) = p1.communicate(input="l\n")
 #print stdoutdata

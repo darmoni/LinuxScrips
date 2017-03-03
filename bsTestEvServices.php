@@ -28,7 +28,7 @@ global $calls;
 global $process;
 # save stuff
     print("Exiting ...\n");
-    cleanup($calls, $cmdline);    
+    cleanup($calls, $cmdline);
 /*    if($level === 1)
     for ($i=0;$i< 20; $i++)
     {
@@ -94,7 +94,7 @@ function testing($count, $dial, $agents) {
         //stream_set_blocking($pipes[1], 0);
         stream_set_blocking($cmdline, 1);
         while (1) {
-            test_event_server($cmdline,$count,$agents,$dial); 
+            test_event_server($cmdline,$count,$agents,$dial);
             while (false !== ($line = fgets(STDIN))) {
                 echo $line;
                 if('q' == $line[0]) {

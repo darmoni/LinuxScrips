@@ -21,7 +21,7 @@ $res_file = _get_source_file_name();
 $data = fopen($res_file,"r");
 if(!is_resource($data)) die ("Can not open results file $res_file!\n");
 $topics = array("Time", "Queues", "Agents", "Conferences","% Idle", "Load", "Busy");
-$headers = array("Time", "Number of queues", "Number of agents", "Waiting Calls", "Logged in", "Available", "Not Available", "Bridges", "Participants", "Idle", 
+$headers = array("Time", "Number of queues", "Number of agents", "Waiting Calls", "Logged in", "Available", "Not Available", "Bridges", "Participants", "Idle",
     "1 Minute Average Load", "5 Minutes Average Load", "15 Minutes Average Load", "busy");
 require_once 'Spreadsheet/Excel/Writer.php';
 
@@ -63,7 +63,7 @@ $worksheet->mergeCells($topics_row,7,$topics_row,8);
 $worksheet->write($topics_row, 9, $topics[$topic++], $format_title);
 $worksheet->write($topics_row, 10, $topics[$topic++], $format_title);
 $worksheet->mergeCells($topics_row,10,$topics_row,12);
-$worksheet->write($topics_row, 13, $topics[$topic++], $format_title); // last one, 
+$worksheet->write($topics_row, 13, $topics[$topic++], $format_title); // last one,
 
 // Header
 $worksheet->writeRow($row++, 0, $headers, $format_title);
