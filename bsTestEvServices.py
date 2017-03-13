@@ -9,7 +9,7 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 import signal
 
 def sig_handler(sig, frame):
-    print "got sig(sig)\n"
+    print "got sig("+sig+")\n"
     safe_exit(sig)
 
 signal.signal(signal.SIGUSR1,sig_handler)
@@ -19,7 +19,7 @@ signal.signal(signal.SIGTERM,sig_handler)
 signal.signal(signal.SIGHUP,sig_handler)
 
 def make_calls (cmdline,count,agents,dial):
-    print "cycling(count)\n"
+    print "calling("+count+")\n"
     for i in range(count):
         who = dial[i % len(dial)]
         call = "d"+who+"\n"
@@ -29,7 +29,7 @@ def make_calls (cmdline,count,agents,dial):
         cmdline.write("T")
 
 def test_event_server (cmdline,count,agents,dial):
-    print "cycling(count)\n"
+    print "cycling("+count+")\n"
     for i in range(count):
         who = dial[i % len(dial)]
         cmdline.write("b")

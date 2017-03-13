@@ -1,10 +1,11 @@
 #!/usr/bin/awk -f
 #find the traces of ior in log files
+# cat mappemail_acdrecording.php.log | awk -f $0
 BEGIN {
     counter =0;
 }
 {
-    if( $0 ~ / second/ ) {
+    if( $0 ~ /received a .+ second/ ) {
         FS=" ";
         $0=$0;
     }
@@ -17,11 +18,11 @@ BEGIN {
 
     recordings[counter++]=date " " time " " duration " " units;
     count_date[date]++;
-    sum_date[date]+=$8
+    sum_date[date]+=duration
     count_hour_minute[hour_minutetime]++;
-    sum_hour_minute[hour_minutetime]+=$8
+    sum_hour_minute[hour_minutetime]+=duration
     count_hour[hour]++;
-    sum_hour[hour]+=$8
+    sum_hour[hour]+=duration
 }
 END{
     FS="[";

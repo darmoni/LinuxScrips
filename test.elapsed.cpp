@@ -30,7 +30,7 @@ class elapsedTimeCalculator
     elapsedTimeCalculator(suseconds_t _uSecondslimit):limit(_uSecondslimit % 1000000),
                                 seconds((_uSecondslimit-limit)/1000000),passed(false)
     {
-       gettimeofday(&start, NULL); 
+       gettimeofday(&start, NULL);
     }
     bool over()
     {
@@ -55,10 +55,10 @@ class elapsedTimeCalculator
             {
                 passed = true;
                 return true;
-            }                
+            }
         }
         return false;
-    }    
+    }
 };
 
 int main()
@@ -78,7 +78,7 @@ int main()
         {
             lt_sec_passed = true;
             cout << ts << " longer than "<< lt_sec << "\n" << flush;
-            
+
         }
         if(!gt_sec_passed && gtsec.over())
         {

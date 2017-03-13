@@ -1,0 +1,10 @@
+core
+*.xls
+*.pid
+*.pyc
+receiver
+sender
+test.elapsed
+test.progress
+char.pointers
+qman.log.sample

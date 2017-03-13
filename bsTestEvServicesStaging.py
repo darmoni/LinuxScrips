@@ -19,7 +19,7 @@ signal.signal(signal.SIGTERM,sig_handler)
 signal.signal(signal.SIGHUP,sig_handler)
 
 def make_calls (cmdline,count,agents,dial):
-    print "cycling(count)\n"
+    print "calling("+count+")\n"
     for i in range(count):
         who = dial[i % len(dial)]
         call = "d"+who+"\n"
@@ -29,7 +29,7 @@ def make_calls (cmdline,count,agents,dial):
         cmdline.write("T")
 
 def test_event_server (cmdline,count,agents,dial):
-    print "cycling(count)\n"
+    print "cycling("+count+")\n"
     for i in range(count):
         who = dial[i % len(dial)]
         cmdline.write("b")
@@ -69,7 +69,7 @@ def testing(count, agents, dial):
     timeout = time.time()
     timeoutStarted = True
     while (True):
-        test_event_server(cmdline,count,agents,dial)
+        test_event_server(cmdline,count/8,agents,dial)
         if (time.time() > (timeout + TIMEOUT_SECONDS)):
             print "timeout\n", timeout, time.time()
             cleanup(count,cmdline)
@@ -85,7 +85,12 @@ print dials
 port = '5565'
 #port = '5555'
 args = shlex.split('/bin/netcat -u 127.0.0.1 ' + port)
-p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
+try:
+    p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
+except:
+    print 'could not connect to port '+ port
+    sys.exit(-1)
+
 nbsr = NBSR(p.stdout)
 cmdline=p.stdin
 

@@ -7,10 +7,10 @@ from time import sleep
 from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import NonBlockingStreamReader as NBSR
 import signal
+import sys, getopt
 
 
-
-#logs = 
+#logs =
 '''
 13:52:03.181926|
 13:52:21.171499|handle_timeout start (action_counter,progress_counter,size(_queue_records)=(0, 0, 0)
@@ -46,19 +46,18 @@ import signal
 def read_results(results):
     while True:
       try:
-        line =results.readline() 
+        line =results.readline()
         if(None == line):
             break
         print line,
       except:
         break
 
-
 def copy_results(results, output):
     print 'copy_results(results, output)\n'
     while True:
       try:
-        line =results.readline() 
+        line =results.readline()
         if(None == line):
             break
         output.stdin.write(line+"\n")
@@ -95,49 +94,76 @@ output = p2.communicate()[0]
 print output,
 #
 '''
-try:
-#    args = shlex.split('cat qman.log.sample')
-    args = shlex.split('ssh xcast@stage1n1-la.siptalk.com')    
-    server = Popen(args,stdin=PIPE,stdout=PIPE,stderr=PIPE, shell=False)
-except:
-    print 'could not connect to servers 1'
-    exit(-1)
-p = server
-events= NBSR(p.stdout)
 
-server.stdin.write("tail -f ~xcast/logs/qman.log\n")
+def main(argv):
+    testserver = 'bairsip.xcastlabs.com'
+    logserver = 'stage1n1-la.siptalk.com'
+    try:
+      opts, args = getopt.getopt(argv,"ht:l:",["testserver=","logserver="])
+    except getopt.GetoptError:
+      print 'test.py -t <testserver> -l <logserver>'
+      exit(2)
+    for opt, arg in opts:
+      if opt == '-h':
+         print __file__, ' -t <testserver> -l <logserver>'
+         exit()
+      elif opt in ("-t", "--testserver"):
+         inputfile = arg
+      elif opt in ("-l", "--logserver"):
+         outputfile = arg
 
-try:
-    args = shlex.split('/home/nir/bin/qman_events.awk')
-    events_filter = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
-except:
-    print 'could not connect to servers 2'
-    exit(-1)
+    print 'Testing from Server is', testserver
+    print 'Qman Log file is on', logserver
+
+    try:
+
+        print  "Starting",   (time.strftime("%H:%M:%S"))
+    #    args = shlex.split('cat qman.log.sample')
+        args = shlex.split('ssh xcast@'+logserver)
+        server = Popen(args,stdin=PIPE,stdout=PIPE,stderr=PIPE, shell=False)
+    except:
+        print 'could not connect to servers 1'
+        exit(-1)
+    p = server
+    events= NBSR(p.stdout)
+
+    server.stdin.write("tail -f ~xcast/logs/qman.log\n")
+
+    try:
+        args = shlex.split('/home/nir/bin/qman_events.awk')
+        events_filter = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
+    except:
+        print 'could not run filter',filter
+        exit(-1)
 
 
 
-#results = NBSR(events_filter.stdout)
+    #results = NBSR(events_filter.stdout)
 
-#sleep(20)
-import subprocess
-import sys
+    import subprocess
+    import sys
 
-HOST="nir@bairsip.xcastlabs.com"
-# Ports are handled in ~/.ssh/config since we use OpenSSH
-COMMAND="bin/bsTestQman.py"
+    HOST="xcast@"+testserver
+    # Ports are handled in ~/.ssh/config since we use OpenSSH
+    COMMAND="bin/bsTestQman.py"
 
-ssh = subprocess.Popen(["ssh", "%s" % HOST, COMMAND],
-                       shell=False,
-                       stdout=subprocess.PIPE,
-                       stderr=subprocess.PIPE)
-result = ssh.stdout.readlines()
-if result == []:
-    error = ssh.stderr.readlines()
-    print >>sys.stderr, "ERROR: %s" % error
-#else:
-    #print result
+    ssh = subprocess.Popen(["ssh", "%s" % HOST, COMMAND],
+                           shell=False,
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE)
+    result = ssh.stdout.readlines()
+    sleep(20) # let all settle down
+    if result == []:
+        error = ssh.stderr.readlines()
+        print >>sys.stderr, "ERROR: %s" % error
+    #else:
+        #print result
 
-#read_results(events) 
+    #read_results(events)
 
-copy_results(events,events_filter)
-print events_filter.communicate()[0]
+    print  "Done",   (time.strftime("%H:%M:%S"))
+    copy_results(events,events_filter)
+    print events_filter.communicate()[0]
+
+if __name__ == "__main__":
+   main(sys.argv[1:])
