@@ -8,3 +8,5 @@ test.elapsed
 test.progress
 char.pointers
 qman.log.sample
+nohup.out
+*.log.sample

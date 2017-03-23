@@ -347,7 +347,7 @@ export -f mybeep
 function playit () {
 
 cvlc --play-and-exit $* 2> /dev/null
-} 
+}
 
 
 function bflash {
@@ -669,7 +669,7 @@ else
     else
 	TS=$*
     fi
-fi 
+fi
 
 LTM=`date -d "1970-01-01 UTC $TS sec" 2>/dev/null`
 if [ $? -ne 0  -o  -z "$TS" ]; then
@@ -711,6 +711,10 @@ function stage_qman () {
     echo 'scp qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
 }
 export stage_qman
+
+function start_staging_baresip () {
+    nohup ~/bin/start_test.py &
+}
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/
