@@ -52,8 +52,10 @@ def main(argv):
         elif opt in ("-t", "--target"):
             target = arg
             if(target == 'conf'):
-                user = xcast_user
                 setup = 'staging'
+                user = xcast_user
+                testserver = setups[setup][0]
+                logserver = ''
                 sleep_time = setups[setup][3]
                 break
             #logserver = targets[target][1]

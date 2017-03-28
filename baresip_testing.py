@@ -1,4 +1,4 @@
-import shlex, subprocess, time
+import shlex, subprocess, time, sys
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import NonBlockingStreamReader as NBSR
@@ -6,6 +6,7 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 class baresip_test:
 
     def test(self,user,testserver,command,sleep_time):
+        #print 'baresip_test.test (',user,testserver,command,sleep_time, ')'
         HOST=user+"@"+testserver
         self._ssh = subprocess.Popen(["ssh", "%s" % HOST, command],
                                shell=False,
@@ -28,7 +29,7 @@ class baresip_test_with_logs(baresip_test):
         self._logserver = logserver
         self._log_command = log_command
         self._log_user = 'xcast'
-        self._killme = 0
+
         if('' != filter_command):
             self._filter_command = filter_command
             self._we_filter = True
@@ -36,7 +37,7 @@ class baresip_test_with_logs(baresip_test):
     def test(self,user,testserver,command,sleep_time):
         try:
             if(('' != self._logserver) and('' != self._log_command)):
-                logs = self.start_log(self._logserver,self._killme)
+                (logs,killme) = self.start_log(self._logserver)
                 if(self._we_filter):
                     _filter = self.apply_filter()
 
@@ -45,19 +46,26 @@ class baresip_test_with_logs(baresip_test):
                 if(self._we_filter):
                     self.copy_results(logs,_filter)
                     print _filter.communicate()[0]
+                else:
+                    self.read_results(logs)
         except:
             print 'could not run test'
             exit(0)
+        if(self._we_filter):
+            try:
+                killme.kill()
+            except:
+                print 'could not stop log process'
 
-    def start_log(self,logserver,_log_server):
+    def start_log(self,logserver):
         try:
             _text ='ssh '+self._log_user+'@'+self._logserver
-            print _text
+            #print _text
             args = shlex.split(_text)
             _log_server = Popen(args,stdin=PIPE,stdout=PIPE,stderr=PIPE, shell=False)
             events= NBSR(_log_server.stdout)
             _log_server.stdin.write(self._log_command)
-            return events
+            return (events,_log_server)
         except:
             print 'could not connect to log server'
             exit(0)
@@ -77,7 +85,7 @@ class baresip_test_with_logs(baresip_test):
             line =results.readline()
             if(None == line):
                 break
-            print line,
+            print line
           except:
             break
 
@@ -87,6 +95,7 @@ class baresip_test_with_logs(baresip_test):
           try:
             line =results.readline()
             if(None == line):
+                del results
                 break
             output.stdin.write(line+"\n")
           except:
