@@ -1,7 +1,7 @@
 import shlex, subprocess, time, sys
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
-from nbstreamreader import NonBlockingStreamReader as NBSR
+from nbstreamreader import UnexpectedEndOfStream, NonBlockingStreamReader as NBSR
 
 class baresip_test:
 
@@ -29,6 +29,10 @@ class baresip_test_with_logs(baresip_test):
         self._logserver = logserver
         self._log_command = log_command
         self._log_user = 'xcast'
+        self._we_log = False
+        self._we_filter = False
+        if(('' != self._logserver) and('' != self._log_command)):
+            self._we_log = True
 
         if('' != filter_command):
             self._filter_command = filter_command
@@ -36,7 +40,7 @@ class baresip_test_with_logs(baresip_test):
 
     def test(self,user,testserver,command,sleep_time):
         try:
-            if(('' != self._logserver) and('' != self._log_command)):
+            if(self._we_log):
                 (logs,killme) = self.start_log(self._logserver)
                 if(self._we_filter):
                     _filter = self.apply_filter()
@@ -46,16 +50,16 @@ class baresip_test_with_logs(baresip_test):
                 if(self._we_filter):
                     self.copy_results(logs,_filter)
                     print _filter.communicate()[0]
+                    #del logs
+                    killme.kill()
                 else:
-                    self.read_results(logs)
+                    if(self._we_log):
+                        self.read_results(logs)
+                        killme.kill()
+
         except:
             print 'could not run test'
             exit(0)
-        if(self._we_filter):
-            try:
-                killme.kill()
-            except:
-                print 'could not stop log process'
 
     def start_log(self,logserver):
         try:
@@ -82,7 +86,7 @@ class baresip_test_with_logs(baresip_test):
     def read_results(self,results):
         while True:
           try:
-            line =results.readline()
+            line =results.readline(0.3).strip()
             if(None == line):
                 break
             print line
@@ -93,9 +97,8 @@ class baresip_test_with_logs(baresip_test):
         #print 'copy_results(results, output)\n'
         while True:
           try:
-            line =results.readline()
+            line =results.readline(0.3)
             if(None == line):
-                del results
                 break
             output.stdin.write(line+"\n")
           except:

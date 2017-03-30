@@ -709,6 +709,8 @@ function get_res_from_pbx () {
 function stage_qman () {
     echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/ACD/qman qman.nir'
     echo 'scp qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
+    echo 'echo on Staging server'
+    echo 'echo "cd bin && cp /usr/local/registrator/tmp/qman.nir . && ./qman_ctl stop && cp qman.nir qman && ./qman_ctl start"'
 }
 export stage_qman
 

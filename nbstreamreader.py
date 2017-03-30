@@ -17,12 +17,12 @@ class NonBlockingStreamReader:
             Collect lines from 'stream' and put them in 'quque'.
             '''
 
-            while True:
+            while stream:
                 line = stream.readline()
                 if line:
                     queue.put(line)
                 else:
-                    raise UnexpectedEndOfStream
+                    break
 
         self._t = Thread(target = _populateQueue,
                 args = (self._s, self._q))

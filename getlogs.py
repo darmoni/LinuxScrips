@@ -74,24 +74,26 @@ def main(argv):
         print 'Log file is on', logserver
 
     print  "Starting", (time.strftime("%H:%M:%S"))
-    if(0 < len(logserver)):
-        count_loggers = shlex.split("ssh "+xcast_user+"@"+logserver +" 'ps -ef | grep /logs/qman.log | grep -v grep |grep "+xcast_user+"| wc -l'")
-        print 'current logging jobs on server:',check_output(count_loggers)
+    count_loggers = shlex.split("ssh "+xcast_user+"@"+logserver +" 'ps -ef | grep /logs/qman.log | grep -v grep | wc -l'")
+    #print 'current logging jobs on server:',check_output(count_loggers)
     print setup, target
     #exit(0)
     try:
-        if(0 == len(logserver)): #('conf' == target):
+        if('conf' == target):
             sleep_time =0; # no logs are collected/filtered, so no settling down is needed
             test=baresip_test()
-        else: #if('qman' == target):
+        elif('qman' == target):
             test=baresip_test_with_logs(logserver,"tail -f ~"+xcast_user+"/logs/qman.log\n",'/home/nir/bin/qman_events.awk')
-            #test=baresip_test_with_logs(logserver,"tail -f ~"+xcast_user+"/logs/qman.log\n",'')
 
-        test.test(user,testserver,COMMAND,sleep_time)
-        #test.test(user,testserver,'ls -ltr',0)
+        (machine,logs) = test.test(user,testserver,COMMAND,0)
+        if(test._we_log and not test._we_filter):
+            del logs._q
+            #logs._t.join(0.002)
+        if(machine):
+            machine.kill()
 
         print 'current logging jobs on server:',check_output(count_loggers)
-    except:
+    except UnexpectedEndOfStream:
         print 'Opps'
 
 if __name__ == "__main__":
