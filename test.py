@@ -23,6 +23,14 @@ signal.signal(signal.SIGINT,sig_handler)
 signal.signal(signal.SIGTERM,sig_handler)
 signal.signal(signal.SIGHUP,sig_handler)
 
+def which_server_to_monitor_logs_on(setup,target,server,path):
+    if 'dev' == setup:
+        logserver = server
+    if 'qman' == target and 'staging' == setup:
+        logserver = 'logserver3-la.siptalk.com'
+        path += '/servers/'+server+'/'+time.strftime("%Y%m%d")
+    return (logserver,path)
+
 def main(argv):
 
     dev_testserver = 'xdev64.xcastlabs.com'
@@ -33,11 +41,12 @@ def main(argv):
     setup = 'staging'
     target = 'qman'
     sleep_time = 20
+    using_logserver= False
     COMMAND='bin/bsTestQman.py'
     setups ={'dev':[testserver,dev_testserver,xcast_user,40], setup:[testserver,logserver,user,sleep_time]}
     targets ={target:[COMMAND,],'conf':['bin/bsTestConf.py',]}
     try:
-      opts, args = getopt.getopt(argv,"hs:t:",["setup=","target="])
+      opts, args = getopt.getopt(argv,"hls:t:",["setup=","target="])
     except getopt.GetoptError:
       print __file__, ' -s <setup> -t <target>'
       exit(2)
@@ -49,6 +58,9 @@ def main(argv):
             print 'For Qman Testing:', __file__, '-t qman'
             print 'For Conference Testing:', __file__, '-t conf'
             exit()
+        if opt == '-l':
+            using_logserver = True
+            break
         elif opt in ("-t", "--target"):
             target = arg
             if(target == 'conf'):
@@ -70,29 +82,35 @@ def main(argv):
 
     COMMAND=targets[target][0]
     print 'Testing from Server is', testserver
-    if(0 < len(logserver)):
-        print 'Log file is on', logserver
 
-    print  "Starting", (time.strftime("%H:%M:%S"))
     if(0 < len(logserver)):
-        count_loggers = shlex.split("ssh "+xcast_user+"@"+logserver +" 'ps -ef | grep /logs/qman.log | grep -v grep |grep "+xcast_user+"| wc -l'")
+        logfile_path = "~/logs"
+        #print 'before Log file is:', logserver,logfile_path
+        if('staging' == setup and using_logserver): (logserver,logfile_path) = which_server_to_monitor_logs_on(setup,target,logserver,logfile_path)
+        #print 'after Log file is:', logserver,logfile_path
+        #list_logfiles = shlex.split("ssh "+xcast_user+"@"+logserver +" ls -l "+logfile_path+'/')
+        #print 'is this correct? ',check_output(list_logfiles)
+
+    #exit(0)
+    print  "Starting", (time.strftime("%H:%M:%S"))
+    if(('qman' == target)):
+        count_loggers = shlex.split("ssh "+xcast_user+"@"+logserver +" 'ps -ef|grep qman.log|grep -v grep|grep "+xcast_user+"|wc -l'")
         print 'current logging jobs on server:',check_output(count_loggers)
     print setup, target
     #exit(0)
     try:
-        if(0 == len(logserver)): #('conf' == target):
+        if('conf' == target):
             sleep_time =0; # no logs are collected/filtered, so no settling down is needed
             test=baresip_test()
-        else: #if('qman' == target):
-            test=baresip_test_with_logs(logserver,"tail -f ~"+xcast_user+"/logs/qman.log\n",'/home/nir/bin/qman_events.awk')
-            #test=baresip_test_with_logs(logserver,"tail -f ~"+xcast_user+"/logs/qman.log\n",'')
+        elif('qman' == target):
+            test=baresip_test_with_logs(logserver,"tail -f "+logfile_path+"/qman.log\n",'/home/nir/bin/qman_events.awk')
 
         test.test(user,testserver,COMMAND,sleep_time)
         #test.test(user,testserver,'ls -ltr',0)
 
         print 'current logging jobs on server:',check_output(count_loggers)
     except:
-        print 'Opps'
+        print 'Oops'
 
 if __name__ == "__main__":
    main(sys.argv[1:])

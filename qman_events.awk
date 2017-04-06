@@ -30,7 +30,7 @@ BEGIN {
         }
         if(0 < pbx){
             #event[counter++]=datetime OFS type OFS account OFS pbx OFS value;
-            pbx_last_value[sprintf("%s" OFS "%06d" OFS "%s",pbx,account,type)]=value;
+            pbx_last_value[sprintf("% 6s" OFS "%06d" OFS "%s",pbx,account,type)]=value;
         }
     }
 }

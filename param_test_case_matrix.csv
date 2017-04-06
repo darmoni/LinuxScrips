@@ -1,0 +1,11 @@
+test_case,name
+-s dev -t conf -l,conf_dev
+-s dev -t qman,qman_dev
+-s dev -t qman -l,qman_dev
+-s staging -t conf -l,conf_staging
+-s staging -t conf,conf_staging
+-s staging -t qman,qman_staging_local_logs
+-s dev -t conf,conf_dev
+-s staging -t qman -l,qman_staging_log_server
+-s production -t qman,qman_production_local_logs
+,qman_staging_local_logs

@@ -6,10 +6,9 @@ import time
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import NonBlockingStreamReader,UnexpectedEndOfStream
-from baresip_testing import baresip_test, baresip_test_with_logs, tester, logger, configure, PrintFrame
+from baresip_testing import baresip_test, baresip_test_with_logs, tester, logger, configure
 import signal
 import sys, getopt
-import inspect
 
 def safe_exit(level):
     exit(0)
@@ -53,7 +52,7 @@ def main(argv):
     index+=1
     log_filter = what_2do[index]
     index+=1
-    using_logserver = 'True' ==what_2do[index]
+    using_logserver = 'True' == what_2do[index]
     index+=1
     sleep_time = what_2do[index]
     index+=1
@@ -69,29 +68,28 @@ def main(argv):
             sleep_time =0 # no logs are collected/filtered, so no settling down is needed
             test=baresip_test()
         else:
-
             path = "~"+xcast_user+"/logs"
             commands = ("tail -f ",log_name+"\n")
 
             print __file__,logserver,path,setup,target,using_logserver,commands
 
             thelogger = logger(target_server,path,setup,target,using_logserver,commands,logserver)
-            PrintFrame()
+            #PrintFrame()
             params = thelogger.which_server_to_monitor_logs_on()
-            PrintFrame()
+            #PrintFrame()
             print params #logserver, path
-            test=baresip_test_with_logs(params[0],params[1],'')
-            #test=baresip_test_with_logs(logserver,path,'')
+            test=baresip_test_with_logs(params[0],params[1],log_filter)
 
+        tester(test).test(user,testserver,COMMAND,sleep_time)
 
-        tester(test).test(user,testserver,'sleep 30',0)
         if(0 < len(logserver)):
             count_commands = "ssh "+xcast_user+"@"+logserver +" 'ps -ef | grep "+commands[1].strip()+" | grep -v grep |grep "+xcast_user+"| wc -l'"
-            PrintFrame()
+            #PrintFrame()
             print count_commands
-            PrintFrame()
+            #PrintFrame()
             count_loggers = shlex.split(count_commands)
             print 'current logging jobs on server:',check_output(count_loggers)
+
     except Exception as inst:
         print type(inst)
         print inst.args
