@@ -2,6 +2,7 @@ import shlex, subprocess, time, sys, getopt, inspect, csv
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import UnexpectedEndOfStream, NonBlockingStreamReader as NBSR
+from decimal import *
 
 def PrintFrame(index =2):
     callerframerecord = inspect.stack()[1]    # 0 represents this line
@@ -18,9 +19,22 @@ def PrintFrame(index =2):
 
 class configure:
     def get_parameters(self,argv):
-        command_line_elements = ['','','']
+
+
+        callerframerecord = inspect.stack()[1]    # 0 represents this line
+                                            # 1 represents line at caller
+        frame = callerframerecord[0]
+        info = inspect.getframeinfo(frame)
+        caller = info.filename
+        command_line_elements = ['','',False,False]
         param_test_case_matrix={}
         test_case_matrix={}
+        this_configuration=''
+        '''                                        0----------------1--------------------2--------------------------3------------------------4--------5-----------------------------6----7---------8----9
+        'qman_staging_local_logs':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','stage1n1-la.siptalk.com','/qman.log','/home/nir/bin/qman_events.awk',False,20,'staging','qman'],
+        'qman_staging_local_logs':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','stage1n1-la.siptalk.com','/qman.log',False,20,'staging','qman'],
+        'qman_dev':               ['xdev64.xcastlabs.com'   ,'bairsip.xcastlabs.com','dev_bsTestQman.py'    ,'xdev64.xcastlabs.com'   ,'/qman.log',False,40,'dev'    ,'qman']
+        '''
         '''test_case_matrix =  {
                 'conf_dev':['xdev64.xcastlabs.com','bairsip.xcastlabs.com','dev_bsTestConf.py','','','',False,0,'dev','conf'],
                 'qman_dev':['xdev64.xcastlabs.com','bairsip.xcastlabs.com','dev_bsTestQman.py','xdev64.xcastlabs.com','/qman.log','/home/nir/bin/qman_events.awk',False,40,'dev','qman'],
@@ -43,7 +57,7 @@ class configure:
                 '-s staging -t qman -l':    'qman_staging_log_server',
                 '-s production -t qman':    'qman_production_local_logs',
                 }
-                   
+
         with open('param_test_case_matrix.csv','w') as csvfile:
             fieldnames = ['test_case', 'name']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -51,56 +65,161 @@ class configure:
             for key in param_test_case_matrix:
                 writer.writerow({'test_case':key, 'name':param_test_case_matrix[key]})
             csvfile.close()
-        exit(0)  '''  
-
-
-        with open('param_test_case_matrix.csv') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                param_test_case_matrix.update({row['test_case'].strip():row['name'].strip()})
-            
-            csvfile.close()
-
-        with open('test_case_matrix.csv','rb') as csvfile:
-            testreader = csv.reader(csvfile, dialect='excel')
-            for row in testreader:
-                key = row[0]
-                counter =0
-                matrix=[]
-                for cell in row:
-                    counter +=1
-                    if counter < 2: continue
-                    matrix.append(cell)
-                test_case_matrix.update({key:matrix})
-            csvfile.close()
+        exit(0)  '''
 
         try:
-            opts, args = getopt.getopt(argv,"lhs:t:",["setup=","target="])
+            with open('param_test_case_matrix.csv') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    param_test_case_matrix.update({row['test_case'].strip():row['name'].strip()})
+
+                csvfile.close()
+        except:
+            param_test_case_matrix ={
+                '':	'qman_staging_log_server',
+                '-s staging -t qman -l -f':	'qman_staging_local_logs_log_only',
+                '-s staging -t conf':	'conf_staging',
+                '-s staging -t qman':	'qman_staging_log_server',
+                '-s dev -t qman -l -f':	'qman_dev_local_logs_log_only',
+                '-s dev -t qman':	'qman_dev_local_logs',
+                '-s dev -t qman -l':	'qman_dev_local_logs',
+                '-s production -t qman -f':	'qman_production_local_logs_log_only',
+                '-s staging -t qman -f':	'qman_staging_log_server_log_only',
+                '-s dev -t qman -f':	'qman_dev_local_logs_log_only',
+                '-s dev -t conf':	'conf_dev',
+                '-s staging -t qman -l':	'qman_staging_local_logs',
+                '-s production -t qman':	'qman_production_local_logs',
+                }
+            try:
+                with open('param_test_case_matrix.csv','w') as csvfile:
+                    fieldnames = ['test_case', 'name']
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for key in param_test_case_matrix:
+                        writer.writerow({'test_case':key, 'name':param_test_case_matrix[key]})
+                    csvfile.close()
+            except Exception as inst:
+                print type(inst)
+                print inst.args
+                print inst
+                print __file__, 'Oops'
+                exit(0)
+        try:
+            with open('test_case_matrix.csv','rb') as csvfile:
+                testreader = csv.reader(csvfile, dialect='excel')
+                for row in testreader:
+                    key = row[0]
+                    counter =0
+                    matrix=[]
+                    for cell in row:
+                        counter +=1
+                        if counter < 2: continue
+                        matrix.append(cell.strip())
+                    test_case_matrix.update({key.strip():matrix})
+                csvfile.close()
+        except:
+            test_case_matrix ={
+                'qman_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '40', 'dev', 'qman' ],
+                'qman_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'True', '20', 'staging', 'qman' ],
+                'qman_production_log_server':[ '', '', '', 'logserver3-la.siptalk.com', '/<Pbx_node_qman.log  file name>', '/home/nir/bin/qman_events.awk', 'True', '20', 'production', 'qman' ],
+                'conf_staging':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', '', '', '', 'False', '0', 'staging', 'conf' ],
+                'qman_production_local_logs_log_only':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '', 'False', '0', 'production', 'qman' ],
+                'qman_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'staging', 'qman' ],
+                'qman_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'xdev64.xcastlabs.com', '/qman.log', '', 'False', '40', 'dev', 'qman' ],
+                'conf_dev':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', '', '', '', 'False', '0', 'dev', 'conf' ],
+                'qman_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '', 'True', '20', 'staging', 'qman' ],
+                'qman_production_local_logs':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'production', 'qman' ],
+                'qman_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '', 'False', '20', 'staging', 'qman' ],
+                }
+            try:
+                with open('test_case_matrix.csv','wb') as csvfile:
+                    writer = csv.writer(csvfile, dialect='excel')
+                    cells=[]
+                    for key in test_case_matrix:
+                        print __file__, key
+                        cells.append(key)
+                        for params in test_case_matrix[key]:
+                            cells.append(params)
+                        writer.writerow(cells)
+                        cells=[]
+                    csvfile.close()
+            except Exception as inst:
+                print type(inst)
+                print inst.args
+                print inst
+                print __file__, 'Oops'
+                exit(0)
+        try:
+            opts, args = getopt.getopt(argv,"lhfs:t:p:",["preset=","setup=","target="])
         except getopt.GetoptError:
-            print __file__, ' -s <setup> -t <target>'
+            print caller, ' [-s <setup>] [-t <target>] [-l] [-f]'
             exit(2)
-        command_line_elements = ['staging','qman','']
+        command_line_elements = ['staging','qman',True,True]
         for opt, arg in opts:
             if opt == '-h':
-                print __file__, ' -s <setup> -t <target>'
-                print 'For Dev Testing:', __file__, '-s dev'
-                print 'For Staging Testing:', __file__, '-s staging'
-                print 'For Qman Testing:', __file__, '-t qman'
-                print 'For Conference Testing:', __file__, '-t conf'
+                print 'To use preset test configuration, '
+                for key in test_case_matrix.keys():
+                    print "\t",caller, "-p [, or --preset=]'"+key+"'"
+                print '\tor, define parameters from this list:   ','[-s <setup>] [-t <target>] [-l] [-f]'
+                print '\tFor Dev Testing:                        ', caller, '-s dev'
+                print '\tFor Staging Testing:                    ', caller, '-s staging'
+                print '\tFor Qman Testing:                       ', caller, '-t qman'
+                print '\tFor Conference Testing:                 ', caller, '-t conf'
+                print '\tFor NOT Using Log server, if applicable:', caller, '-l'
+                print '\tFor NOT apply Log filer, :              ', caller, '-f'
                 exit()
-            if opt == '-l':
-                command_line_elements[2]='syslog'
+            if opt in ("-p", "--preset"):
+                this_configuration = arg.strip()
+                break
+            elif opt == '-l':
+                command_line_elements[2]=False
+            elif opt == '-f':
+                command_line_elements[3]=False
             elif opt in ("-t", "--target"):
                 command_line_elements[1]=arg.strip()
             elif opt in ("-s", "--setup"):
                 command_line_elements[0]=arg.strip()
 
-        this_test = ' '.join(['-s',command_line_elements[0],
-                        '-t',command_line_elements[1],
-                        ('','-l')['syslog' == command_line_elements[2]]])
-        this_test_case = param_test_case_matrix.get(this_test.strip(),'qman_staging_local_logs')
-        print __file__, "'"+this_test+"'\n",this_test_case
-        return test_case_matrix[this_test_case]
+        if(0 == len(this_configuration)):
+            test_params = (['-s',command_line_elements[0],
+                            '-t',command_line_elements[1]
+                            ])
+            if(not command_line_elements[2]):
+                test_params.append('-l')
+            if(not command_line_elements[3]):
+                test_params.append('-f')
+
+            this_test = ' '.join(test_params)
+            this_configuration = param_test_case_matrix.get(this_test.strip(),'qman_staging_log_server')
+            print "'"+this_test+"'", "'"+this_configuration+"'"
+        what_2do = test_case_matrix[this_configuration]
+        print caller, "'"+this_configuration+"'\n",what_2do
+        #exit(0)
+        index=0
+        target_server = what_2do[index]
+        index+=1
+        testserver = what_2do[index]
+        index+=1
+        COMMAND=('','./bin/'+what_2do[index])[0 < len(what_2do[2])]
+        index+=1
+        logserver = what_2do[index]
+        index+=1
+        log_name  = what_2do[index]
+        index+=1
+        log_filter = what_2do[index]
+        index+=1
+        using_logserver = 'True' == what_2do[index]
+        index+=1
+        sleep_time = what_2do[index]
+        index+=1
+        setup = what_2do[index]
+        index+=1
+        target = what_2do[index]
+
+        what_2do = [target_server, testserver, COMMAND, logserver, log_name, log_filter, using_logserver, sleep_time, setup, target]
+        print "'"+caller, this_configuration+"\n",what_2do
+        #exit(0)
+        return what_2do
 
 
 class tester:
@@ -108,6 +227,9 @@ class tester:
         self._test_obj = tester
 
     def test(self,user,testserver,command,sleep_time):
+        try:
+            sleep_time = float(sleep_time)
+        except: pass
         return self._test_obj.test(user,testserver,command,sleep_time)
 
 class logger:

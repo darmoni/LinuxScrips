@@ -3,6 +3,7 @@ import shlex, subprocess
 import socket
 import os
 import time
+from decimal import *
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import NonBlockingStreamReader,UnexpectedEndOfStream
@@ -11,12 +12,12 @@ import signal
 import sys, getopt
 import inspect
 
-def safe_exit(level):
+def safe_exit(level, frame):
     exit(0)
 
 def sig_handler(sig, frame):
     print "got sig(", sig,")\n"
-    safe_exit(sig)
+    safe_exit(sig, frame)
 
 signal.signal(signal.SIGUSR1,sig_handler)
 signal.signal(signal.SIGUSR2,sig_handler)
@@ -31,7 +32,6 @@ def main(argv):
         print '!!!Error!!!','number of fields is worng',len(what_2do)
         exit(0)
     print 'number of fields is correct',len(what_2do)
-    index = 0
     '''                                        0----------------1--------------------2--------------------------3------------------------4--------5-----------------------------6----7---------8----9
     'qman_staging_local_logs':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','stage1n1-la.siptalk.com','/qman.log','/home/nir/bin/qman_events.awk',False,20,'staging','qman'],
     'qman_staging_local_logs':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','stage1n1-la.siptalk.com','/qman.log',False,20,'staging','qman'],
@@ -41,27 +41,9 @@ def main(argv):
     #exit(0)
     xcast_user = 'xcast'
     user = xcast_user
-    target_server = what_2do[index]
-    index+=1
-    testserver = what_2do[index]
-    index+=1
-    COMMAND=('','./bin/'+what_2do[index])[0 < len(what_2do[2])]
-    index+=1
-    logserver = what_2do[index]
-    index+=1
-    log_name  = what_2do[index]
-    index+=1
-    log_filter = what_2do[index]
-    index+=1
-    using_logserver = 'True' ==what_2do[index]
-    index+=1
-    sleep_time = what_2do[index]
-    index+=1
-    setup = what_2do[index]
-    index+=1
-    target = what_2do[index]
+    (target_server, testserver, COMMAND, logserver, log_name, log_filter, using_logserver, sleep_time, setup, target) = what_2do
 
-    print 'Testing from Server is', testserver
+    #print 'Testing from Server is', testserver
     print  "Starting", (time.strftime("%H:%M:%S"))
     try:
         if(0 == len(logserver)): #('conf' == target):
@@ -84,7 +66,7 @@ def main(argv):
             #test=baresip_test_with_logs(logserver,path,'')
 
 
-        tester(test).test(user,testserver,'sleep 30',0)
+        tester(test).test(user,testserver,'ls -l',sleep_time)
         if(0 < len(logserver)):
             count_commands = "ssh "+xcast_user+"@"+logserver +" 'ps -ef | grep "+commands[1].strip()+" | grep -v grep |grep "+xcast_user+"| wc -l'"
             PrintFrame()

@@ -1,7 +1,11 @@
-qman_staging_log_server,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,logserver3-la.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,True,20,staging,qman
-qman_production_log_server,,,,logserver3-la.siptalk.com,/<Pbx_node_qman.log  file name>,/home/nir/bin/qman_events.awk,True,20,production,qman
-qman_staging_local_logs,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,stage1n1-la.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,False,20,staging,qman
 conf_dev,xdev64.xcastlabs.com,bairsip.xcastlabs.com,dev_bsTestConf.py,,,,False,0,dev,conf
-qman_dev,xdev64.xcastlabs.com,bairsip.xcastlabs.com,dev_bsTestQman.py,xdev64.xcastlabs.com,/qman.log,/home/nir/bin/qman_events.awk,False,40,dev,qman
 conf_staging,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestConf.py,,,,False,0,staging,conf
-qman_production_local_logs,tswitch3.siptalk.com,bairsip.xcastlabs.com,sleeper.sh 4,tswitch3.siptalk.com,/qman.log,,False,0,production,qman
+qman_dev_local_logs_log_only,xdev64.xcastlabs.com,bairsip.xcastlabs.com,sleeper.sh 4,xdev64.xcastlabs.com,/qman.log,,False,40,dev,qman
+qman_dev_local_logs,xdev64.xcastlabs.com,bairsip.xcastlabs.com,dev_bsTestQman.py,xdev64.xcastlabs.com,/qman.log,/home/nir/bin/qman_events.awk,False,40,dev,qman
+qman_production_local_logs_log_only,tswitch3.siptalk.com,bairsip.xcastlabs.com,sleeper.sh 4,tswitch3.siptalk.com,/qman.log,,False,0,production,qman
+qman_production_local_logs,tswitch3.siptalk.com,bairsip.xcastlabs.com,sleeper.sh 4,tswitch3.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,False,20,production,qman
+qman_production_log_server,,,,logserver3-la.siptalk.com,/<Pbx_node_qman.log  file name>,/home/nir/bin/qman_events.awk,True,20,production,qman
+qman_staging_local_logs_log_only,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,stage1n1-la.siptalk.com,/qman.log,,False,20,staging,qman
+qman_staging_local_logs,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,stage1n1-la.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,False,20,staging,qman
+qman_staging_log_server_log_only,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,logserver3-la.siptalk.com,/qman.log,,True,20,staging,qman
+qman_staging_log_server,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,logserver3-la.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,True,20,staging,qman
