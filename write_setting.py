@@ -26,7 +26,7 @@ class configure:
 
                 csvfile.close()
             print 'param_test_case_matrix ={\n',
-            for key in param_test_case_matrix.keys():
+            for key in sorted(param_test_case_matrix.keys()):
                 print "\t'"+key+"':\t'"+param_test_case_matrix[key]+"',\n",
                 '''
                 '-s dev -t conf':           'conf_dev',
@@ -70,7 +70,7 @@ class configure:
                 }
             '''
             print 'test_case_matrix ={\n',
-            for key in test_case_matrix.keys():
+            for key in sorted(test_case_matrix.keys()):
                 matrix = test_case_matrix[key]
                 limit = len(matrix)
                 values =0

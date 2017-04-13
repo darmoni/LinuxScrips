@@ -77,18 +77,18 @@ class configure:
         except:
             param_test_case_matrix ={
                 '':	'qman_staging_log_server',
-                '-s staging -t qman -l -f':	'qman_staging_local_logs_log_only',
+                '-s dev -t conf':	'conf_dev',
+                '-s dev -t qman':	'qman_dev_local_logs',
+                '-s dev -t qman -f':	'qman_dev_local_logs_log_only',
+                '-s dev -t qman -l':	'qman_dev_local_logs',
+                '-s dev -t qman -l -f':	'qman_dev_local_logs_log_only',
+                '-s production -t qman':	'qman_production_local_logs',
+                '-s production -t qman -f':	'qman_production_local_logs_log_only',
                 '-s staging -t conf':	'conf_staging',
                 '-s staging -t qman':	'qman_staging_log_server',
-                '-s dev -t qman -l -f':	'qman_dev_local_logs_log_only',
-                '-s dev -t qman':	'qman_dev_local_logs',
-                '-s dev -t qman -l':	'qman_dev_local_logs',
-                '-s production -t qman -f':	'qman_production_local_logs_log_only',
                 '-s staging -t qman -f':	'qman_staging_log_server_log_only',
-                '-s dev -t qman -f':	'qman_dev_local_logs_log_only',
-                '-s dev -t conf':	'conf_dev',
                 '-s staging -t qman -l':	'qman_staging_local_logs',
-                '-s production -t qman':	'qman_production_local_logs',
+                '-s staging -t qman -l -f':	'qman_staging_local_logs_log_only',
                 }
             try:
                 with open('param_test_case_matrix.csv','w') as csvfile:
@@ -119,23 +119,24 @@ class configure:
                 csvfile.close()
         except:
             test_case_matrix ={
+                'conf_dev_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '', 'False', '0', 'dev', 'conf' ],
+                'conf_staging_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '', 'False', '20', 'staging', 'conf' ],
+                'conf_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '', 'True', '20', 'staging', 'conf' ],
                 'qman_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '40', 'dev', 'qman' ],
-                'qman_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'True', '20', 'staging', 'qman' ],
-                'qman_production_log_server':[ '', '', '', 'logserver3-la.siptalk.com', '/<Pbx_node_qman.log  file name>', '/home/nir/bin/qman_events.awk', 'True', '20', 'production', 'qman' ],
-                'conf_staging':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', '', '', '', 'False', '0', 'staging', 'conf' ],
-                'qman_production_local_logs_log_only':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '', 'False', '0', 'production', 'qman' ],
-                'qman_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'staging', 'qman' ],
                 'qman_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'xdev64.xcastlabs.com', '/qman.log', '', 'False', '40', 'dev', 'qman' ],
-                'conf_dev':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', '', '', '', 'False', '0', 'dev', 'conf' ],
-                'qman_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '', 'True', '20', 'staging', 'qman' ],
                 'qman_production_local_logs':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'production', 'qman' ],
+                'qman_production_local_logs_log_only':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '', 'False', '0', 'production', 'qman' ],
+                'qman_production_log_server':[ '', '', '', 'logserver3-la.siptalk.com', '/<Pbx_node_qman.log  file name>', '/home/nir/bin/qman_events.awk', 'True', '20', 'production', 'qman' ],
+                'qman_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'staging', 'qman' ],
                 'qman_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '', 'False', '20', 'staging', 'qman' ],
+                'qman_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'True', '20', 'staging', 'qman' ],
+                'qman_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '', 'True', '20', 'staging', 'qman' ],
                 }
             try:
                 with open('test_case_matrix.csv','wb') as csvfile:
                     writer = csv.writer(csvfile, dialect='excel')
                     cells=[]
-                    for key in test_case_matrix:
+                    for key in sorted(test_case_matrix):
                         print __file__, key
                         cells.append(key)
                         for params in test_case_matrix[key]:
@@ -158,7 +159,7 @@ class configure:
         for opt, arg in opts:
             if opt == '-h':
                 print 'To use preset test configuration, '
-                for key in test_case_matrix.keys():
+                for key in sorted(test_case_matrix):
                     print "\t",caller, "-p [, or --preset=]'"+key+"'"
                 print '\tor, define parameters from this list:   ','[-s <setup>] [-t <target>] [-l] [-f]'
                 print '\tFor Dev Testing:                        ', caller, '-s dev'
