@@ -1,7 +1,7 @@
 import shlex, subprocess, time, sys, getopt, inspect, csv
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
-from nbstreamreader import UnexpectedEndOfStream, NonBlockingStreamReader as NBSR
+from nbstreamreader import NonBlockingStreamReader as NBSR
 from decimal import *
 
 class configure:

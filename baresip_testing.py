@@ -1,8 +1,10 @@
 import shlex, subprocess, time, sys, getopt, inspect, csv
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
-from nbstreamreader import UnexpectedEndOfStream, NonBlockingStreamReader as NBSR
+from nbstreamreader import NonBlockingStreamReader as NBSR
 from decimal import *
+from threading import Thread
+from Queue import Queue, Empty
 
 def PrintFrame(index =2):
     callerframerecord = inspect.stack()[1]    # 0 represents this line
@@ -119,8 +121,13 @@ class configure:
                 csvfile.close()
         except:
             test_case_matrix ={
-                'conf_dev_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '', 'False', '0', 'dev', 'conf' ],
-                'conf_staging_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '', 'False', '20', 'staging', 'conf' ],
+                'conf_dev':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', '', '', '', 'False', '0', 'dev', 'conf' ],
+                'conf_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'dev', 'conf' ],
+                'conf_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '', 'False', '20', 'dev', 'conf' ],
+                'conf_staging':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', '', '', '', 'False', '0', 'staging', 'conf' ],
+                'conf_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'staging', 'conf' ],
+                'conf_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '', 'False', '20', 'staging', 'conf' ],
+                'conf_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'True', '20', 'staging', 'conf' ],
                 'conf_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '', 'True', '20', 'staging', 'conf' ],
                 'qman_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '40', 'dev', 'qman' ],
                 'qman_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'xdev64.xcastlabs.com', '/qman.log', '', 'False', '40', 'dev', 'qman' ],
@@ -211,7 +218,10 @@ class configure:
         index+=1
         using_logserver = 'True' == what_2do[index]
         index+=1
-        sleep_time = what_2do[index]
+        try:
+            sleep_time = round(what_2do[index],0)
+        except:pass
+        sleep_time = int(what_2do[index])
         index+=1
         setup = what_2do[index]
         index+=1
@@ -226,12 +236,16 @@ class configure:
 class tester:
     def __init__(self, tester):
         self._test_obj = tester
+        self._done = False
 
     def test(self,user,testserver,command,sleep_time):
         try:
-            sleep_time = float(sleep_time)
+            sleep_time = int(sleep_time)
         except: pass
-        return self._test_obj.test(user,testserver,command,sleep_time)
+        self._test_obj.test(user,testserver,command,sleep_time)
+        self._done = True
+        print 'Test is DONE!'
+        return
 
 class logger:
     def __init__(self,server,path,setup,target,use_logserver,command, logserver = 'logserver3-la.siptalk.com'):
@@ -259,23 +273,54 @@ class logger:
 class baresip_test:
 
     def test(self,user,testserver,command,sleep_time):
-        #print 'baresip_test.test (',user,testserver,command,sleep_time, ')'
-        HOST=user+"@"+testserver
-        self._ssh = subprocess.Popen(["ssh", "%s" % HOST, command],
-                               shell=False,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-        error = self._ssh.stderr.readlines()                 #blocking call, wait until done
-        if(error != []):
-            print >>sys.stderr, "ERROR: %s" % error
+        try:
+            #print 'baresip_test.test (',user,testserver,command,sleep_time, ')'
+            HOST=user+"@"+testserver
+            self._ssh = subprocess.Popen(["ssh", "%s" % HOST, command],
+                                   shell=False,
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
+            error = self._ssh.stderr.readlines()                 #blocking call, wait until done
+            if(error != []):
+                print >>sys.stderr, "ERROR: %s" % error
 
-        print  "Done", (time.strftime("%H:%M:%S")),
-        if(0< sleep_time):
-            print 'sleeping', sleep_time, 'seconds'
-            sleep(sleep_time) # let all settle down
-        else:
-            print ''
-
+            print  "DEBUG Done", (time.strftime("%H:%M:%S")),
+            if(0 < sleep_time):  # WE ARE NOT GOTING TO SLEEP TODAY
+                print 'sleeping', sleep_time, 'seconds'
+                time.sleep(sleep_time) # let all settle down
+            else:
+                print ''
+            print  "Done", (time.strftime("%H:%M:%S"))
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print caller, 'Oops'
+            return
+'''
+def copy_results(results,output):
+    print 'copy_results(results, output)\n'
+    sleep (10)
+    lines=0
+    while True:
+        q = results._q
+        try:
+            if(results._q.qsize() >0):
+                line =q.get().strip()
+                if(None == line):
+                    continue
+                output.stdin.write(line+"\n")
+                lines += 1
+                q.task_done()
+                #print line
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
+            print 'could not copy_results'
+    print 'Lines in log = ', lines
+'''
 class baresip_test_with_logs(baresip_test):
 
     def __init__(self,logserver,log_command,filter_command):
@@ -290,73 +335,77 @@ class baresip_test_with_logs(baresip_test):
         if('' != filter_command):
             self._filter_command = filter_command
             self._we_filter = True
+            self._we_log = True
 
     def test(self,user,testserver,command,sleep_time):
+        global log_filter
         try:
-            if(self._we_log):
-                (logs,killme) = self.start_log(self._logserver)
-                if(self._we_filter):
-                    _filter = self.apply_filter()
-
-                baresip_test.test(self,user,testserver,command,sleep_time)
-
-                if(self._we_filter):
-                    self.copy_results(logs,_filter)
-                    print _filter.communicate()[0]
-                    #del logs
-                    killme.kill()
-                else:
-                    if(self._we_log):
-                        self.read_results(logs)
-                        killme.kill()
-
+            if(self._we_filter):
+                (logs,killme) = self.apply_filter()
+            elif(self._we_log and not self._we_filter):
+                (logs,killme) = self.start_log()
+            killme.stdin.write(self._log_command)
+            baresip_test.test(self,user,testserver,command,sleep_time)
+            #sleep(sleep_time)
+            print 'Done, let\'s get out of here!!'
+            '''
+            if(self._we_filter):
+                print _filter.communicate()[0]
+            elif(self._we_log):
+            '''
+            self.read_results(logs)
+            killme.kill()
+            return
         except Exception as inst:
             print type(inst)
             print inst.args
             print inst
             print __file__, 'Oops'
             print 'could not run test'
-            exit(0)
+            return
 
-    def start_log(self,logserver):
+    def start_log(self,add_queue = True):
+        events=None
         try:
             _text ='ssh '+self._log_user+'@'+self._logserver
             #print _text
             args = shlex.split(_text)
             _log_server = Popen(args,stdin=PIPE,stdout=PIPE,stderr=PIPE, shell=False)
-            events= NBSR(_log_server.stdout)
-            _log_server.stdin.write(self._log_command)
+            if(add_queue):
+                events= NBSR(_log_server.stdout)
             return (events,_log_server)
-        except:
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
             print 'could not connect to log server'
             exit(0)
 
     def apply_filter(self):
         try:
+            (ignore_me,in_stream) = self.start_log(False)
             #print 'apply_filter: ',self._filter_command
             args = shlex.split(self._filter_command)
-            return Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
-        except:
-            print 'could not run filter',filter
+            my_filter = Popen(args, stdin=in_stream.stdout, stdout=PIPE,stderr=PIPE, shell=False)
+            events= NBSR(my_filter.stdout)
+            #in_stream.stdin.write(self._log_command)
+            in_stream.stdout.close()
+            return (events,in_stream)
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
+            print 'could not run filter'
             exit(0)
 
     def read_results(self,results):
         while True:
           try:
-            line =results.readline(0.3).strip()
+            line =results.readline().strip()
             if(None == line):
                 break
             print line
-          except:
-            break
-
-    def copy_results(self,results, output):
-        #print 'copy_results(results, output)\n'
-        while True:
-          try:
-            line =results.readline(0.3)
-            if(None == line):
-                break
-            output.stdin.write(line+"\n")
           except:
             break

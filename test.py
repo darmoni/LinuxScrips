@@ -6,7 +6,7 @@ import time
 from decimal import *
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
-from nbstreamreader import NonBlockingStreamReader,UnexpectedEndOfStream
+from nbstreamreader import NonBlockingStreamReader
 from baresip_testing import baresip_test, baresip_test_with_logs, tester, logger, configure
 import signal
 import sys, getopt
@@ -63,7 +63,7 @@ def main(argv):
             test=baresip_test_with_logs(params[0],params[1],log_filter)
 
         tester(test).test(user,testserver,COMMAND,sleep_time)
-
+        print  "Test ended", (time.strftime("%H:%M:%S"))
         if(0 < len(logserver)):
             count_commands = "ssh "+xcast_user+"@"+logserver +" 'ps -ef | grep "+commands[1].strip()+" | grep -v grep |grep "+xcast_user+"| wc -l'"
             #PrintFrame()

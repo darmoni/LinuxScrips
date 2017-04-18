@@ -36,4 +36,4 @@ class NonBlockingStreamReader:
         except Empty:
             return None
 
-class UnexpectedEndOfStream(Exception): pass
+#class UnexpectedEndOfStream(Exception): pass

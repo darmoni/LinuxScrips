@@ -6,7 +6,7 @@ import time
 from decimal import *
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
-from nbstreamreader import NonBlockingStreamReader,UnexpectedEndOfStream
+from nbstreamreader import NonBlockingStreamReader
 from baresip_testing import baresip_test, baresip_test_with_logs, tester, logger, configure, PrintFrame
 import signal
 import sys, getopt
