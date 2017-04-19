@@ -18,6 +18,75 @@ def PrintFrame(index =2):
     elif 2 == index:
         print info.lineno                         # __LINE__     -> 13
 
+test_parameters = {}
+filter_types = ['buffered','piped']
+target_types = {
+    'qman':'piped',
+    'conf':'buffered'
+    }
+
+class filter_factory:
+    def __init__(self, caller, target):
+        target_type = target_types.get(target)
+        if( 'piped' == target_type):
+            self._filter = piped_filter(caller)
+        elif('buffered' == target_type):
+            self._filter = buffered_filter(caller)
+    def the_filter(self):
+        return self._filter
+
+class buffered_filter:
+
+    def __init__(self, caller):
+        self._caller = caller
+        self._name = 'buffered_filter'
+
+    def read_results(self,results):
+        return self._caller.read_results(results)
+
+    def apply_filter(self):
+        try:
+            (ignore_me,in_stream) = self._caller.start_log(False)
+            print self._name+':apply_filter: ',self._caller._filter_command
+            #return
+            args = shlex.split(self._caller._filter_command)
+            self._filter = Popen(args, stdin=in_stream.stdout, stdout=PIPE,stderr=PIPE, shell=False)
+            events= NBSR(self._filter.stdout)
+            return (events,in_stream)
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
+            print self._name+':could not run filter'
+            exit(0)
+
+class piped_filter(buffered_filter):
+
+    def __init__(self, caller):
+        self._caller = caller
+        self._name = 'piped_filter'
+
+    def read_results(self,results):
+        print self._name+':read_results: '
+        print results.communicate()[0]
+
+    def apply_filter(self):
+        try:
+            (ignore_me,in_stream) = self._caller.start_log(False)
+            print self._name+':apply_filter: ',self._caller._filter_command
+            #return
+            args = shlex.split(self._caller._filter_command)
+            self._filter = Popen(args, stdin=in_stream.stdout, stdout=PIPE,stderr=PIPE, shell=False)
+            in_stream.stdout.close()
+            return (self._filter,in_stream)
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
+            print self._name+':could not run filter'
+            exit(0)
 
 class configure:
     def get_parameters(self,argv):
@@ -37,28 +106,48 @@ class configure:
         'qman_staging_local_logs':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','stage1n1-la.siptalk.com','/qman.log',False,20,'staging','qman'],
         'qman_dev':               ['xdev64.xcastlabs.com'   ,'bairsip.xcastlabs.com','dev_bsTestQman.py'    ,'xdev64.xcastlabs.com'   ,'/qman.log',False,40,'dev'    ,'qman']
         '''
-        '''test_case_matrix =  {
-                'conf_dev':['xdev64.xcastlabs.com','bairsip.xcastlabs.com','dev_bsTestConf.py','','','',False,0,'dev','conf'],
-                'qman_dev':['xdev64.xcastlabs.com','bairsip.xcastlabs.com','dev_bsTestQman.py','xdev64.xcastlabs.com','/qman.log','/home/nir/bin/qman_events.awk',False,40,'dev','qman'],
-                'conf_staging':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestConf.py','','','',False,0,'staging','conf'],
-                'qman_staging_local_logs':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','stage1n1-la.siptalk.com','/qman.log','/home/nir/bin/qman_events.awk',False,20,'staging','qman'],
-                'qman_staging_log_server':['stage1n1-la.siptalk.com','bairsip.xcastlabs.com','staging_bsTestQman.py','logserver3-la.siptalk.com','/qman.log','/home/nir/bin/qman_events.awk',True,20,'staging','qman'],
-                'qman_production_local_logs':['tswitch3.siptalk.com','bairsip.xcastlabs.com','sleeper.sh 4','tswitch3.siptalk.com','/qman.log','',False,0,'production','qman'],
-                'qman_production_log_server':['','','','logserver3-la.siptalk.com','/<Pbx_node_qman.log  file name>','/home/nir/bin/qman_events.awk',True,20,'production','qman'],
-                }
         '''
-        '''param_test_case_matrix ={
-                '-s dev -t conf':           'conf_dev',
-                '-s dev -t conf -l':        'conf_dev',
-                '-s dev -t qman':           'qman_dev',
-                '-s dev -t qman -l':        'qman_dev',
-                '-s staging -t conf':       'conf_staging',
-                '-s staging -t conf -l':    'conf_staging',
-                '':                         'qman_staging_local_logs',  # default
-                '-s staging -t qman':       'qman_staging_local_logs',
-                '-s staging -t qman -l':    'qman_staging_log_server',
-                '-s production -t qman':    'qman_production_local_logs',
-                }
+        param_test_case_matrix ={
+	'':	'qman_staging_log_server',
+	'-s dev -t conf':	'conf_dev',
+	'-s dev -t conf -l':	'conf_dev_local_logs',
+	'-s dev -t conf -l -f':	'conf_dev_local_logs_log_only',
+	'-s dev -t qman':	'qman_dev_local_logs',
+	'-s dev -t qman -f':	'qman_dev_local_logs_log_only',
+	'-s dev -t qman -l':	'qman_dev_local_logs',
+	'-s dev -t qman -l -f':	'qman_dev_local_logs_log_only',
+	'-s production -t qman':	'qman_production_local_logs',
+	'-s production -t qman -f':	'qman_production_local_logs_log_only',
+	'-s staging -t conf':	'conf_staging_log_server',
+	'-s staging -t conf -f':	'conf_staging_log_server_log_only',
+	'-s staging -t conf -l':	'conf_staging_local_logs',
+	'-s staging -t conf -l -f':	'conf_staging_local_logs_log_only',
+	'-s staging -t qman':	'qman_staging_log_server',
+	'-s staging -t qman -f':	'qman_staging_log_server_log_only',
+	'-s staging -t qman -l':	'qman_staging_local_logs',
+	'-s staging -t qman -l -f':	'qman_staging_local_logs_log_only',
+	}
+test_case_matrix ={
+	'conf_dev':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', '', '', '', 'False', '0', 'dev', 'conf' ],
+	'conf_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'dev', 'conf' ],
+	'conf_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '', 'False', '20', 'dev', 'conf' ],
+	'conf_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '0', 'localhost', 'conf' ],
+	'conf_staging':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', '', '', '', 'False', '0', 'staging', 'conf' ],
+	'conf_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'staging', 'conf' ],
+	'conf_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '', 'False', '0', 'staging', 'conf' ],
+	'conf_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'True', '20', 'staging', 'conf' ],
+	'conf_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '', 'True', '20', 'staging', 'conf' ],
+	'qman_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '40', 'dev', 'qman' ],
+	'qman_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '', 'False', '40', 'dev', 'qman' ],
+	'qman_production_local_logs':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'production', 'qman' ],
+	'qman_production_local_logs_log_only':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '', 'False', '0', 'production', 'qman' ],
+	'qman_production_log_server':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'logserver3-la.siptalk.com', '/<Pbx_node_qman.log  file name>', '/home/nir/bin/qman_events.awk', 'True', '20', 'production', 'qman' ],
+	'qman_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'staging', 'qman' ],
+	'qman_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '', 'False', '20', 'staging', 'qman' ],
+	'qman_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'True', '20', 'staging', 'qman' ],
+	'qman_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '', 'True', '20', 'staging', 'qman' ],
+	}
+
 
         with open('param_test_case_matrix.csv','w') as csvfile:
             fieldnames = ['test_case', 'name']
@@ -78,20 +167,25 @@ class configure:
                 csvfile.close()
         except:
             param_test_case_matrix ={
-                '':	'qman_staging_log_server',
-                '-s dev -t conf':	'conf_dev',
-                '-s dev -t qman':	'qman_dev_local_logs',
-                '-s dev -t qman -f':	'qman_dev_local_logs_log_only',
-                '-s dev -t qman -l':	'qman_dev_local_logs',
-                '-s dev -t qman -l -f':	'qman_dev_local_logs_log_only',
-                '-s production -t qman':	'qman_production_local_logs',
-                '-s production -t qman -f':	'qman_production_local_logs_log_only',
-                '-s staging -t conf':	'conf_staging',
-                '-s staging -t qman':	'qman_staging_log_server',
-                '-s staging -t qman -f':	'qman_staging_log_server_log_only',
-                '-s staging -t qman -l':	'qman_staging_local_logs',
-                '-s staging -t qman -l -f':	'qman_staging_local_logs_log_only',
-                }
+	'':	'qman_staging_log_server',
+	'-s dev -t conf':	'conf_dev',
+	'-s dev -t conf -l':	'conf_dev_local_logs',
+	'-s dev -t conf -l -f':	'conf_dev_local_logs_log_only',
+	'-s dev -t qman':	'qman_dev_local_logs',
+	'-s dev -t qman -f':	'qman_dev_local_logs_log_only',
+	'-s dev -t qman -l':	'qman_dev_local_logs',
+	'-s dev -t qman -l -f':	'qman_dev_local_logs_log_only',
+	'-s production -t qman':	'qman_production_local_logs',
+	'-s production -t qman -f':	'qman_production_local_logs_log_only',
+	'-s staging -t conf':	'conf_staging_log_server',
+	'-s staging -t conf -f':	'conf_staging_log_server_log_only',
+	'-s staging -t conf -l':	'conf_staging_local_logs',
+	'-s staging -t conf -l -f':	'conf_staging_local_logs_log_only',
+	'-s staging -t qman':	'qman_staging_log_server',
+	'-s staging -t qman -f':	'qman_staging_log_server_log_only',
+	'-s staging -t qman -l':	'qman_staging_local_logs',
+	'-s staging -t qman -l -f':	'qman_staging_local_logs_log_only',
+	}
             try:
                 with open('param_test_case_matrix.csv','w') as csvfile:
                     fieldnames = ['test_case', 'name']
@@ -121,24 +215,25 @@ class configure:
                 csvfile.close()
         except:
             test_case_matrix ={
-                'conf_dev':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', '', '', '', 'False', '0', 'dev', 'conf' ],
-                'conf_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'dev', 'conf' ],
-                'conf_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '', 'False', '20', 'dev', 'conf' ],
-                'conf_staging':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', '', '', '', 'False', '0', 'staging', 'conf' ],
-                'conf_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'staging', 'conf' ],
-                'conf_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '', 'False', '20', 'staging', 'conf' ],
-                'conf_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'True', '20', 'staging', 'conf' ],
-                'conf_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '', 'True', '20', 'staging', 'conf' ],
-                'qman_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '40', 'dev', 'qman' ],
-                'qman_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'xdev64.xcastlabs.com', '/qman.log', '', 'False', '40', 'dev', 'qman' ],
-                'qman_production_local_logs':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'production', 'qman' ],
-                'qman_production_local_logs_log_only':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '', 'False', '0', 'production', 'qman' ],
-                'qman_production_log_server':[ '', '', '', 'logserver3-la.siptalk.com', '/<Pbx_node_qman.log  file name>', '/home/nir/bin/qman_events.awk', 'True', '20', 'production', 'qman' ],
-                'qman_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'staging', 'qman' ],
-                'qman_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '', 'False', '20', 'staging', 'qman' ],
-                'qman_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'True', '20', 'staging', 'qman' ],
-                'qman_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '', 'True', '20', 'staging', 'qman' ],
-                }
+	'conf_dev':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', '', '', '', 'False', '0', 'dev', 'conf' ],
+	'conf_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'dev', 'conf' ],
+	'conf_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '', 'False', '20', 'dev', 'conf' ],
+	'conf_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '0', 'localhost', 'conf' ],
+	'conf_staging':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', '', '', '', 'False', '0', 'staging', 'conf' ],
+	'conf_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'staging', 'conf' ],
+	'conf_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'stage1n1-la.siptalk.com', '/hstarter.log', '', 'False', '0', 'staging', 'conf' ],
+	'conf_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'True', '20', 'staging', 'conf' ],
+	'conf_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestConf.py', 'logserver3-la.siptalk.com', '/hstarter.log', '', 'True', '20', 'staging', 'conf' ],
+	'qman_dev_local_logs':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '40', 'dev', 'qman' ],
+	'qman_dev_local_logs_log_only':[ 'xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestQman.py', 'xdev64.xcastlabs.com', '/qman.log', '', 'False', '40', 'dev', 'qman' ],
+	'qman_production_local_logs':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'production', 'qman' ],
+	'qman_production_local_logs_log_only':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'tswitch3.siptalk.com', '/qman.log', '', 'False', '0', 'production', 'qman' ],
+	'qman_production_log_server':[ 'tswitch3.siptalk.com', 'bairsip.xcastlabs.com', 'sleeper.sh 4', 'logserver3-la.siptalk.com', '/<Pbx_node_qman.log  file name>', '/home/nir/bin/qman_events.awk', 'True', '20', 'production', 'qman' ],
+	'qman_staging_local_logs':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'False', '20', 'staging', 'qman' ],
+	'qman_staging_local_logs_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'stage1n1-la.siptalk.com', '/qman.log', '', 'False', '20', 'staging', 'qman' ],
+	'qman_staging_log_server':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '/home/nir/bin/qman_events.awk', 'True', '20', 'staging', 'qman' ],
+	'qman_staging_log_server_log_only':[ 'stage1n1-la.siptalk.com', 'bairsip.xcastlabs.com', 'staging_bsTestQman.py', 'logserver3-la.siptalk.com', '/qman.log', '', 'True', '20', 'staging', 'qman' ],
+	}
             try:
                 with open('test_case_matrix.csv','wb') as csvfile:
                     writer = csv.writer(csvfile, dialect='excel')
@@ -230,13 +325,21 @@ class configure:
         what_2do = [target_server, testserver, COMMAND, logserver, log_name, log_filter, using_logserver, sleep_time, setup, target]
         print "'"+caller, this_configuration+"\n",what_2do
         #exit(0)
+        test_parameters.update({"what_2do":what_2do})
         return what_2do
 
 
 class tester:
-    def __init__(self, tester):
-        self._test_obj = tester
+    def __init__(self,logserver='',log_command='',filter_command=''):
+        if(len(filter_command) > 0):
+            self._test_obj = baresip_test_with_filter(logserver,log_command,filter_command)
+        elif(len(log_command)>0 and len(logserver) >0):
+            self._test_obj = baresip_test_with_logs(logserver,log_command,'')
+        else:
+            self._test_obj = baresip_test()
         self._done = False
+        #print "Debug, what_2do = ",
+        #print test_parameters.get("what_2do")
 
     def test(self,user,testserver,command,sleep_time):
         try:
@@ -257,11 +360,11 @@ class logger:
         self._setup = setup
         self._target = target
         self._use_logserver = use_logserver
-        if 'dev' == self._setup:
+        if 'dev' == self._setup:  #dev does not, yet, support syslog
             pass
         elif self._use_logserver: self._logserver = logserver
         if 'staging' == self._setup:
-            if self._use_logserver:
+            if self._use_logserver: #path to logfile is different on logserver for staging
                 self._path += '/servers/'+self._server+'/'+time.strftime("%Y%m%d")
         self._logs_command = self._command[0]+self._path+self._command[1]
         #print __file__, self._logserver,self._path,self._setup,self._target,self._use_logserver,self._logs_command
@@ -291,6 +394,7 @@ class baresip_test:
             else:
                 print ''
             print  "Done", (time.strftime("%H:%M:%S"))
+            return
         except Exception as inst:
             print type(inst)
             print inst.args
@@ -338,23 +442,16 @@ class baresip_test_with_logs(baresip_test):
             self._we_log = True
 
     def test(self,user,testserver,command,sleep_time):
-        global log_filter
         try:
-            if(self._we_filter):
-                (logs,killme) = self.apply_filter()
-            elif(self._we_log and not self._we_filter):
-                (logs,killme) = self.start_log()
+            (logs,killme) = self.start_log()
+            if(None == logs):
+                killme.kill()
+                exit(-1)
             killme.stdin.write(self._log_command)
             baresip_test.test(self,user,testserver,command,sleep_time)
-            #sleep(sleep_time)
-            print 'Done, let\'s get out of here!!'
-            '''
-            if(self._we_filter):
-                print _filter.communicate()[0]
-            elif(self._we_log):
-            '''
-            self.read_results(logs)
             killme.kill()
+            print 'Done, let\'s get out of here!!'
+            self.read_results(logs)
             return
         except Exception as inst:
             print type(inst)
@@ -382,24 +479,6 @@ class baresip_test_with_logs(baresip_test):
             print 'could not connect to log server'
             exit(0)
 
-    def apply_filter(self):
-        try:
-            (ignore_me,in_stream) = self.start_log(False)
-            #print 'apply_filter: ',self._filter_command
-            args = shlex.split(self._filter_command)
-            my_filter = Popen(args, stdin=in_stream.stdout, stdout=PIPE,stderr=PIPE, shell=False)
-            events= NBSR(my_filter.stdout)
-            #in_stream.stdin.write(self._log_command)
-            in_stream.stdout.close()
-            return (events,in_stream)
-        except Exception as inst:
-            print type(inst)
-            print inst.args
-            print inst
-            print __file__, 'Oops'
-            print 'could not run filter'
-            exit(0)
-
     def read_results(self,results):
         while True:
           try:
@@ -409,3 +488,27 @@ class baresip_test_with_logs(baresip_test):
             print line
           except:
             break
+
+class baresip_test_with_filter(baresip_test_with_logs):
+    def __init__(self,logserver,log_command,filter_command):
+        baresip_test_with_logs.__init__(self,logserver,log_command,filter_command)
+    def test(self,user,testserver,command,sleep_time):
+        try:
+            (target_server, testserver, COMMAND, logserver, log_name, log_filter, using_logserver, sleep_time, setup, target) \
+                = test_parameters.get("what_2do")
+            my_filter = filter_factory(self,target).the_filter()
+            (logs,killme) = my_filter.apply_filter()
+            killme.stdin.write(self._log_command)
+            baresip_test.test(self,user,testserver,command,sleep_time)
+            killme.kill()
+            print 'Done, let\'s get out of here!!'
+            my_filter.read_results(logs)
+
+            return
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
+            print 'could not run test'
+            return

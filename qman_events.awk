@@ -1,10 +1,6 @@
 #!/usr/bin/awk -f
 #find the traces of ior in log files
 # cat qman.log | awk -f $0
-# sample data
-# 09:13:24.462595|XCastAgrSender::send snding event 0,8043,7747 [AV]
-# 09:13:16.482618|XCastAgrSender::send snding event 1,13613,7747 [0]
-# 09:13:16.474456|XCastAgrSender::send snding event 2,13613,7747 [size:1  timestamp:1489068796.474404
 
 
 BEGIN {
@@ -12,6 +8,7 @@ BEGIN {
 }
 {
     if( $0 ~ /XCastAgrSender::send snding event [012],/ ) {
+        counter +=1
         FS=" ";
         OFS=","
         $0=$0;
@@ -108,5 +105,9 @@ END{
         }
     }
     else
-        print "\nLooks great to me!!!"
+        say = "Looks great to me!!!"
+    if(counter && 0 == n) printf ("\nCounter=%d Looks great to me!!!\n",counter,say)
+    if(1 > counter)
+        print ("\nI did not process any line!!!!\n")
+
 }

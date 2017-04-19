@@ -6,7 +6,7 @@ conf_staging_local_logs_log_only,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,s
 conf_staging_local_logs,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestConf.py,stage1n1-la.siptalk.com,/hstarter.log,/home/nir/bin/hstarter_mixes.awk,False,20,staging,conf
 conf_staging_log_server_log_only,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestConf.py,logserver3-la.siptalk.com,/hstarter.log,,True,20,staging,conf
 conf_staging_log_server,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestConf.py,logserver3-la.siptalk.com,/hstarter.log,/home/nir/bin/hstarter_mixes.awk,True,20,staging,conf
-qman_dev_local_logs_log_only,xdev64.xcastlabs.com,bairsip.xcastlabs.com,sleeper.sh 4,xdev64.xcastlabs.com,/qman.log,,False,40,dev,qman
+qman_dev_local_logs_log_only,xdev64.xcastlabs.com,bairsip.xcastlabs.com,dev_bsTestQman.py,xdev64.xcastlabs.com,/qman.log,,False,40,dev,qman
 qman_dev_local_logs,xdev64.xcastlabs.com,bairsip.xcastlabs.com,dev_bsTestQman.py,xdev64.xcastlabs.com,/qman.log,/home/nir/bin/qman_events.awk,False,40,dev,qman
 qman_production_local_logs_log_only,tswitch3.siptalk.com,bairsip.xcastlabs.com,sleeper.sh 4,tswitch3.siptalk.com,/qman.log,,False,0,production,qman
 qman_production_local_logs,tswitch3.siptalk.com,bairsip.xcastlabs.com,sleeper.sh 4,tswitch3.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,False,20,production,qman
@@ -15,4 +15,4 @@ qman_staging_local_logs_log_only,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,s
 qman_staging_local_logs,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,stage1n1-la.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,False,20,staging,qman
 qman_staging_log_server_log_only,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,logserver3-la.siptalk.com,/qman.log,,True,20,staging,qman
 qman_staging_log_server,stage1n1-la.siptalk.com,bairsip.xcastlabs.com,staging_bsTestQman.py,logserver3-la.siptalk.com,/qman.log,/home/nir/bin/qman_events.awk,True,20,staging,qman
-conf_local_logs,xdev64.xcastlabs.com,bairsip.xcastlabs.com,dev_bsTestQman.py,xdev64.xcastlabs.com,/hstarter.log,/home/nir/bin/hstarter_mixes.awk,False,0,localhost,conf
+conf_local_logs,localhost,bairsip.xcastlabs.com,sleeper.sh 4,localhost,/full_conf_dev_local.log,/home/nir/bin/hstarter_mixes.awk,False,0,localhost,conf
