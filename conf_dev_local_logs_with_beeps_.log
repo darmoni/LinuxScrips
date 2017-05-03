@@ -1,0 +1,530 @@
+/home/nir/bin/test.py 'conf_dev_local_logs'
+['xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'dev', 'conf']
+'/home/nir/bin/test.py conf_dev_local_logs
+['xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', './bin/dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', False, '20', 'dev', 'conf']
+number of fields is correct 10
+['xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', './bin/dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', False, '20', 'dev', 'conf']
+Testing from Server is bairsip.xcastlabs.com
+Starting 11:53:41
+/home/nir/bin/test.py xdev64.xcastlabs.com ~xcast/logs dev conf False ('tail -f ', '/hstarter.log\n')
+('xdev64.xcastlabs.com', 'tail -f ~xcast/logs/hstarter.log\n')
+Done 11:55:29 sleeping 20.0 seconds
+got sig( 10 )
+
+[13949] 11:53:42.895773 CloudClient[0xc8f0500] connected, creating MediaCloud
+[T367d] 11:53:42.899925 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13951] 11:53:42.932490 CloudClient[0xc8f0430] connected, creating MediaCloud
+[T367f] 11:53:42.936498 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13951] 11:53:42.937442 CloudClient[0xc8f0430] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T367f] 11:53:42.937892 [CLOUD][AddPoint] trn-in 0xa59d100,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T3680] 11:53:42.939086 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d100:0002:HT_TRANSPORT) ctor
+[T3680] 11:53:42.940247 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598610, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T3680] 11:53:42.940723 [RTP][RTPStack] 0xa5a0b80 0001:HT_RTPSTACK-queue:0xa598610 (sending - ok) ctor
+[T3680] 11:53:42.940803 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0b80 - ctor
+[T3680] 11:53:42.940865 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598610 ctor
+[T3680] 11:53:42.941013 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 2014068438, seqno 16086)
+[T3680] 11:53:42.941055 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T3680] 11:53:42.941588 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T3680] 11:53:42.941810 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T3680] 11:53:42.941878 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T3680] 11:53:42.941933 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d100, full-duplex)
+[T3680] 11:53:42.942958 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T3680] 11:53:42.943176 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7a50, (defined as external-source)
+[T3680] 11:53:42.943203 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T3680] 11:53:42.943344 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d100/0xa59dbb0, 0001:HT_POINT, full-duplex, aconn []
+[T3680] 11:53:42.964209 [RTP][SendPacket] first packet on trn 0xa59e300: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 16087, ssrc 2014068438, ts 2125109521, pld 0, mrk 0, tsi 160
+[13959] 11:53:43.194741 CloudClient[0xc8dc570] connected, creating MediaCloud
+[T3687] 11:53:43.198923 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13961] 11:53:43.230289 CloudClient[0x2aaab4096600] connected, creating MediaCloud
+[T3689] 11:53:43.235601 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13961] 11:53:43.236516 CloudClient[0x2aaab4096600] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T3689] 11:53:43.236991 [CLOUD][AddPoint] trn-in 0xa59d2f0,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T368a] 11:53:43.238179 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d2f0:0002:HT_TRANSPORT) ctor
+[T368a] 11:53:43.239348 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa5987b0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T368a] 11:53:43.239817 [RTP][RTPStack] 0xa5a0d20 0001:HT_RTPSTACK-queue:0xa5987b0 (sending - ok) ctor
+[T368a] 11:53:43.239898 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0d20 - ctor
+[T368a] 11:53:43.239959 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa5987b0 ctor
+[T368a] 11:53:43.240082 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1110683496, seqno 44904)
+[T368a] 11:53:43.240116 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T368a] 11:53:43.240681 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T368a] 11:53:43.240906 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T368a] 11:53:43.240977 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T368a] 11:53:43.241036 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d2f0, full-duplex)
+[T368a] 11:53:43.242038 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T368a] 11:53:43.242213 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7bf0, (defined as external-source)
+[T368a] 11:53:43.242239 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T368a] 11:53:43.242384 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d2f0/0xa59dd50, 0001:HT_POINT, full-duplex, aconn []
+[T368a] 11:53:43.263496 [RTP][SendPacket] first packet on trn 0xa59e4a0: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 44905, ssrc 1110683496, ts 1872465794, pld 0, mrk 0, tsi 160
+[13949] 11:53:43.400267 CloudClient[0xc8f0500] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T367d] 11:53:43.400747 [CLOUD][AddPoint] trn-in 0xa59cf20,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T367e] 11:53:43.401439 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59cf20:0002:HT_TRANSPORT) ctor
+[T367e] 11:53:43.402100 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598540, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T367e] 11:53:43.402634 [RTP][RTPStack] 0xa5a07f0 0001:HT_RTPSTACK-queue:0xa598540 (sending - ok) ctor
+[T367e] 11:53:43.402713 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a07f0 - ctor
+[T367e] 11:53:43.402783 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598540 ctor
+[T367e] 11:53:43.402905 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1001985237, seqno 5333)
+[T367e] 11:53:43.402939 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T367e] 11:53:43.403565 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T367e] 11:53:43.403837 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T367e] 11:53:43.403909 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T367e] 11:53:43.403967 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59cf20, full-duplex)
+[T367e] 11:53:43.404966 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T367e] 11:53:43.405150 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7700, (defined as external-source)
+[T367e] 11:53:43.405176 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T367e] 11:53:43.405310 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59cf20/0xa59d7f0, 0001:HT_POINT, full-duplex, aconn []
+[T367e] 11:53:43.424672 [RTP][SendPacket] first packet on trn 0xa59dfe0: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 5334, ssrc 1001985237, ts 444463586, pld 0, mrk 0, tsi 160
+[13949] 11:53:43.424910 CloudClient[0xc8f0500] received [CLD_AddPoint: ofs/alc:0/276][ ]
+[T367d] 11:53:43.425124 [CLOUD][AddPoint] trn-in 0x2aaaac001720,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T367e] 11:53:43.426407 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0x2aaaac001720:0004:HT_TRANSPORT) ctor
+[T367e] 11:53:43.427140 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa598540, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T367e] 11:53:43.427562 [RTP][RTPStack] 0xa5aafe0 0002:HT_RTPSTACK-queue:0xa598540 (sending - ok) ctor
+[T367e] 11:53:43.427622 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5aafe0 - ctor
+[T367e] 11:53:43.427678 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa598540 ctor
+[T367e] 11:53:43.427793 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 808162370, seqno 37954)
+[T367e] 11:53:43.427822 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T367e] 11:53:43.428334 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T367e] 11:53:43.428562 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T367e] 11:53:43.428603 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T367e] 11:53:43.428646 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0x2aaaac001720, full-duplex)
+[T367e] 11:53:43.429408 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T367e] 11:53:43.429594 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0xa5b1b50, (defined as external-source)
+[T367e] 11:53:43.429619 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T367e] 11:53:43.429951 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0x2aaaac001720/0xa5a8700, 0002:HT_POINT, full-duplex, aconn []
+[T367e] 11:53:43.449658 [RTP][SendPacket] first packet on trn 0xa5a8ae0: 000c:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 37955, ssrc 808162370, ts 401617809, pld 0, mrk 0, tsi 160
+[T367e] 11:53:43.452248 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59cf20;digits ''
+[13969] 11:53:43.496733 CloudClient[0xc8d32c0] connected, creating MediaCloud
+[T3691] 11:53:43.500945 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13971] 11:53:43.532404 CloudClient[0xc79bf20] connected, creating MediaCloud
+[T3693] 11:53:43.536491 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13971] 11:53:43.537380 CloudClient[0xc79bf20] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T3693] 11:53:43.537835 [CLOUD][AddPoint] trn-in 0xa59d440,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T3694] 11:53:43.539024 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d440:0002:HT_TRANSPORT) ctor
+[T3694] 11:53:43.540192 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598950, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T3694] 11:53:43.540713 [RTP][RTPStack] 0xa5a0ec0 0001:HT_RTPSTACK-queue:0xa598950 (sending - ok) ctor
+[T3694] 11:53:43.540794 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0ec0 - ctor
+[T3694] 11:53:43.540857 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598950 ctor
+[T3694] 11:53:43.540988 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 396939163, seqno 53147)
+[T3694] 11:53:43.541021 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T3694] 11:53:43.541546 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T3694] 11:53:43.541812 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T3694] 11:53:43.541904 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T3694] 11:53:43.541981 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d440, full-duplex)
+[T3694] 11:53:43.543024 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T3694] 11:53:43.543194 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7d90, (defined as external-source)
+[T3694] 11:53:43.543220 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T3694] 11:53:43.543360 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d440/0xa59def0, 0001:HT_POINT, full-duplex, aconn []
+[T3694] 11:53:43.563937 [RTP][SendPacket] first packet on trn 0xa59e640: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 53148, ssrc 396939163, ts 1708239983, pld 0, mrk 0, tsi 160
+[13959] 11:53:43.698998 CloudClient[0xc8dc570] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T3687] 11:53:43.699503 [CLOUD][AddPoint] trn-in 0xa59d0c0,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T3688] 11:53:43.700205 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d0c0:0002:HT_TRANSPORT) ctor
+[T3688] 11:53:43.700876 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa5986e0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T3688] 11:53:43.701444 [RTP][RTPStack] 0xa5a0990 0001:HT_RTPSTACK-queue:0xa5986e0 (sending - ok) ctor
+[T3688] 11:53:43.701523 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0990 - ctor
+[T3688] 11:53:43.701591 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa5986e0 ctor
+[T3688] 11:53:43.701713 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 883499760, seqno 8944)
+[T3688] 11:53:43.701747 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T3688] 11:53:43.702344 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T3688] 11:53:43.702571 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T3688] 11:53:43.702644 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T3688] 11:53:43.702703 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d0c0, full-duplex)
+[T3688] 11:53:43.703833 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T3688] 11:53:43.704035 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a78a0, (defined as external-source)
+[T3688] 11:53:43.704061 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T3688] 11:53:43.704193 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d0c0/0xa59d990, 0001:HT_POINT, full-duplex, aconn []
+[T3688] 11:53:43.724248 [RTP][SendPacket] first packet on trn 0xa59e180: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 8945, ssrc 883499760, ts 1861144885, pld 0, mrk 0, tsi 160
+[13959] 11:53:43.724498 CloudClient[0xc8dc570] received [CLD_AddPoint: ofs/alc:0/270][ ]
+[T3687] 11:53:43.724726 [CLOUD][AddPoint] trn-in 0xa5a2940,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T3688] 11:53:43.726222 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0xa5a2940:0004:HT_TRANSPORT) ctor
+[T3688] 11:53:43.726943 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa5986e0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T3688] 11:53:43.727339 [RTP][RTPStack] 0x2aaaac002100 0002:HT_RTPSTACK-queue:0xa5986e0 (sending - ok) ctor
+[T3688] 11:53:43.727398 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0x2aaaac002100 - ctor
+[T3688] 11:53:43.727454 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa5986e0 ctor
+[T3688] 11:53:43.727567 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 15605335, seqno 7767)
+[T3688] 11:53:43.727596 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T3688] 11:53:43.728116 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T3688] 11:53:43.728362 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T3688] 11:53:43.728408 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T3688] 11:53:43.728454 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0xa5a2940, full-duplex)
+[T3688] 11:53:43.729166 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T3688] 11:53:43.729330 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0x2aaaac00aeb0, (defined as external-source)
+[T3688] 11:53:43.729356 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T3688] 11:53:43.729702 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa5a2940/0x2aaaac0012f0, 0002:HT_POINT, full-duplex, aconn []
+[T3688] 11:53:43.750232 [RTP][SendPacket] first packet on trn 0x2aaaac001a30: 000e:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 7768, ssrc 15605335, ts 794050985, pld 0, mrk 0, tsi 160
+[T3688] 11:53:43.752646 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d0c0;digits ''
+[13979] 11:53:43.797917 CloudClient[0xc8d7690] connected, creating MediaCloud
+[T369b] 11:53:43.802322 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13981] 11:53:43.834068 CloudClient[0xc89ab50] connected, creating MediaCloud
+[T369d] 11:53:43.838173 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13981] 11:53:43.839100 CloudClient[0xc89ab50] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T369d] 11:53:43.839537 [CLOUD][AddPoint] trn-in 0xa59d5e0,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T369e] 11:53:43.840731 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d5e0:0002:HT_TRANSPORT) ctor
+[T369e] 11:53:43.841898 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598af0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T369e] 11:53:43.842408 [RTP][RTPStack] 0xa5a1060 0001:HT_RTPSTACK-queue:0xa598af0 (sending - ok) ctor
+[T369e] 11:53:43.842489 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1060 - ctor
+[T369e] 11:53:43.842568 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598af0 ctor
+[T369e] 11:53:43.842726 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1170754915, seqno 19811)
+[T369e] 11:53:43.842760 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T369e] 11:53:43.843291 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T369e] 11:53:43.843517 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T369e] 11:53:43.843595 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T369e] 11:53:43.843687 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d5e0, full-duplex)
+[T369e] 11:53:43.844738 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T369e] 11:53:43.844909 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7f30, (defined as external-source)
+[T369e] 11:53:43.844935 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T369e] 11:53:43.845077 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d5e0/0xa59e090, 0001:HT_POINT, full-duplex, aconn []
+[T369e] 11:53:43.864863 [RTP][SendPacket] first packet on trn 0xa59e7e0: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 19812, ssrc 1170754915, ts 362666890, pld 0, mrk 0, tsi 160
+[13969] 11:53:44.001867 CloudClient[0xc8d32c0] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T3691] 11:53:44.002394 [CLOUD][AddPoint] trn-in 0xa59d260,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T3692] 11:53:44.003230 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d260:0002:HT_TRANSPORT) ctor
+[T3692] 11:53:44.004143 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598880, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T3692] 11:53:44.004628 [RTP][RTPStack] 0xa5a0b30 0001:HT_RTPSTACK-queue:0xa598880 (sending - ok) ctor
+[T3692] 11:53:44.004738 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0b30 - ctor
+[T3692] 11:53:44.004885 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598880 ctor
+[T3692] 11:53:44.005073 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 565227294, seqno 44830)
+[T3692] 11:53:44.005126 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T3692] 11:53:44.005795 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T3692] 11:53:44.006029 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T3692] 11:53:44.006107 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T3692] 11:53:44.006177 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d260, full-duplex)
+[T3692] 11:53:44.007195 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T3692] 11:53:44.007408 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7a40, (defined as external-source)
+[T3692] 11:53:44.007435 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T3692] 11:53:44.007569 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d260/0xa59db30, 0001:HT_POINT, full-duplex, aconn []
+[T3692] 11:53:44.028011 [RTP][SendPacket] first packet on trn 0xa59e320: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 44831, ssrc 565227294, ts 493866812, pld 0, mrk 0, tsi 160
+[13969] 11:53:44.028265 CloudClient[0xc8d32c0] received [CLD_AddPoint: ofs/alc:0/276][ ]
+[T3691] 11:53:44.028483 [CLOUD][AddPoint] trn-in 0xa5a8190,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T3692] 11:53:44.029659 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0xa5a8190:0004:HT_TRANSPORT) ctor
+[T3692] 11:53:44.030565 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa598880, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T3692] 11:53:44.031052 [RTP][RTPStack] 0x2aaaac0020c0 0002:HT_RTPSTACK-queue:0xa598880 (sending - ok) ctor
+[T3692] 11:53:44.031109 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0x2aaaac0020c0 - ctor
+[T3692] 11:53:44.031167 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa598880 ctor
+[T3692] 11:53:44.031283 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 183066362, seqno 24314)
+[T3692] 11:53:44.031311 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T3692] 11:53:44.031863 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T3692] 11:53:44.032086 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T3692] 11:53:44.032133 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T3692] 11:53:44.032180 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0xa5a8190, full-duplex)
+[T3692] 11:53:44.032905 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T3692] 11:53:44.033069 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0x2aaaac00ae70, (defined as external-source)
+[T3692] 11:53:44.033095 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T3692] 11:53:44.033448 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa5a8190/0x2aaaac0012b0, 0002:HT_POINT, full-duplex, aconn []
+[T3692] 11:53:44.053932 [RTP][SendPacket] first packet on trn 0x2aaaac0019f0: 000e:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 24315, ssrc 183066362, ts 1796073504, pld 0, mrk 0, tsi 160
+[T3692] 11:53:44.056391 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d260;digits ''
+[13989] 11:53:44.098212 CloudClient[0xc8c5240] connected, creating MediaCloud
+[T36a5] 11:53:44.102451 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13991] 11:53:44.134503 CloudClient[0xc8af490] connected, creating MediaCloud
+[T36a7] 11:53:44.138501 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[13991] 11:53:44.139408 CloudClient[0xc8af490] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T36a7] 11:53:44.139827 [CLOUD][AddPoint] trn-in 0xa59d780,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T36a8] 11:53:44.141020 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d780:0002:HT_TRANSPORT) ctor
+[T36a8] 11:53:44.142194 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598c90, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36a8] 11:53:44.142671 [RTP][RTPStack] 0xa5a1200 0001:HT_RTPSTACK-queue:0xa598c90 (sending - ok) ctor
+[T36a8] 11:53:44.142780 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1200 - ctor
+[T36a8] 11:53:44.142842 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598c90 ctor
+[T36a8] 11:53:44.142970 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1296508875, seqno 10187)
+[T36a8] 11:53:44.143006 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36a8] 11:53:44.143559 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36a8] 11:53:44.143784 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36a8] 11:53:44.143852 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36a8] 11:53:44.143907 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d780, full-duplex)
+[T36a8] 11:53:44.144948 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36a8] 11:53:44.145125 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a80d0, (defined as external-source)
+[T36a8] 11:53:44.145151 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36a8] 11:53:44.145303 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d780/0xa59e230, 0001:HT_POINT, full-duplex, aconn []
+[T36a8] 11:53:44.166302 [RTP][SendPacket] first packet on trn 0xa59e980: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 10188, ssrc 1296508875, ts 1077860177, pld 0, mrk 0, tsi 160
+[13979] 11:53:44.303779 CloudClient[0xc8d7690] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T369b] 11:53:44.304330 [CLOUD][AddPoint] trn-in 0xa59d400,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T369c] 11:53:44.305048 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d400:0002:HT_TRANSPORT) ctor
+[T369c] 11:53:44.305740 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598a20, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T369c] 11:53:44.306223 [RTP][RTPStack] 0xa5a0cd0 0001:HT_RTPSTACK-queue:0xa598a20 (sending - ok) ctor
+[T369c] 11:53:44.306310 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0cd0 - ctor
+[T369c] 11:53:44.306371 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598a20 ctor
+[T369c] 11:53:44.306539 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1699453103, seqno 39087)
+[T369c] 11:53:44.306612 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T369c] 11:53:44.307167 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T369c] 11:53:44.307398 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T369c] 11:53:44.307481 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T369c] 11:53:44.307541 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d400, full-duplex)
+[T369c] 11:53:44.308565 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T369c] 11:53:44.308754 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7be0, (defined as external-source)
+[T369c] 11:53:44.308806 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T369c] 11:53:44.308941 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d400/0xa59dcd0, 0001:HT_POINT, full-duplex, aconn []
+[T369c] 11:53:44.328671 [RTP][SendPacket] first packet on trn 0xa59e4e0: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 39088, ssrc 1699453103, ts 642430727, pld 0, mrk 0, tsi 160
+[13979] 11:53:44.328959 CloudClient[0xc8d7690] received [CLD_AddPoint: ofs/alc:0/276][ ]
+[T369b] 11:53:44.329185 [CLOUD][AddPoint] trn-in 0x2aaaac0013d0,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T369c] 11:53:44.330328 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0x2aaaac0013d0:0004:HT_TRANSPORT) ctor
+[T369c] 11:53:44.331062 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa598a20, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T369c] 11:53:44.331442 [RTP][RTPStack] 0xa5ab880 0002:HT_RTPSTACK-queue:0xa598a20 (sending - ok) ctor
+[T369c] 11:53:44.331503 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5ab880 - ctor
+[T369c] 11:53:44.331565 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa598a20 ctor
+[T369c] 11:53:44.331673 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 572486839, seqno 29879)
+[T369c] 11:53:44.331700 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T369c] 11:53:44.332264 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T369c] 11:53:44.332493 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T369c] 11:53:44.332533 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T369c] 11:53:44.332581 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0x2aaaac0013d0, full-duplex)
+[T369c] 11:53:44.333314 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T369c] 11:53:44.333484 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0xa5b2450, (defined as external-source)
+[T369c] 11:53:44.333509 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T369c] 11:53:44.333910 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0x2aaaac0013d0/0xa5a8dd0, 0002:HT_POINT, full-duplex, aconn []
+[T369c] 11:53:44.353732 [RTP][SendPacket] first packet on trn 0xa5a91b0: 000e:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 29880, ssrc 572486839, ts 331117029, pld 0, mrk 0, tsi 160
+[T369c] 11:53:44.356236 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d400;digits ''
+[13999] 11:53:44.402945 CloudClient[0xc8e9cf0] connected, creating MediaCloud
+[T36af] 11:53:44.407356 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14001] 11:53:44.438488 CloudClient[0xc8e9fd0] connected, creating MediaCloud
+[T36b1] 11:53:44.442520 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14001] 11:53:44.443659 CloudClient[0xc8e9fd0] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T36b1] 11:53:44.444112 [CLOUD][AddPoint] trn-in 0xa59d920,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T36b2] 11:53:44.445305 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d920:0002:HT_TRANSPORT) ctor
+[T36b2] 11:53:44.446558 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598e30, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36b2] 11:53:44.447045 [RTP][RTPStack] 0xa5a13a0 0001:HT_RTPSTACK-queue:0xa598e30 (sending - ok) ctor
+[T36b2] 11:53:44.447136 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a13a0 - ctor
+[T36b2] 11:53:44.447199 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598e30 ctor
+[T36b2] 11:53:44.447330 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1157538177, seqno 41345)
+[T36b2] 11:53:44.447396 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36b2] 11:53:44.447931 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36b2] 11:53:44.448157 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36b2] 11:53:44.448230 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36b2] 11:53:44.448286 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d920, full-duplex)
+[T36b2] 11:53:44.449356 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36b2] 11:53:44.449590 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a8270, (defined as external-source)
+[T36b2] 11:53:44.449634 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36b2] 11:53:44.449776 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d920/0xa59e3d0, 0001:HT_POINT, full-duplex, aconn []
+[T36b2] 11:53:44.470147 [RTP][SendPacket] first packet on trn 0xa59eb20: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 41346, ssrc 1157538177, ts 965815019, pld 0, mrk 0, tsi 160
+[13989] 11:53:44.602807 CloudClient[0xc8c5240] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T36a5] 11:53:44.603326 [CLOUD][AddPoint] trn-in 0xa59d5a0,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T36a6] 11:53:44.604354 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d5a0:0002:HT_TRANSPORT) ctor
+[T36a6] 11:53:44.605336 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598bc0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36a6] 11:53:44.605895 [RTP][RTPStack] 0xa5a0e70 0001:HT_RTPSTACK-queue:0xa598bc0 (sending - ok) ctor
+[T36a6] 11:53:44.605980 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a0e70 - ctor
+[T36a6] 11:53:44.606042 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598bc0 ctor
+[T36a6] 11:53:44.606204 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 635722694, seqno 23494)
+[T36a6] 11:53:44.606239 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36a6] 11:53:44.606803 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36a6] 11:53:44.607036 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36a6] 11:53:44.607121 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36a6] 11:53:44.607184 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d5a0, full-duplex)
+[T36a6] 11:53:44.608245 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36a6] 11:53:44.608449 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7d80, (defined as external-source)
+[T36a6] 11:53:44.608475 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36a6] 11:53:44.608638 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d5a0/0xa59de70, 0001:HT_POINT, full-duplex, aconn []
+[T36a6] 11:53:44.628886 [RTP][SendPacket] first packet on trn 0xa59e660: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 23495, ssrc 635722694, ts 238836634, pld 0, mrk 0, tsi 160
+[13989] 11:53:44.629193 CloudClient[0xc8c5240] received [CLD_AddPoint: ofs/alc:0/270][ ]
+[T36a5] 11:53:44.629436 [CLOUD][AddPoint] trn-in 0x2aaaac001a60,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T36a6] 11:53:44.630972 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0x2aaaac001a60:0004:HT_TRANSPORT) ctor
+[T36a6] 11:53:44.631726 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa598bc0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36a6] 11:53:44.632114 [RTP][RTPStack] 0xa5ab740 0002:HT_RTPSTACK-queue:0xa598bc0 (sending - ok) ctor
+[T36a6] 11:53:44.632173 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5ab740 - ctor
+[T36a6] 11:53:44.632235 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa598bc0 ctor
+[T36a6] 11:53:44.632342 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 24325800, seqno 11944)
+[T36a6] 11:53:44.632370 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T36a6] 11:53:44.632937 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T36a6] 11:53:44.633163 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T36a6] 11:53:44.633204 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T36a6] 11:53:44.633251 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0x2aaaac001a60, full-duplex)
+[T36a6] 11:53:44.634158 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36a6] 11:53:44.634349 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0xa5b2400, (defined as external-source)
+[T36a6] 11:53:44.634374 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36a6] 11:53:44.634791 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0x2aaaac001a60/0xa5a8ca0, 0002:HT_POINT, full-duplex, aconn []
+[T36a6] 11:53:44.654914 [RTP][SendPacket] first packet on trn 0xa5a9080: 000e:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 11945, ssrc 24325800, ts 2056843847, pld 0, mrk 0, tsi 160
+[T36a6] 11:53:44.657600 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d5a0;digits ''
+[14009] 11:53:44.700211 CloudClient[0xc84e6e0] connected, creating MediaCloud
+[T36b9] 11:53:44.704720 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14011] 11:53:44.736905 CloudClient[0xc84e020] connected, creating MediaCloud
+[T36bb] 11:53:44.741198 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14011] 11:53:44.742167 CloudClient[0xc84e020] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T36bb] 11:53:44.742622 [CLOUD][AddPoint] trn-in 0xa59dac0,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T36bc] 11:53:44.743975 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59dac0:0002:HT_TRANSPORT) ctor
+[T36bc] 11:53:44.745247 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598fd0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36bc] 11:53:44.745720 [RTP][RTPStack] 0xa5a1540 0001:HT_RTPSTACK-queue:0xa598fd0 (sending - ok) ctor
+[T36bc] 11:53:44.745801 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1540 - ctor
+[T36bc] 11:53:44.745868 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598fd0 ctor
+[T36bc] 11:53:44.745993 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1586682979, seqno 56419)
+[T36bc] 11:53:44.746026 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36bc] 11:53:44.746609 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36bc] 11:53:44.746839 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36bc] 11:53:44.746911 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36bc] 11:53:44.746968 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59dac0, full-duplex)
+[T36bc] 11:53:44.747995 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36bc] 11:53:44.748171 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a8410, (defined as external-source)
+[T36bc] 11:53:44.748201 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36bc] 11:53:44.748389 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59dac0/0xa59e570, 0001:HT_POINT, full-duplex, aconn []
+[T36bc] 11:53:44.769323 [RTP][SendPacket] first packet on trn 0xa59ecc0: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 56420, ssrc 1586682979, ts 1989338593, pld 0, mrk 0, tsi 160
+[T3680] 11:53:44.824631 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d100;digits ''
+[13999] 11:53:44.907753 CloudClient[0xc8e9cf0] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T36af] 11:53:44.908296 [CLOUD][AddPoint] trn-in 0xa59d740,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T36b0] 11:53:44.909060 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d740:0002:HT_TRANSPORT) ctor
+[T36b0] 11:53:44.910000 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598d60, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36b0] 11:53:44.910544 [RTP][RTPStack] 0xa5a1010 0001:HT_RTPSTACK-queue:0xa598d60 (sending - ok) ctor
+[T36b0] 11:53:44.910628 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1010 - ctor
+[T36b0] 11:53:44.910691 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598d60 ctor
+[T36b0] 11:53:44.910822 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1452889523, seqno 21939)
+[T36b0] 11:53:44.910856 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36b0] 11:53:44.911403 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36b0] 11:53:44.911640 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36b0] 11:53:44.911721 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36b0] 11:53:44.911783 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d740, full-duplex)
+[T36b0] 11:53:44.912809 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36b0] 11:53:44.912991 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a7f20, (defined as external-source)
+[T36b0] 11:53:44.913018 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36b0] 11:53:44.913152 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d740/0xa59e010, 0001:HT_POINT, full-duplex, aconn []
+[T36b0] 11:53:44.933005 [RTP][SendPacket] first packet on trn 0xa59e800: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 21940, ssrc 1452889523, ts 280858729, pld 0, mrk 0, tsi 160
+[13999] 11:53:44.933346 CloudClient[0xc8e9cf0] received [CLD_AddPoint: ofs/alc:0/276][ ]
+[T36af] 11:53:44.933577 [CLOUD][AddPoint] trn-in 0xa5a2ff0,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T36b0] 11:53:44.935234 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0xa5a2ff0:0004:HT_TRANSPORT) ctor
+[T36b0] 11:53:44.936028 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa598d60, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36b0] 11:53:44.936423 [RTP][RTPStack] 0xa5acb80 0002:HT_RTPSTACK-queue:0xa598d60 (sending - ok) ctor
+[T36b0] 11:53:44.936482 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5acb80 - ctor
+[T36b0] 11:53:44.936536 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa598d60 ctor
+[T36b0] 11:53:44.936668 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 697156692, seqno 50260)
+[T36b0] 11:53:44.936697 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T36b0] 11:53:44.937249 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T36b0] 11:53:44.937476 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T36b0] 11:53:44.937519 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T36b0] 11:53:44.937569 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0xa5a2ff0, full-duplex)
+[T36b0] 11:53:44.938294 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36b0] 11:53:44.938500 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0xa5b3710, (defined as external-source)
+[T36b0] 11:53:44.938526 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36b0] 11:53:44.938873 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa5a2ff0/0xa5aa2a0, 0002:HT_POINT, full-duplex, aconn []
+[T36b0] 11:53:44.960298 [RTP][SendPacket] first packet on trn 0xa5aa680: 000e:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 50261, ssrc 697156692, ts 439835452, pld 0, mrk 0, tsi 160
+[T36b0] 11:53:44.963191 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d740;digits ''
+[14019] 11:53:45.004731 CloudClient[0xc862430] connected, creating MediaCloud
+[T36c3] 11:53:45.009445 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14021] 11:53:45.040653 CloudClient[0xc862b30] connected, creating MediaCloud
+[T36c5] 11:53:45.044991 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14021] 11:53:45.045977 CloudClient[0xc862b30] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T36c5] 11:53:45.046436 [CLOUD][AddPoint] trn-in 0xa59dcb0,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T36c6] 11:53:45.047690 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59dcb0:0002:HT_TRANSPORT) ctor
+[T36c6] 11:53:45.048881 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa599170, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36c6] 11:53:45.049351 [RTP][RTPStack] 0xa5a1700 0001:HT_RTPSTACK-queue:0xa599170 (sending - ok) ctor
+[T36c6] 11:53:45.049433 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1700 - ctor
+[T36c6] 11:53:45.049532 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa599170 ctor
+[T36c6] 11:53:45.049657 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1690921216, seqno 26880)
+[T36c6] 11:53:45.049691 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36c6] 11:53:45.050299 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36c6] 11:53:45.050531 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36c6] 11:53:45.050604 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36c6] 11:53:45.050662 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59dcb0, full-duplex)
+[T36c6] 11:53:45.051690 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36c6] 11:53:45.051889 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a85d0, (defined as external-source)
+[T36c6] 11:53:45.051915 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36c6] 11:53:45.052062 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59dcb0/0xa59e730, 0001:HT_POINT, full-duplex, aconn []
+[T36c6] 11:53:45.072133 [RTP][SendPacket] first packet on trn 0xa59ee80: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 26881, ssrc 1690921216, ts 927975558, pld 0, mrk 0, tsi 160
+[14009] 11:53:45.205161 CloudClient[0xc84e6e0] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T36b9] 11:53:45.205666 [CLOUD][AddPoint] trn-in 0xa59d8e0,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T36ba] 11:53:45.206465 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59d8e0:0002:HT_TRANSPORT) ctor
+[T36ba] 11:53:45.207149 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa598f00, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36ba] 11:53:45.207633 [RTP][RTPStack] 0xa5a11b0 0001:HT_RTPSTACK-queue:0xa598f00 (sending - ok) ctor
+[T36ba] 11:53:45.207716 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a11b0 - ctor
+[T36ba] 11:53:45.207778 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa598f00 ctor
+[T36ba] 11:53:45.207911 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1819114296, seqno 31544)
+[T36ba] 11:53:45.207945 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36ba] 11:53:45.208540 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36ba] 11:53:45.208768 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36ba] 11:53:45.208841 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36ba] 11:53:45.208899 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59d8e0, full-duplex)
+[T36ba] 11:53:45.209909 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36ba] 11:53:45.210092 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a80c0, (defined as external-source)
+[T36ba] 11:53:45.210142 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36ba] 11:53:45.210324 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59d8e0/0xa59e1b0, 0001:HT_POINT, full-duplex, aconn []
+[T36ba] 11:53:45.230402 [RTP][SendPacket] first packet on trn 0xa59e9a0: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 31545, ssrc 1819114296, ts 1905893990, pld 0, mrk 0, tsi 160
+[14009] 11:53:45.230656 CloudClient[0xc84e6e0] received [CLD_AddPoint: ofs/alc:0/275][ ]
+[T36b9] 11:53:45.230870 [CLOUD][AddPoint] trn-in 0xa5a97a0,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T36ba] 11:53:45.232207 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0xa5a97a0:0004:HT_TRANSPORT) ctor
+[T36ba] 11:53:45.232991 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa598f00, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36ba] 11:53:45.233690 [RTP][RTPStack] 0x2aaaac004360 0002:HT_RTPSTACK-queue:0xa598f00 (sending - ok) ctor
+[T36ba] 11:53:45.233753 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0x2aaaac004360 - ctor
+[T36ba] 11:53:45.233811 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa598f00 ctor
+[T36ba] 11:53:45.233928 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1399181807, seqno 53743)
+[T36ba] 11:53:45.233956 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T36ba] 11:53:45.234646 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T36ba] 11:53:45.234907 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T36ba] 11:53:45.234949 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T36ba] 11:53:45.234999 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0xa5a97a0, full-duplex)
+[T36ba] 11:53:45.235749 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36ba] 11:53:45.235914 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0x2aaaac00b110, (defined as external-source)
+[T36ba] 11:53:45.235939 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36ba] 11:53:45.236322 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa5a97a0/0x2aaaac0013b0, 0002:HT_POINT, full-duplex, aconn []
+[T36ba] 11:53:45.256727 [RTP][SendPacket] first packet on trn 0x2aaaac001c90: 000f:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 53744, ssrc 1399181807, ts 868647349, pld 0, mrk 0, tsi 160
+[T36ba] 11:53:45.259208 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d8e0;digits ''
+[14030] 11:53:45.308208 CloudClient[0x2aaab404c950] connected, creating MediaCloud
+[T36ce] 11:53:45.313286 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[T3680] 11:53:45.336566 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_OUT;offset 0;dtmf [ ];party 0xa59d100;digits ''
+[T368a] 11:53:45.342800 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d2f0;digits ''
+[14032] 11:53:45.344681 CloudClient[0xc8dafe0] connected, creating MediaCloud
+[T36d0] 11:53:45.349162 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14032] 11:53:45.350255 CloudClient[0xc8dafe0] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T36d0] 11:53:45.350852 [CLOUD][AddPoint] trn-in 0xa59de00,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T36d1] 11:53:45.352095 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59de00:0002:HT_TRANSPORT) ctor
+[T36d1] 11:53:45.353297 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa599310, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36d1] 11:53:45.353841 [RTP][RTPStack] 0xa5a1880 0001:HT_RTPSTACK-queue:0xa599310 (sending - ok) ctor
+[T36d1] 11:53:45.353950 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1880 - ctor
+[T36d1] 11:53:45.354055 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa599310 ctor
+[T36d1] 11:53:45.354223 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 551731155, seqno 49107)
+[T36d1] 11:53:45.354271 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36d1] 11:53:45.354862 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36d1] 11:53:45.355101 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36d1] 11:53:45.355179 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36d1] 11:53:45.355240 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59de00, full-duplex)
+[T36d1] 11:53:45.356306 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36d1] 11:53:45.356488 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a8750, (defined as external-source)
+[T36d1] 11:53:45.356514 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36d1] 11:53:45.356659 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59de00/0xa59e8b0, 0001:HT_POINT, full-duplex, aconn []
+[T36d1] 11:53:45.376689 [RTP][SendPacket] first packet on trn 0xa59f000: 0002:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 49108, ssrc 551731155, ts 1095905264, pld 0, mrk 0, tsi 160
+[T368a] 11:53:45.485220 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_OUT;offset 0;dtmf [ ];party 0xa59d2f0;digits ''
+[14019] 11:53:45.510597 CloudClient[0xc862430] received [CLD_AddPoint: ofs/alc:0/125][ ]
+[T36c3] 11:53:45.511128 [CLOUD][AddPoint] trn-in 0xa59da80,can stop task,full-duplex, AUDIO(2):0(PCMU),101(telephone-event/Params:0-16),ptime:20
+[T36c4] 11:53:45.511883 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59da80:0002:HT_TRANSPORT) ctor
+[T36c4] 11:53:45.512688 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa5990a0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36c4] 11:53:45.513182 [RTP][RTPStack] 0xa5a1350 0001:HT_RTPSTACK-queue:0xa5990a0 (sending - ok) ctor
+[T36c4] 11:53:45.513267 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1350 - ctor
+[T36c4] 11:53:45.513327 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa5990a0 ctor
+[T36c4] 11:53:45.513457 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 1186655493, seqno 60677)
+[T36c4] 11:53:45.513522 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36c4] 11:53:45.514077 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36c4] 11:53:45.514355 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36c4] 11:53:45.514431 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36c4] 11:53:45.514492 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59da80, full-duplex)
+[T36c4] 11:53:45.515508 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36c4] 11:53:45.515690 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 000b:HT_MEDIAPIN, op-0xa5a8260, (defined as external-source)
+[T36c4] 11:53:45.515738 [AMX][ExternalSource] 000a:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0001:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36c4] 11:53:45.515879 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59da80/0xa59e350, 0001:HT_POINT, full-duplex, aconn []
+[T36c4] 11:53:45.536227 [RTP][SendPacket] first packet on trn 0xa59eb40: 0004:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 60678, ssrc 1186655493, ts 749433495, pld 0, mrk 0, tsi 160
+[14019] 11:53:45.536616 CloudClient[0xc862430] received [CLD_AddPoint: ofs/alc:0/269][ ]
+[T36c3] 11:53:45.536870 [CLOUD][AddPoint] trn-in 0xa59e180,can stop task,full-duplex, AUDIO(3):0(PCMU),8(PCMA),101(telephone-event/Params:0-15),ptime:20
+[T36c4] 11:53:45.539030 [CLD][RTPMediaPoint] 0002:HT_POINT (full-duplex,can stop task, trn in 0003:HT_TRANSPORT, out 0xa59e180:0004:HT_TRANSPORT) ctor
+[T36c4] 11:53:45.539786 [ACD][GenericAudioEncoder] 0002:HT_GA_ENCODER queue 0xa5990a0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36c4] 11:53:45.540188 [RTP][RTPStack] 0xa5ad310 0002:HT_RTPSTACK-queue:0xa5990a0 (sending - ok) ctor
+[T36c4] 11:53:45.540247 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5ad310 - ctor
+[T36c4] 11:53:45.540303 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0002:HT_RTP_RENDER, owner 0002:HT_RTPSTACK, queue 0xa5990a0 ctor
+[T36c4] 11:53:45.540425 [RTP][SetPayload] 0002:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 968441102, seqno 15630)
+[T36c4] 11:53:45.540475 [RTP][SetReadTransport] 0002:HT_RTPSTACK, src 0002:HT_RTP_SOURCE, read transport 0003:HT_TRANSPORT
+[T36c4] 11:53:45.541004 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0002:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0002:HT_POINT
+[T36c4] 11:53:45.541234 [RTP][OnStart] 0002:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0004:HT_TIMER scheduled
+[T36c4] 11:53:45.541276 [CLOUD][InitRTP] 0002:HT_POINT:0002:HT_RTPSTACK [in 0002:HT_GA_DECODER(2/2)][pcmu,ptime:20,rtp ptime:20][out 0002:HT_GA_ENCODER(2/2)]
+[T36c4] 11:53:45.541323 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0002:HT_POINT (trn-in 0xa59e180, full-duplex)
+[T36c4] 11:53:45.542051 [AMX][OutboundPin] 0013:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
+[T36c4] 11:53:45.542226 [AMX][DoAttachPair] 0001:HT_AMIXER - render device pin 0013:HT_MEDIAPIN, op-0xa5b3e60, (defined as external-source)
+[T36c4] 11:53:45.542273 [AMX][ExternalSource] 0012:HT_MEDIAPIN(owner 0001:HT_AMIXER, link 0002:HT_GA_DECODER) is external source VAD-1,AGC-0
+[T36c4] 11:53:45.542614 [CLD][DoAddPoint] 0001:HT_CLOUD trn-in/out 0xa59e180/0xa5aab70, 0002:HT_POINT, full-duplex, aconn []
+[T36c4] 11:53:45.562429 [RTP][SendPacket] first packet on trn 0xa5aaf50: 0010:HT_RTPBUFFER ofs+data(alloc) bytes: 12+ 160( 172), seqno 15631, ssrc 968441102, ts 1865864345, pld 0, mrk 0, tsi 160
+[T36c4] 11:53:45.565641 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59da80;digits ''
+[14040] 11:53:45.609746 CloudClient[0xc8d8060] connected, creating MediaCloud
+[T36d8] 11:53:45.613981 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[T3694] 11:53:45.643811 [CLD][SendResponse] task:0;type RSP_EVENT;code EC_VOICE_IN;offset 0;dtmf [ ];party 0xa59d440;digits ''
+[14042] 11:53:45.646952 CloudClient[0x2aaab409f820] connected, creating MediaCloud
+[T36da] 11:53:45.651733 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
+[14042] 11:53:45.652736 CloudClient[0x2aaab409f820] received [CLD_AddPoint: ofs/alc:0/189][ ]
+[T36da] 11:53:45.653199 [CLOUD][AddPoint] trn-in 0xa59dfa0,can stop task,full-duplex, AUDIO(6):0(PCMU),8(PCMA),97(iLBC/Params:mode=20),3(GSM),18(G729),101(telephone-event/Params:0-16),ptime:20
+[T36db] 11:53:45.654393 [CLD][RTPMediaPoint] 0001:HT_POINT (full-duplex,can stop task, trn in 0001:HT_TRANSPORT, out 0xa59dfa0:0002:HT_TRANSPORT) ctor
+[T36db] 11:53:45.655599 [ACD][GenericAudioEncoder] 0001:HT_GA_ENCODER queue 0xa5994b0, format pcmu,ptime:20, fmtp , prototype 0001:HT_CODEC_PROTOTYPE(config size 0)
+[T36db] 11:53:45.656082 [RTP][RTPStack] 0xa5a1a00 0001:HT_RTPSTACK-queue:0xa5994b0 (sending - ok) ctor
+[T36db] 11:53:45.656163 [RTP][RTPAudioStack::RTPAudioStack(MediaCloud*, DTMFProcessor*)] 0xa5a1a00 - ctor
+[T36db] 11:53:45.656229 [RTP][RTPRender::RTPRender(MessageQueue*, RTPStack*)] 0001:HT_RTP_RENDER, owner 0001:HT_RTPSTACK, queue 0xa5994b0 ctor
+[T36db] 11:53:45.656352 [RTP][SetPayload] 0001:HT_RTPSTACK, pcmu,ptime:20, payload 0 (ssrc 788613356, seqno 18668)
+[T36db] 11:53:45.656386 [RTP][SetReadTransport] 0001:HT_RTPSTACK, src 0001:HT_RTP_SOURCE, read transport 0001:HT_TRANSPORT
+[T36db] 11:53:45.656952 [RTP][void RTPAudioStack::SetupDTMF(uint8_t, MediaNotify*)] 0001:HT_RTPSTACK - dtmf idx 101, mask 0x1f, receiver 0001:HT_POINT
+[T36db] 11:53:45.657183 [RTP][OnStart] 0001:HT_RTPSTACK, DIR_OUTPUT, ptime 20 ---> timer 0003:HT_TIMER scheduled
+[T36db] 11:53:45.657254 [CLOUD][InitRTP] 0001:HT_POINT:0001:HT_RTPSTACK [in 0001:HT_GA_DECODER(1/1)][pcmu,ptime:20,rtp ptime:20][out 0001:HT_GA_ENCODER(1/1)]
+[T36db] 11:53:45.657315 [CLD][DoAttachPoint] 0001:HT_CLOUD attaching point 0001:HT_POINT (trn-in 0xa59dfa0, full-duplex)
+[T36db] 11:53:45.658335 [AMX][OutboundPin] 000b:HT_MEDIAPIN, owner 0001:HT_AMIXER, output size 320, alloc size 2560, frame count 160 - ctor
