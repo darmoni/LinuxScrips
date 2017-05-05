@@ -1,5 +1,5 @@
 
-from __future__ import print_function
+#from __future__ import print_function
 import argparse
 
 from influxdb import InfluxDBClient
@@ -58,7 +58,7 @@ def main(host='localhost', port=8086, nb_day=15):
     client.create_retention_policy(retention_policy, '3d', 3, default=True)
 
     print("Write points #: {0}".format(total_records))
-    client.write_points(series, retention_policy=retention_policy)
+    client.write_points(series, time_precision='s',retention_policy=retention_policy)
 
     time.sleep(2)
 
@@ -67,8 +67,8 @@ def main(host='localhost', port=8086, nb_day=15):
     print(result)
     print("Result: {0}".format(result))
 
-    print("Drop database: {}".format(DBNAME))
-    client.drop_database(DBNAME)
+    #print("Drop database: {}".format(DBNAME))
+    #client.drop_database(DBNAME)
 
 
 def parse_args():

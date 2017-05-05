@@ -1,4 +1,6 @@
-import argparse
+#!/usr/bin/env python
+
+import argparse, sys
 import pandas as pd
 
 from influxdb import DataFrameClient
@@ -7,28 +9,34 @@ from influxdb import DataFrameClient
 def main(host='localhost', port=8086):
     user = 'root'
     password = 'root'
-    dbname = 'demo'
+    dbname = 'conferences'
+    measurement ='conf'
     # Temporarily used to avoid line protocol time conversion issues #412, #426, #431.
-    protocol = 'json'
+    #protocol = 'json'
 
     client = DataFrameClient(host, port, user, password, dbname)
 
     print("Create pandas DataFrame")
-    df = pd.DataFrame(data=list(range(30)),
-                      index=pd.date_range(start='2014-11-16',
-                                          periods=30, freq='H'))
+    df = pd.read_table(sys.stdin, parse_dates=True,index_col=[2],header=0)
+    #df = pd.DataFrame(data=list(range(30)),
+    #                  index=pd.date_range(start='2017-05-05',
+    #                                      periods=30, freq='S'))
+    #o = df.to_json( orient='index')
+    #print ("Dataframe as Json '{}\n'".format(o))
+    
 
     print("Create database: " + dbname)
     client.create_database(dbname)
 
     print("Write DataFrame")
-    client.write_points(df, 'demo', protocol=protocol)
+    client.write_points(df, measurement,tag_columns=[2,3],field_columns=[4])
+    #client.write_points(o, measurement, protocol=protocol,tag_columns=[3,4],field_columns=5)
 
-    print("Write DataFrame with Tags")
-    client.write_points(df, 'demo', {'k1': 'v1', 'k2': 'v2'}, protocol=protocol)
+    #print("Write DataFrame with Tags")
+    #client.write_points(df, 'demo', {'k1': 'v1', 'k2': 'v2'}, protocol=protocol)
 
-    print("Read DataFrame")
-    client.query("select * from demo")
+    #print("Read DataFrame")
+    #client.query("select * from %s" % measurement)
 
     #print("Delete database: " + dbname)
     #client.drop_database(dbname)

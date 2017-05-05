@@ -1,16 +1,3 @@
-/home/nir/bin/test.py 'conf_dev_local_logs'
-['xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', 'dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', 'False', '20', 'dev', 'conf']
-'/home/nir/bin/test.py conf_dev_local_logs
-['xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', './bin/dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', False, '20', 'dev', 'conf']
-number of fields is correct 10
-['xdev64.xcastlabs.com', 'bairsip.xcastlabs.com', './bin/dev_bsTestConf.py', 'xdev64.xcastlabs.com', '/hstarter.log', '/home/nir/bin/hstarter_mixes.awk', False, '20', 'dev', 'conf']
-Testing from Server is bairsip.xcastlabs.com
-Starting 11:53:41
-/home/nir/bin/test.py xdev64.xcastlabs.com ~xcast/logs dev conf False ('tail -f ', '/hstarter.log\n')
-('xdev64.xcastlabs.com', 'tail -f ~xcast/logs/hstarter.log\n')
-Done 11:55:29 sleeping 20.0 seconds
-got sig( 10 )
-
 [13949] 11:53:42.895773 CloudClient[0xc8f0500] connected, creating MediaCloud
 [T367d] 11:53:42.899925 [CLOUD][MediaCloud] 0001:HT_CLOUD,0001:HT_WORKTHREAD,0001:HT_AMIXER,0001:HT_VMIXER,src 0001:HT_VCONNECTOR,rnd 0002:HT_VCONNECTOR (1/1+ active)
 [13951] 11:53:42.932490 CloudClient[0xc8f0430] connected, creating MediaCloud

@@ -37,7 +37,7 @@ def main(host='localhost', port=8086):
     client.switch_database(DBNAME)
 
     #Write points
-    client.write_points(points)
+    client.write_points(points,'s')
 
     time.sleep(3)
 
@@ -56,8 +56,8 @@ def main(host='localhost', port=8086):
         SELECT * from foobar
     """
 
-    print("Delete database: " + DBNAME)
-    client.drop_database(DBNAME)
+    #print("Delete database: " + DBNAME)
+    #client.drop_database(DBNAME)
 
 
 def parse_args():

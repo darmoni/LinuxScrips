@@ -21,7 +21,7 @@ def main(argv):
         print "\t\t\t",_number, rtl_number
     else:
         print number,_number
-    tower.towers(_number,0,1,2)
+    tower.towers(_number,0,2,1)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

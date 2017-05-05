@@ -7,6 +7,7 @@
 BEGIN {
     counter =0;
     this_second =systime();
+    printf "measurement\ttime\tproc\tsubject\tinfo\n"
     #print this_second
     #exit(0)
 }
@@ -36,19 +37,12 @@ BEGIN {
     }
     inserter = "conf,proc=" proc ",subject=" subject
     #inserter = "logs,proc=" proc ",subject=" subject
-    for (; i <= NF; i++)
-        info = info " " $i
+
     if( $2 ~ /([[:digit:]]{2}.){3}[[:digit:]]{6}/){
-        #u = substr($2,index($2,".")+1)
-        #seconds = substr($2,1,index($2,".")-1)
-        #print $2, seconds,u
-        #n = split(substr($2,1,index($2,".")-1),timeparts,":")
-        #if(3 == n){
-        #    seconds=timeparts[3] + 60 *timeparts[2] + 60*60*timeparts[1]
-        #}
-        #timestamp = sprintf("%010ld%06d000",this_second+seconds,u)
-        #print this_second, seconds,u,timestamp
-        print inserter " info=\"" info "\"", $2
+        for (; i <= NF; i++)
+            info = info " " $i
+        printf "%s\t\t%s\t%s\t%s\t%s\n", "conf", $2,proc,subject,info
+        #print inserter " info=\"" info "\"", $2
     }
 }
 END {
