@@ -49,7 +49,7 @@ def deepdive(obj,key,response):
             elif k == key:
                 #print '%s : %s' % (k, v)
                 response.append(v)
-                
+
     elif type(obj) == list:
         for v in obj:
             if hasattr(v, '__iter__'):

@@ -23,7 +23,7 @@ BEGIN {
     #    print "DEBUG",value
     }
     proc = value
-    
+
     info = $3
     if (index($3,"[") == 1){
         subject = substr($3,2,index($3,"]")-2);
@@ -35,7 +35,8 @@ BEGIN {
         i=4
         subject = "Master"
     }
-    inserter = "conf,proc=" proc ",subject=" subject
+    if( subject ~ /RTP-.+/ ) subject = "RTP"
+    #inserter = "conf,proc=" proc ",subject=" subject
     #inserter = "logs,proc=" proc ",subject=" subject
 
     if( $2 ~ /([[:digit:]]{2}.){3}[[:digit:]]{6}/){

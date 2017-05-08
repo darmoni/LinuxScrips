@@ -9,7 +9,7 @@ from influxdb import DataFrameClient
 def main(host='localhost', port=8086):
     user = 'root'
     password = 'root'
-    dbname = 'conferences'
+    dbname = 'logs'
     measurement ='conf'
     # Temporarily used to avoid line protocol time conversion issues #412, #426, #431.
     #protocol = 'json'
@@ -23,7 +23,7 @@ def main(host='localhost', port=8086):
     #                                      periods=30, freq='S'))
     #o = df.to_json( orient='index')
     #print ("Dataframe as Json '{}\n'".format(o))
-    
+
 
     print("Create database: " + dbname)
     client.create_database(dbname)

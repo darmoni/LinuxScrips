@@ -41,7 +41,7 @@ class bad_Meta:
     def __init__(self, m):
         self._f=[]
         self.set_measurement(m)
-        
+
     def set_measurement(self,m):
         self._m = m;
     def get_measurement(self):
@@ -55,7 +55,7 @@ def line_2_meta(line):
 
     parts = shlex.split(line)
     #print parts
-    
+
     tags_meas = parts[0].split(',')
     measurement=tags_meas[0]
     return measurement
@@ -64,7 +64,7 @@ def line_2_jason(line):
 
     parts = shlex.split(line)
     #print parts
-    
+
     tags_meas = parts[0].split(',')
     measurement=tags_meas[0]
 
@@ -105,7 +105,7 @@ def main(host='localhost', port=8086):
     client = InfluxDBClient(host, port, user, password, dbname)
     o = [
         {
-        "(u'conf', None)": 
+        "(u'conf', None)":
             [
                 {u'info': u'CloudClient[0xc8f0500] connected, creating MediaCloud', u'subject': u'Master', u'proc': u'13949', u'time': u'2017-05-03T08:23:19.194812928Z'},
                 {u'info': u'[HND INFO] [ HT_H264_DECODER] total 0, active 0', u'subject': u'HND', u'proc': u'T49f9', u'time': u'2017-05-03T09:00:27.93600512Z'},
@@ -122,7 +122,7 @@ def main(host='localhost', port=8086):
 
     #print("Switch user: " + dbuser)
     client.switch_user(dbuser, dbuser_password)
-    
+
     client.write_points(o)
     '''
     for line in supported_data_examples:
@@ -138,15 +138,15 @@ def main(host='localhost', port=8086):
             print field
             measurements_meta[measurement].set_fields(field)
         #print 'Fields:',
-    
+
     dump(measurements_meta[measurement])
-    
+
     for line in supported_data_examples:
         json_body = line_2_jason(line)
         #print("Write points: {0}".format(json_body))
 
         #print("Result: {0}".format(result))
-    
+
         #print("Write points: {0}".format(json_body))
         #client.write_points(json_body)
 

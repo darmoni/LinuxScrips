@@ -51,7 +51,7 @@ def main(argv):
             my_tester=tester()
         else:
             path = "~"+xcast_user+"/logs"
-            commands = ("tail -f ",log_name+"\n")
+            commands = ("tail -0f ",log_name+"\n")
 
             print __file__,logserver,path,setup,target,using_logserver,commands
 
