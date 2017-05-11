@@ -4,7 +4,7 @@ import argparse, sys
 import pandas as pd
 
 from influxdb import DataFrameClient
-
+from nested_print import dump, dumpclean
 
 def main(host='localhost', port=8086):
     user = 'root'
@@ -19,8 +19,10 @@ def main(host='localhost', port=8086):
         print("Create database: " + dbname)
         client.create_database(dbname)
         print("Create pandas DataFrame")
-        df = pd.read_table(sys.stdin, parse_dates=True,index_col=[2],header=0)
+        df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0)
         #df = pd.read_table(sys.stdin, parse_dates=True,index_col=[2],header=0),nrows=20,engine='python')
+        #dumpclean(df)
+        #df.index = pd.to_datetime(df.index, unit='s')
         '''
         names = df.axes[1]
         while True:
@@ -39,7 +41,7 @@ def main(host='localhost', port=8086):
         #o = df.to_json( orient='index')
         #print ("Dataframe as Json '{}\n'".format(o))
         print("Write DataFrame")
-        client.write_points(df, measurement,tag_columns=[2,3],field_columns=[4])
+        client.write_points(df, measurement,tag_columns=[1,2],field_columns=[3])
     except Exception as inst:
         print type(inst)
         print inst.args

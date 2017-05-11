@@ -5,16 +5,33 @@
 #select * from conf group by subject
 
 BEGIN {
-    #counter =0;
+    syslog_delimiter ="]: [";
+    syslog = 0
+    counter =0;
     #this_second =systime();
     printf "measurement\ttime\tproc\tsubject\tinfo\n"
     #print this_second
     #exit(0)
 }
 {
+    #print $0
+    if((0 == counter) && (0==syslog)){
+        syslog = index($0,syslog_delimiter);
+        if (syslog > 0) {
+            counter += 1
+            #print "again?"
+            $0 = substr($0, syslog+3);
+        }
+
+    }
+    else if (syslog > 0) {
+            $0 = substr($0, syslog+3);
+    }
+    #print counter, syslog, $0
     if( $0 ~ /\[.{6}\] .{15} .*$/) {
         $0 =$0;
     }
+    timetsamp=$2;
     n = split($1,front,"[");
     #print "DEBUG",front[2]
     if(0 < n){
@@ -39,13 +56,10 @@ BEGIN {
     #inserter = "conf,proc=" proc ",subject=" subject
     #inserter = "logs,proc=" proc ",subject=" subject
 
-    if( $2 ~ /([[:digit:]]{2}.){3}[[:digit:]]{6}/){
+    if( timetsamp ~ /([[:digit:]]{2}.){3}[[:digit:]]{6}/){
         for (; i <= NF; i++)
             info = info " " $i
-        printf "%s\t\t%s\t%s\t%s\t%s\n", "conf", $2,proc,subject,info
-        #print inserter " info=\"" info "\"", $2
+        printf "%s\t%s\t%s\t%s\t%s\n", "conf", timetsamp,proc,subject,info
+        #print inserter " info=\"" info "\"", timetsamp
     }
 }
-END {
-}
-
