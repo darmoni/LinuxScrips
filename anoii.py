@@ -18,6 +18,7 @@ word = "ימין".decode('UTF-8')
 rtl_right =''.join(reversed(word))
 right = "right"
 counter = 0;
+setp_format = u"{:4d} \t {} {} {} {}"
 
 class ring_mover:
     def __init__(self,_move_message,_to,rtl=False):
@@ -33,9 +34,9 @@ class ring_mover:
         global counter
         counter +=1
         if(self.rtl):
-            print counter,"\t", self.posts[t]+self._to,self.posts[f]+self.move_message
+            print setp_format.format(counter,self.posts[t]+self._to,self.posts[f]+self.move_message,'','')
         else:
-            print counter,"\t", self.move_message,self.posts[f],self._to,self.posts[t]
+            print setp_format.format(counter, self.move_message, self.posts[f], self._to, self.posts[t])
 
 class towers:
     def __init__(self,rtl=False):
