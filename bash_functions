@@ -593,6 +593,10 @@ function lsx(){
 
 export -f lsx
 
+function stage_srv {
+    echo 'stage1n1-la.siptalk.com'
+}
+
 function dev64 {
    echo 'xdev64'
 }
@@ -706,11 +710,42 @@ function get_res_from_pbx () {
             scp xcast@tswitch3.siptalk.com:/usr/local/registrator/lib/mserver/app/cpuload.php.res ~/production.$time.cpuload.php.csv
         }
 
+function stage_media_library () {
+    time=`timestamp | sed 's/[:|-]//g'`;
+    remote="ssh dude@`stage_srv`"
+    deploy="cd ~/lib/mserver && mv hstarter hstarter.$time && mv libhermes.so libhermes.so.$time && ~/bin/mserver_ctl stop && \
+~/bin/cserver_ctl stop && cp ~/tmp/hstarter.nir hstarter && cp ~/tmp/libhermes.so.nir libhermes.so && ~/bin/mserver_ctl start && ~/bin/cserver_ctl start"
+    remote_deploy="${remote} '${deploy}'"
+    echo "pushd ~/Downloads"
+    echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/hstarter hstarter.nir'
+    echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/libhermes.so libhermes.so.nir'
+    echo 'scp libhermes.so.nir xcast@stage1n1-la.siptalk.com:tmp/libhermes.so.nir'
+    echo 'scp hstarter.nir xcast@stage1n1-la.siptalk.com:tmp/hstarter.nir'
+    echo "popd"
+
+    echo 'echo on Staging server:'
+    echo "# ${remote_deploy}"
+}
+
+export stage_media_library
+
+
 function stage_qman () {
+    time=`timestamp | sed 's/[:|-]//g'`;
+    remote="ssh dude@`stage_srv`"
+    deploy="cd ~/bin && cp ~/tmp/qman.nir . && mv qman qman.$time && ./qman_ctl stop && cp qman.nir qman && ./qman_ctl start"
+    remote_deploy="${remote} '${deploy}'"
+    echo "pushd ~/Downloads"
     echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/ACD/qman qman.nir'
+    echo "scp ndarmoni@xdev64.xcastlabs.com:/net/home/ndarmoni/work/Registrator/ACD/idl/libAcd.so.1.6.0 libAcd.so.1.6.0.nir"
     echo 'scp qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
-    echo 'echo on Staging server'
-    echo 'echo "cd bin && cp /usr/local/registrator/tmp/qman.nir . && ./qman_ctl stop && cp qman.nir qman && ./qman_ctl start"'
+    echo 'scp libAcd.so.1.6.0.nir xcast@stage1n1-la.siptalk.com:tmp/libAcd.so.1.6.0.nir'
+    echo "popd"
+
+    echo 'echo on Staging server:'
+    echo "# if ACD/idl/Acd.idl is new,"
+    echo "# cp ~/lib/libAcd.so.1.6.0 ~/lib/libAcd.so.1.6.0.$time && cp ~/tmp/libAcd.so.1.6.0.nir ~/lib/libAcd.so.1.6.0"
+    echo "# ${remote_deploy}"
 }
 export stage_qman
 

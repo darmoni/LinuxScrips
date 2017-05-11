@@ -5,8 +5,8 @@
 #select * from conf group by subject
 
 BEGIN {
-    counter =0;
-    this_second =systime();
+    #counter =0;
+    #this_second =systime();
     printf "measurement\ttime\tproc\tsubject\tinfo\n"
     #print this_second
     #exit(0)
