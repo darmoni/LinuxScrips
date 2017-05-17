@@ -21,7 +21,7 @@ BEGIN {
     }
     if( $0 ~ / ([[:digit:]]{2}.){3}[[:digit:]]{6} /) {
         $0 =$0;
-    
+
         timetsamp=$1;
         n = split($2,front,"[");
         if(0 < n){
