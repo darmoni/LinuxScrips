@@ -6,38 +6,41 @@ import pandas as pd
 from influxdb import DataFrameClient
 from nested_print import dump, dumpclean
 
-def main(host='localhost', port=8086):
+def main(host='localhost', port=8086, chunk=10000):
     user = 'root'
     password = 'root'
     dbname = 'logs'
-    measurement ='conf'
-    chunk_size = 10000
     first = True
-    # Temporarily used to avoid line protocol time conversion issues #412, #426, #431.
-    #protocol = 'json'
+    chunk_size = chunk
 
-    try:
-        client = DataFrameClient(host, port, user, password, dbname)
-        print("Create database: " + dbname)
-        client.create_database(dbname)
-        print("Create pandas DataFrame")
-        while True:
+    client = DataFrameClient(host, port, user, password, dbname)
+    while True:
+        try:
             if first:
                 df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0,nrows=chunk_size,engine='python')
-                names = df.axes[1]
-                first = False
+                if df.empty:
+                    print "Done!"
+                    break
+                else:
+                    names = df.axes[1]
+                    measurement = "{}.{}".format(dbname, df.iloc[0][0])
+                    print "Create database: {}, measurement={}".format(dbname, measurement)
+                    client.create_database(dbname)
+                    print("Create pandas DataFrame")
+                    first = False
             else:
                 df =pd.read_table(sys.stdin, parse_dates=True,index_col=[1],nrows=chunk_size,names=names,engine='python')
             if df.empty:
                 print "Done!"
                 break
             else:
-                client.write_points(df, measurement,tag_columns=[1,2],field_columns=[3])
-    except Exception as inst:
-        print type(inst)
-        print inst.args
-        print inst
-        print __file__, 'Oops'
+                #dump(df)
+                client.write_points(df,measurement,tag_columns=[1,2],field_columns=[3])
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -47,9 +50,12 @@ def parse_args():
                         help='hostname of InfluxDB http API')
     parser.add_argument('--port', type=int, required=False, default=8086,
                         help='port of InfluxDB http API')
+    parser.add_argument('--chunk', type=int, required=False, default=10000,
+                        help='Size of data chunk to use')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = parse_args()
-    main(host=args.host, port=args.port)
+    #dump(args)
+    main(host=args.host, port=args.port, chunk=args.chunk)
