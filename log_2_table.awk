@@ -21,6 +21,7 @@ BEGIN {
     else if (syslog > 0) {
             $0 = substr($0, syslog+3);
     }
+    gsub("\t"," ",$0);
     if( $0 ~ / ([[:digit:]]{2}.){3}[[:digit:]]{6} /) {
         $0 =$0;
 

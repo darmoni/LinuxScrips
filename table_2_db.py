@@ -41,6 +41,8 @@ def main(host='localhost', port=8086, chunk=10000):
             print inst.args
             print inst
             print __file__, 'Oops'
+    if(not df.empty):
+        client.write_points(df,measurement,tag_columns=[1,2],field_columns=[3])
 
 def parse_args():
     parser = argparse.ArgumentParser(
