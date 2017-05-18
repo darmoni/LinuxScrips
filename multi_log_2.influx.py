@@ -54,8 +54,9 @@ def run(remote_log_cmd,parser,influx_writer, execute_cmd='./dev_conf_2_influxdb.
 #(remote_log_cmd,parser,influx_writer) = add_dev_log('db')
 #run (remote_log_cmd,parser,influx_writer,'./dev_conf_2_influxdb.sh')
 #(remote_log_cmd,parser,influx_writer) = add_dev_log('mserver')
-#run (remote_log_cmd,parser,influx_writer,'./dev_qman_2_influxdb.sh')
-
+(remote_log_cmd,parser,influx_writer) = add_dev_log('mserver')
+run (remote_log_cmd,parser,influx_writer,'./dev_qman_2_influxdb.sh')
+'''
 print "{} | {} | {}".format(*add_dev_log())
 print "{} | {} | {}".format(*add_dev_log('mserver'))
 print "{} | {} | {}".format(*add_dev_log('conf'))
@@ -64,3 +65,4 @@ print "{} | {} | {}".format(*add_dev_log('qman'))
 print './dev_conf_2_influxdb.sh'
 print "{} | {} | {}".format(*add_dev_log('qman'))
 print './dev_qman_2_influxdb.sh'
+'''
