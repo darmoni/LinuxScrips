@@ -710,9 +710,48 @@ function get_res_from_pbx () {
             scp xcast@tswitch3.siptalk.com:/usr/local/registrator/lib/mserver/app/cpuload.php.res ~/production.$time.cpuload.php.csv
         }
 
+function stage_lib_ms_apps () {
+    if [ ! -z "$1" ] ; then
+    app=$1;
+    time=`timestamp | sed 's/[:|-]//g'`;
+    srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
+    echo "pushd ~/Downloads"
+    echo "scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
+    for srv in $srvs ; do
+        remote="ssh xcast@$srv"
+        deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp ~/tmp/$app.nir ./$app"
+        remote_deploy="${remote} '${deploy}'"
+        echo "scp $app.nir xcast@$srv:tmp/$app.nir"
+        echo 'echo on Media servers:'
+        echo "${remote_deploy}"
+        done
+    echo "popd"
+    else echo "need a name of an app"
+    fi
+}
+export stage_acd_recording
+
+function stage_acd_recording () {
+    time=`timestamp | sed 's/[:|-]//g'`;
+    srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com'
+    echo "pushd ~/Downloads"
+    echo "scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/mappemail_acdrecording.php mappemail_acdrecording.php.nir"
+    for srv in $srvs ; do
+        remote="ssh xcast@$srv"
+        deploy="cd ~/lib/mserver/app/ && mv ./mappemail_acdrecording.php ./mappemail_acdrecording.php.$time && cp ~/tmp/mappemail_acdrecording.php.nir ./mappemail_acdrecording.php"
+        remote_deploy="${remote} '${deploy}'"
+        echo "scp mappemail_acdrecording.php.nir xcast@$srv:tmp/mappemail_acdrecording.php.nir"
+        echo 'echo on Media servers:'
+        echo "${remote_deploy}"
+        done
+    echo "popd"
+}
+export stage_acd_recording
+
+
 function stage_media_library () {
     time=`timestamp | sed 's/[:|-]//g'`;
-    remote="ssh dude@`stage_srv`"
+    remote="ssh xcast@`stage_srv`"
     deploy="cd ~/lib/mserver && mv hstarter hstarter.$time && mv libhermes.so libhermes.so.$time && ~/bin/mserver_ctl stop && \
 ~/bin/cserver_ctl stop && cp ~/tmp/hstarter.nir hstarter && cp ~/tmp/libhermes.so.nir libhermes.so && ~/bin/mserver_ctl start && ~/bin/cserver_ctl start"
     remote_deploy="${remote} '${deploy}'"
@@ -732,7 +771,7 @@ export stage_media_library
 
 function stage_qman () {
     time=`timestamp | sed 's/[:|-]//g'`;
-    remote="ssh dude@`stage_srv`"
+    remote="ssh xcast@`stage_srv`"
     deploy="cd ~/bin && cp ~/tmp/qman.nir . && mv qman qman.$time && ./qman_ctl stop && cp qman.nir qman && ./qman_ctl start"
     remote_deploy="${remote} '${deploy}'"
     echo "pushd ~/Downloads"
