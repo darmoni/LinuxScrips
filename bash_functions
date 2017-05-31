@@ -712,19 +712,28 @@ function get_res_from_pbx () {
 
 function stage_lib_ms_apps () {
     if [ ! -z "$1" ] ; then
-    app=$1;
+    apps=$*;
     time=`timestamp | sed 's/[:|-]//g'`;
     srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
     echo "pushd ~/Downloads"
-    echo "scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
+    for app in $apps; do
+        echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
+        echo "sleep 2"
+    done
     for srv in $srvs ; do
+        deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app.nir ./$app"
+        verify="ls -l ~/lib/mserver/app/$app"
         remote="ssh xcast@$srv"
-        deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp ~/tmp/$app.nir ./$app"
-        remote_deploy="${remote} '${deploy}'"
-        echo "scp $app.nir xcast@$srv:tmp/$app.nir"
-        echo 'echo on Media servers:'
-        echo "${remote_deploy}"
+        for app in $apps; do
+            remote_deploy="${remote} '${deploy}'"
+            remote_verify="${remote} '${verify}'"
+            echo "scp -p $app.nir xcast@$srv:tmp/$app.nir"
+            echo "sleep 2"
+            echo '#echo on Media servers:'
+            echo "${remote_deploy}"
+            echo "${remote_verify}"
         done
+    done
     echo "popd"
     else echo "need a name of an app"
     fi

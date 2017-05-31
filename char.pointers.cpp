@@ -19,12 +19,12 @@ class command_runner {
     public:
         void cmd(std::string c) {
             holder_path["cmd"] = c;
-        } 
+        }
         void arg(std::string s) {
             holder_argv.push_back(s);
         }
         const char * path() {
-            if(prepare()) return _path; 
+            if(prepare()) return _path;
             else return ("");
         }
         char **const argv() {
@@ -41,7 +41,7 @@ class command_runner {
 #if RUN_IT
 bool command_runner::run() {
     pid_t child_pid;
-    
+
     if(prepare()) {
         child_pid = fork();
         if (child_pid == -1)
@@ -50,11 +50,11 @@ bool command_runner::run() {
         }
         if(child_pid == 0) {
         /* This is done by the child process. */
-        
+
             execv(path(), argv());
-        
+
         /* If execv returns, it must have failed. */
-        
+
             printf("Unknown command\n");
             return 0;
         }
@@ -103,12 +103,12 @@ command_runner {
     public:
         void cmd(string c) {
             holder_path["cmd"] = c;
-        } 
+        }
         void arg(string s) {
             holder_argv.push_back(s);
         }
         const char * path() {
-            if(prepare()) return _path; 
+            if(prepare()) return _path;
             else return ("");
         }
         char **const argv() {
@@ -117,10 +117,10 @@ command_runner {
             else
                 return NULL;
         }
-#if RUN_IT        
+#if RUN_IT
         bool run(){
             pid_t child_pid;
-            
+
             if(prepare()) {
                 child_pid = fork();
                 if (child_pid == -1)
@@ -129,11 +129,11 @@ command_runner {
                 }
                 if(child_pid == 0) {
                 /* This is done by the child process. */
-                
+
                     execv(path(), argv());
-                
+
                 /* If execv returns, it must have failed. */
-                
+
                     printf("Unknown command\n");
                     return 0;
                 }
@@ -184,7 +184,7 @@ int main()
 {
 //usr/local/registrator/lib/mserver/app/mappemail_acdrecording.php 30320 109050 25518 "7160" 15999 "9801" "7161" \
 "Near Darmoni 61" ""Message Center" <message-center@xcastlabs.com>" \
-"ndarmoni@xcastlabs.com" "/usr/local/registrator/callrecordings//siptalk64.xcastlabs.com/71/acdcallrec-15999-109049.mp3" wav    
+"ndarmoni@xcastlabs.com" "/usr/local/registrator/callrecordings//siptalk64.xcastlabs.com/71/acdcallrec-15999-109049.mp3" wav
     command_runner my_exec;
 //    my_exec.cmd("/usr/bin/php");
 //    my_exec.arg("-f");
@@ -193,7 +193,7 @@ int main()
     my_exec.arg("-p");
     my_exec.arg("qman_staging_log_server");
 
-/*    
+/*
 printf("Hello World!\n");
 // s1[0] = 'a'; FORBIDDEN
 printf("s1=%s, s2=%s\n",s1,s2);

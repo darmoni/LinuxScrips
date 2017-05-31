@@ -11,7 +11,7 @@ class log_collector:
         self._log=log
         self._p = -1
         self._params =self.add_dev_log(self._log,self._server)
-        
+
     def collect_log(self):
         (remote_log_srv_cmd,log_srv_cmd,parser,influx_writer) = self._params
         self.setup()

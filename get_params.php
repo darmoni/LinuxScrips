@@ -7,7 +7,7 @@
 function log_notify($a){
     printf("%s \n", $a);
 }
-    
+
 //print escapeshellarg($line2);
 //print "\n";
 //parse_str("$line\n");
