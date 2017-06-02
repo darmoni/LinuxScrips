@@ -27,8 +27,10 @@ BEGIN {
 
         timetsamp=$2;
         n = split($1,front,"[");
+        if(0 == n) value = $1;
         if(0 < n){
             n = split(front[2],values,"]");
+
             if(0 < n) { value = values[1]; }
         }
         proc = value
@@ -43,10 +45,21 @@ BEGIN {
             i=4
             subject = "Master"
         }
-        if( subject ~ /RTP-.+/ ) subject = "RTP"
+#corrections
+        if( subject ~ /RTP-.+/ ) subject = "RTP";
+        if(( "" == proc ) && (subject ~ /^[0-9]+$/ )) {
+            proc = subject;
+            subject = "Master";
+            }
+
+#validating time field is set
         if( timetsamp ~ /([[:digit:]]{2}.){3}[[:digit:]]{6}/){
             for (; i <= NF; i++)
                 info = info " " $i
+            if (subject ~ /^[0-9]+$/ ){
+                subject ="";
+                info = $3 "" info;
+            }
             printf "%s\t%s\t%s\t%s\t%s\n", name, timetsamp,proc,subject,info
         }
     }
