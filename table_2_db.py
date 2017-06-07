@@ -14,11 +14,13 @@ def main(host='localhost', port=8086, chunk=10000):
     chunk_size = chunk
 
     client = DataFrameClient(host, port, user, password, dbname)
-    while True:
+    done = False
+    while not done:
         try:
             if first:
                 df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0,nrows=chunk_size,engine='python')
                 if df.empty:
+                    done = True
                     print "Done!"
                     break
                 else:
@@ -31,6 +33,7 @@ def main(host='localhost', port=8086, chunk=10000):
             else:
                 df =pd.read_table(sys.stdin, parse_dates=True,index_col=[1],nrows=chunk_size,names=names,engine='python')
             if df.empty:
+                done = True
                 print "Done!"
                 break
             else:
@@ -41,6 +44,7 @@ def main(host='localhost', port=8086, chunk=10000):
             print inst.args
             print inst
             print __file__, 'Oops'
+            break
     if(not df.empty):
         client.write_points(df,measurement,tag_columns=[1,2],field_columns=[3])
 
@@ -60,4 +64,10 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     #dump(args)
-    main(host=args.host, port=args.port, chunk=args.chunk)
+    try:
+        main(host=args.host, port=args.port, chunk=args.chunk)
+    except Exception as inst:
+        print type(inst)
+        print inst.args
+        print inst
+        print __file__, 'Oops'

@@ -712,46 +712,53 @@ function get_res_from_pbx () {
 
 function stage_lib_ms_apps () {
     if [ ! -z "$1" ] ; then
-    apps=$*;
-    time=`timestamp | sed 's/[:|-]//g'`;
-    srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
-    echo "pushd ~/Downloads"
-    for app in $apps; do
-        echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
-        echo "sleep 2"
-    done
-    for srv in $srvs ; do
-        deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app.nir ./$app"
-        verify="ls -l ~/lib/mserver/app/$app"
-        remote="ssh xcast@$srv"
+        apps=$*;
+        time=`timestamp | sed 's/[:|-]//g'`;
+        srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
+        echo "pushd ~/Downloads"
         for app in $apps; do
-            remote_deploy="${remote} '${deploy}'"
-            remote_verify="${remote} '${verify}'"
-            echo "scp -p $app.nir xcast@$srv:tmp/$app.nir"
+            echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
             echo "sleep 2"
-            echo '#echo on Media servers:'
-            echo "${remote_deploy}"
-            echo "${remote_verify}"
         done
-    done
-    echo "popd"
-    else echo "need a name of an app"
+        for srv in $srvs ; do
+            remote="ssh xcast@$srv"
+            for app in $apps; do
+                deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app.nir ./$app"
+                verify="ls -l ~/lib/mserver/app/$app"
+                remote_deploy="${remote} '${deploy}'"
+                remote_verify="${remote} '${verify}'"
+                echo "scp -p $app.nir xcast@$srv:tmp/$app.nir"
+                echo "sleep 2"
+                echo '#echo on Media servers:'
+                echo "${remote_deploy}"
+                echo "${remote_verify}"
+            done
+        done
+        echo "popd"
+    else echo "need a name of app(s)"
     fi
 }
-export stage_acd_recording
+export stage_lib_ms_apps
 
 function stage_acd_recording () {
     time=`timestamp | sed 's/[:|-]//g'`;
+    app='mappemail_acdrecording.php'
     srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com'
     echo "pushd ~/Downloads"
-    echo "scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/mappemail_acdrecording.php mappemail_acdrecording.php.nir"
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/mappemail_acdrecording.php mappemail_acdrecording.php.nir"
+    echo 'sleep 2'
     for srv in $srvs ; do
         remote="ssh xcast@$srv"
-        deploy="cd ~/lib/mserver/app/ && mv ./mappemail_acdrecording.php ./mappemail_acdrecording.php.$time && cp ~/tmp/mappemail_acdrecording.php.nir ./mappemail_acdrecording.php"
+        verify="ls -l ~/lib/mserver/app/$app"
+        deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app.nir ./$app"
         remote_deploy="${remote} '${deploy}'"
-        echo "scp mappemail_acdrecording.php.nir xcast@$srv:tmp/mappemail_acdrecording.php.nir"
+        remote_verify="${remote} '${verify}'"
+        echo "scp -p mappemail_acdrecording.php.nir xcast@$srv:tmp/mappemail_acdrecording.php.nir"
+        echo 'sleep 2'
         echo 'echo on Media servers:'
         echo "${remote_deploy}"
+        echo 'sleep 2'
+        echo "${remote_verify}"
         done
     echo "popd"
 }
@@ -781,21 +788,47 @@ export stage_media_library
 function stage_qman () {
     time=`timestamp | sed 's/[:|-]//g'`;
     remote="ssh xcast@`stage_srv`"
-    deploy="cd ~/bin && cp ~/tmp/qman.nir . && mv qman qman.$time && ./qman_ctl stop && cp qman.nir qman && ./qman_ctl start"
+    deploy="cd ~/bin && cp -p ~/tmp/qman.nir . && mv qman qman.$time && ./qman_ctl stop && cp -p qman.nir qman && ./qman_ctl start"
     remote_deploy="${remote} '${deploy}'"
     echo "pushd ~/Downloads"
-    echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/ACD/qman qman.nir'
-    echo "scp ndarmoni@xdev64.xcastlabs.com:/net/home/ndarmoni/work/Registrator/ACD/idl/libAcd.so.1.6.0 libAcd.so.1.6.0.nir"
-    echo 'scp qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
-    echo 'scp libAcd.so.1.6.0.nir xcast@stage1n1-la.siptalk.com:tmp/libAcd.so.1.6.0.nir'
+    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/ACD/qman qman.nir'
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:/net/home/ndarmoni/work/Registrator/ACD/idl/libAcd.so.1.6.0 libAcd.so.1.6.0.nir"
+    echo 'sleep 3'
+    echo 'scp -p qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
+    echo 'scp -p libAcd.so.1.6.0.nir xcast@stage1n1-la.siptalk.com:tmp/libAcd.so.1.6.0.nir'
+    echo 'sleep 3'
     echo "popd"
 
     echo 'echo on Staging server:'
     echo "# if ACD/idl/Acd.idl is new,"
-    echo "# cp ~/lib/libAcd.so.1.6.0 ~/lib/libAcd.so.1.6.0.$time && cp ~/tmp/libAcd.so.1.6.0.nir ~/lib/libAcd.so.1.6.0"
+    echo "# mv ~/lib/libAcd.so.1.6.0 ~/lib/libAcd.so.1.6.0.$time && cp -p ~/tmp/libAcd.so.1.6.0.nir ~/lib/libAcd.so.1.6.0"
     echo "# ${remote_deploy}"
 }
 export stage_qman
+
+
+function stage_indexCDR () {
+    time=`timestamp | sed 's/[:|-]//g'`;
+    srvs=`stage_srv`
+    echo "pushd ~/Downloads"
+    echo "scp -p xcast@xdev64.xcastlabs.com:bin/indexCDRs_php indexCDRs_php.nir"
+    echo 'sleep 3'
+    for srv in $srvs ; do
+        remote="ssh xcast@$srv"
+        deploy="cd ~/bin && mv ./indexCDRs_php ./indexCDRs_php.$time && cp -p ~/tmp/indexCDRs_php.nir ./indexCDRs_php"
+        remote_deploy="${remote} '${deploy}'"
+        verify="ls -l ~/bin/indexCDRs_php"
+        remote_verify="${remote} '${verify}'"
+        echo "scp -p indexCDRs_php.nir xcast@$srv:tmp/indexCDRs_php.nir"
+        echo 'sleep 3'
+        echo 'echo on Media servers:'
+        echo "${remote_deploy}"
+        echo 'sleep 3'
+        echo "${remote_verify}"
+        done
+    echo "popd"
+}
+export stage_indexCDR
 
 function start_staging_baresip () {
     nohup ~/bin/start_test.py &
