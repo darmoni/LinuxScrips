@@ -11,6 +11,9 @@ def main(argv):
 
     if(len(argv)):
         _number = int(argv[0])
+        if(1 > _number):
+            print "\t\t\t",_number , "is invalid! Use posistive numbers only"
+            sys.exit(0)
     else:
         _number = 1
 
