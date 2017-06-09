@@ -1,17 +1,19 @@
-#!/usr/bin/env python
-'''
 import shlex, subprocess, socket, os, time, signal, sys, datetime
 from time import sleep
 from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import NonBlockingStreamReader as NBSR
 
 class log_collector:
-    def __init__(self, log ='db', log_server = 'xdev64.xcastlabs.com', syslog=False):
+    def __init__(self, log ='db', log_server = 'xdev64.xcastlabs.com', syslog=False, execute_cmd = None):
         self._server=log_server
         self._log=log
         self._p = -1
+        self._execute_cmd = execute_cmd
         if syslog:self._params =self.add_syslog_log(self._log,self._server)
         else :self._params =self.add_local_log(self._log,self._server)
+
+    def __del__(self):
+        if(0 < self._p): self._p.kill()
 
     def collect_log(self):
         (remote_log_srv_cmd,log_srv_cmd,parser,influx_writer) = self._params
@@ -72,9 +74,8 @@ class log_collector:
             print inst
             print __file__, 'Oops'
             p.kill()
-            sys.exit(-1)
 
-    def run(self, execute_cmd='/home/nir/bin/dev_conf_2_influxdb.sh'):
+    def run(self, execute_cmd='/home/nir/bin/staging_qman_2_influxdb.sh'):
         (remote_log_srv_cmd,log_srv_cmd,parser,influx_writer) = self._params
         self.setup()
         try:
@@ -94,60 +95,7 @@ class log_collector:
             print inst
             print __file__, 'Oops'
             p.kill()
-            sys.exit(-1)
-'''
-import sys
-from time import sleep
-from subprocess import check_output
-from collect_logs import log_collector
 
-try:
-    #dev_mserver_log_collector=log_collector('mserver')
-    #production_qman_log_collector=log_collector('qman','tswitch3.siptalk.com')
-    #production_qman_log_collector.run('sleep 50')
-
-    db_log_collector=log_collector('db',"stage1n1-la.siptalk.com",True)
-    #dev_db_log_collector=log_collector('db')
-    db_log_collector.collect_log()
-
-    #dev_mserver_log_collector=log_collector('mserver',"mserver1n1-la.siptalk.com",True)
-    mserver_log_collector=log_collector('mserver',"mserver1n1-la.siptalk.com")
-    mserver_log_collector.collect_log()
-    conf_log_collector=log_collector('conf',"mserver1n1-la.siptalk.com",True)
-    conf_log_collector.run('./staging_conf_only.sh')
-    #check_output('/home/nir/bin/staging_conf_only.sh')
-
-    #dev_qman_log_collector=log_collector('qman')
-    #dev_qman_log_collector.run('test.py -p qman_dev')#('time sleep {}'.format(60*60))#('time sleeper.sh 120')('./dev_qman_2_influxdb.sh')
-
-    sleep(30)
-
-    del conf_log_collector
-    del mserver_log_collector
-    del db_log_collector
-
-    sleep(30)
-
-    #(remote_log_srv_cmd,log_srv_cmd,parser,influx_writer) = add_local_log('mserver')
-    #(remote_log_srv_cmd,log_srv_cmd,parser,influx_writer) = add_local_log('db')
-    #run (remote_log_srv_cmd,log_srv_cmd,parser,influx_writer,'./dev_conf_2_influxdb.sh')
-    #(remote_log_srv_cmd,log_srv_cmd,parser,influx_writer) = add_local_log('mserver')
-    #print "{} '{}' | {} | {}".format(remote_log_srv_cmd,log_srv_cmd,parser,influx_writer)
-    #run (remote_log_srv_cmd,log_srv_cmd,parser,influx_writer,'./dev_qman_2_influxdb.sh')
-
-    '''
-    print "{} '{}' | {} | {}".format(*add_local_log())
-    print "{} '{}' | {} | {}".format(*add_local_log('mserver'))
-    print "{} '{}' | {} | {}".format(*add_local_log('conf'))
-    print "{} '{}' | {} | {}".format(*add_local_log('db'))
-    print "{} '{}' | {} | {}".format(*add_local_log('qman'))
-    print './dev_conf_2_influxdb.sh'
-    print "{} '{}' | {} | {}".format(*add_local_log('qman'))
-    print './dev_qman_2_influxdb.sh'
-    '''
-    sys.exit(0)
-except Exception as inst:
-    print type(inst)
-    print inst.args
-    print inst
-    print __file__, 'Oops'
+    def execute(self):
+        if (self._execute_cmd): self.run(self._execute_cmd)
+        else : self.collect_log()

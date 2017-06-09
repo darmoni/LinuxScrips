@@ -715,23 +715,31 @@ function stage_lib_ms_apps () {
         apps=$*;
         time=`timestamp | sed 's/[:|-]//g'`;
         srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
+        SUFFIX=`ssh xcast@mserver1n1-la.siptalk.com "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+
         echo "pushd ~/Downloads"
         for app in $apps; do
             echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
+            echo "scp -p ndarmoni@pbxdev.xcastlabs.com:work/Registrator/mapp/$app $app$SUFFIX.nir"
             echo "sleep 2"
         done
         for srv in $srvs ; do
             remote="ssh xcast@$srv"
+            SUFFIX=`$remote "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
             for app in $apps; do
-                deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app.nir ./$app"
+                deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app$SUFFIX.nir ./$app"
                 verify="ls -l ~/lib/mserver/app/$app"
+                kill_master="ps -ef | grep -v grep | grep $app | grep Master"
                 remote_deploy="${remote} '${deploy}'"
                 remote_verify="${remote} '${verify}'"
-                echo "scp -p $app.nir xcast@$srv:tmp/$app.nir"
+                remote_kill_master="${remote} '${kill_master}'"
+                #echo "scp -p $app.nir xcast@$srv:tmp/$app.nir"
+                echo "scp -p $app$SUFFIX.nir xcast@$srv:tmp/$app$SUFFIX.nir"
                 echo "sleep 2"
                 echo '#echo on Media servers:'
                 echo "${remote_deploy}"
                 echo "${remote_verify}"
+                echo "${remote_kill_master}"
             done
         done
         echo "popd"
