@@ -180,43 +180,42 @@ char s3[] = "test";
 char s4[] = "test";
 char * const s5 = s4;
 //char * const s6 = (const char * )("test");
-int main()
+#include <sys/stat.h>
+#include <inttypes.h>
+int file_size(const std::string& path)
+{
+    struct stat statbuf;
+    if (stat(path.c_str(), &statbuf) == -1)
+    {
+      return -1;
+    }
+    return statbuf.st_size;
+}
+int main(int argc, char *argv[])
 {
 //usr/local/registrator/lib/mserver/app/mappemail_acdrecording.php 30320 109050 25518 "7160" 15999 "9801" "7161" \
 "Near Darmoni 61" ""Message Center" <message-center@xcastlabs.com>" \
 "ndarmoni@xcastlabs.com" "/usr/local/registrator/callrecordings//siptalk64.xcastlabs.com/71/acdcallrec-15999-109049.mp3" wav
     command_runner my_exec;
+    int ret = 0;
 //    my_exec.cmd("/usr/bin/php");
 //    my_exec.arg("-f");
 //    my_exec.arg("get_params.php");
-    my_exec.cmd("/home/nir/bin/test.py");
-    my_exec.arg("-p");
-    my_exec.arg("qman_staging_log_server");
+    my_exec.cmd("/bin/fuser");
+    string fn = argv[0];
+    if(argc >1)fn.assign(argv[1]);
+    if(-1 == file_size(fn)) ret = -1;
+    else
+        my_exec.arg(fn);
+    //my_exec.arg("qman_staging_log_server");
 
-/*
-printf("Hello World!\n");
-// s1[0] = 'a'; FORBIDDEN
-printf("s1=%s, s2=%s\n",s1,s2);
-char const * const s7(++s2);
-printf("s3=%s, s4=%s\n",s3,s4);
-printf("s5=%s, s6=%s, s7=%s\n",s5,s6,s7);
-s1++;
-s3[0] = 'a';
-//s4++; // FORBIDDEN
-s5[0] = 'a';
-//s6[0] = 'a'; // core dump
-//s6++; // FORBIDDEN
-//s7++; // FORBIDDEN
-printf("s1=%s, s2=%s\n",s1,s2);
-printf("s3=%s, s4=%s\n",s3,s4);
-printf("s5=%s, s6=%s, s7=%s\n",s5,s6,s7);
-* */
-    bool i =false;
+
 #if RUN_IT
-    printf("run %d, result:\n%d\n",__LINE__,i = my_exec.run());
+    if(!ret) ret = my_exec.run();
+    printf("run %d, result '%d'\n",__LINE__,ret);
 //    printf("run %d, result:\n%d\n",__LINE__,i = my_exec.run());
 #else
-    printf("run %d, result %d\n",__LINE__,i = my_exec.prepare());
+    printf("run %d, result %d\n",__LINE__,ret = my_exec.prepare());
 #endif
-    return true != i;
+    return ret;
 }

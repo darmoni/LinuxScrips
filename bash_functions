@@ -841,6 +841,13 @@ export stage_indexCDR
 function start_staging_baresip () {
     nohup ~/bin/start_test.py &
 }
+
+function start_grafana {
+echo 'sudo systemctl daemon-reload
+sudo systemctl start grafana-server
+systemctl status grafana-server'
+}
+
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/
