@@ -848,6 +848,15 @@ sudo systemctl start grafana-server
 systemctl status grafana-server'
 }
 
+function flac2mp3 {
+echo 'for a in ./*.flac; do
+  ffmpeg -i "$a" -qscale:a 0 "${a[@]/%flac/mp3}"
+done'
+}
+
+function influx_it {
+    influx -database 'logs' -execute 'select * from /logs.*/ order by time desc limit 6'
+}
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/
@@ -858,3 +867,6 @@ alias gdbbt='gdb -q -n -ex bt -batch'
 alias gdbbtfull='gdb -q -n -ex "bt full" -batch'
 alias rm='rm -i'
 #usage  mserver]$ for core in `ls -1tr` ; do echo $core ; gdbbt /usr/local/registrator/lib/mserver/app/mapp $core; done > mapp.bt.txt 2>&1
+#10909090909909 * 979090909090909 +1
+
+# 1090909090909090909090909

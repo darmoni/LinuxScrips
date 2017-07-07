@@ -35,42 +35,45 @@ class command_runner {
         }
         bool prepare();
 #if RUN_IT
-        bool run();
+        int run();
 #endif // RUN_IT
 };
 #if RUN_IT
-bool command_runner::run() {
-    pid_t child_pid;
+    int command_runner::run(){
+        pid_t child_pid;
 
-    if(prepare()) {
-        child_pid = fork();
-        if (child_pid == -1)
-        {
-            return false;
+        if(prepare()) {
+            child_pid = fork();
+            if (child_pid == -1)
+            {
+                printf("fork failed? '%d'\n", child_pid);
+                return child_pid;
+            }
+            if(child_pid == 0) {
+            /* This is done by the child process. */
+
+                execv(path(), argv());
+
+            /* If execv returns, it must have failed. */
+
+                printf("Unknown command '%s'\n", path());
+                return -1;
+            }
+            else {
+                int child_status;
+                pid_t tpid;
+             /* This is run by the parent.  Wait for the child
+                to terminate. */
+                 do {
+                        tpid = wait(&child_status);
+                 } while(tpid != child_pid);
+                 printf("Got results '%d'\n", child_status);
+                 return child_status;
+            }
         }
-        if(child_pid == 0) {
-        /* This is done by the child process. */
-
-            execv(path(), argv());
-
-        /* If execv returns, it must have failed. */
-
-            printf("Unknown command\n");
-            return 0;
-        }
-        else {
-            int child_status;
-            pid_t tpid;
-         /* This is run by the parent.  Wait for the child
-            to terminate. */
-             do {
-                    tpid = wait(&child_status);
-             } while(tpid != child_pid);
-             return child_status;
-        }
+        printf("how did we get here? '%d'\n", child_pid);
+        return -1;
     }
-    return false;
-}
 #endif // RUN_IT
 bool command_runner::prepare() {
     if(holder_path.end() == holder_path.find("cmd")) return false;
@@ -84,96 +87,15 @@ bool command_runner::prepare() {
         }
         _argv.push_back(NULL);
     }
-#if ! RUN_IT
+//#if ! RUN_IT
     printf("DEBUG::: path = '%s', argc = %lu\n", _path, _argv.size());
     for(vector<char * >::iterator i =_argv.begin(); i != _argv.end(); ++i)
     /*if(NULL != *i)*/ printf("'%s' ",*i);
-    printf("\n");
-#endif
+//#endif
+    printf("prepare is done\n");
     return true;
 }
-#if 0
-command_runner {
-    vector<string> holder_argv;
-    map<string,string> holder_path;
-    vector<char * > _argv;
 
-    const char *_path;
-    char * path_var;
-    public:
-        void cmd(string c) {
-            holder_path["cmd"] = c;
-        }
-        void arg(string s) {
-            holder_argv.push_back(s);
-        }
-        const char * path() {
-            if(prepare()) return _path;
-            else return ("");
-        }
-        char **const argv() {
-            if(prepare())
-                return &_argv.front();
-            else
-                return NULL;
-        }
-#if RUN_IT
-        bool run(){
-            pid_t child_pid;
-
-            if(prepare()) {
-                child_pid = fork();
-                if (child_pid == -1)
-                {
-                    return false;
-                }
-                if(child_pid == 0) {
-                /* This is done by the child process. */
-
-                    execv(path(), argv());
-
-                /* If execv returns, it must have failed. */
-
-                    printf("Unknown command\n");
-                    return 0;
-                }
-                else {
-                    int child_status;
-                    pid_t tpid;
-                 /* This is run by the parent.  Wait for the child
-                    to terminate. */
-                     do {
-                            tpid = wait(&child_status);
-                     } while(tpid != child_pid);
-                     return child_status;
-                }
-            }
-            return false;
-        }
-    private:
-#endif
-        bool prepare() {
-            if(holder_path.end() == holder_path.find("cmd")) return false;
-            if(_argv.size() && 0 == holder_path.find("cmd")->second.compare(_argv[0])) return true;
-            _path = path_var = &(holder_path["cmd"])[0];
-            if(holder_argv.size() > 0) {
-                _argv.resize(holder_argv.size()+1);
-                _argv[0] =path_var;
-                for (int i=0; i < holder_argv.size() ; ++i){
-                    _argv[i+1] = &(holder_argv[i])[0];
-                }
-                _argv.push_back(NULL);
-            }
-#if ! RUN_IT
-            printf("DEBUG::: path = '%s', argc = %lu\n", _path, _argv.size());
-            for(vector<char * >::iterator i =_argv.begin(); i != _argv.end(); ++i)
-            /*if(NULL != *i)*/ printf("'%s' ",*i);
-            printf("\n");
-#endif
-            return true;
-        }
-};
-#endif //0
 const char * s1 = "test";
 const char * s2 = "test";
 char s3[] = "test";
@@ -202,8 +124,11 @@ int main(int argc, char *argv[])
 //    my_exec.arg("-f");
 //    my_exec.arg("get_params.php");
     my_exec.cmd("/bin/fuser");
-    string fn = argv[0];
+
+    //string fn = argv[0];
+    string fn = __FILE__;
     if(argc >1)fn.assign(argv[1]);
+    printf("running %s %s \n",my_exec.path(),fn.c_str());
     if(-1 == file_size(fn)) ret = -1;
     else
         my_exec.arg(fn);

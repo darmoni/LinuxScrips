@@ -2,7 +2,7 @@
 
 class Celsius:
     def __init__(self, temperature = 0):
-        self._temperature = temperature
+        self.temperature = temperature
 
     def to_fahrenheit(self):
         return (self._temperature * 1.8) + 32
@@ -13,7 +13,7 @@ class Celsius:
     def set_temperature(self, value):
         if value < -273:
             raise ValueError("Temperature below -273.15 is not possible")
-        print("Setting value")
+        print("Setting value", value)
         self._temperature = value
     temperature = property(get_temperature,set_temperature)
 
@@ -21,7 +21,7 @@ class Kelvin(Celsius):
     def set_temperature(self, value):
         if value < 0:
             raise ValueError("Temperature below 0 is not possible")
-        print("Setting value")
+        print("Setting value", value)
         self._temperature = value
     def to_rankine(self):
             return self._temperature* 1.8
@@ -33,7 +33,7 @@ class Rankine(Celsius):
     def set_temperature(self, value):
         if value < 0:
             raise ValueError("Temperature below 0 is not possible")
-        print("Setting value")
+        print("Setting value", value)
         self._temperature = value
     temperature = property(Celsius.get_temperature,set_temperature)
 

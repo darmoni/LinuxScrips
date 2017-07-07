@@ -36,7 +36,7 @@ class inProgress
             started = true;
         }
     }
-    ~inProgress() {if (running) started = false;}
+    ~inProgress() {/*if (running)*/ started = false;}
 };
 
 bool inProgress::started = false;

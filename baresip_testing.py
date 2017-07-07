@@ -259,18 +259,6 @@ test_case_matrix ={
             exit(2)
         command_line_elements = ['staging','qman',True,True]
         for opt, arg in opts:
-            if opt == '-h':
-                print 'To use preset test configuration, '
-                for key in sorted(test_case_matrix):
-                    print "\t",caller, "-p [, or --preset=]'"+key+"'"
-                print '\tor, define parameters from this list:   ','[-s <setup>] [-t <target>] [-l] [-f]'
-                print '\tFor Dev Testing:                        ', caller, '-s dev'
-                print '\tFor Staging Testing:                    ', caller, '-s staging'
-                print '\tFor Qman Testing:                       ', caller, '-t qman'
-                print '\tFor Conference Testing:                 ', caller, '-t conf'
-                print '\tFor NOT Using Log server, if applicable:', caller, '-l'
-                print '\tFor NOT apply Log filer, :              ', caller, '-f'
-                exit()
             if opt in ("-p", "--preset"):
                 this_configuration = arg.strip()
                 break
@@ -282,8 +270,38 @@ test_case_matrix ={
                 command_line_elements[1]=arg.strip()
             elif opt in ("-s", "--setup"):
                 command_line_elements[0]=arg.strip()
+            elif opt == '-h':
+                print 'To use preset test configuration, '
+                for key in sorted(test_case_matrix):
+                    print "\t",caller, "-p [, or --preset=]'"+key+"'"
+                print '\tor, define parameters from this list:   ','[-s <setup>] [-t <target>] [-l] [-f]'
+                print '\tFor Dev Testing:                        ', caller, '-s dev'
+                print '\tFor Staging Testing:                    ', caller, '-s staging'
+                print '\tFor Qman Testing:                       ', caller, '-t qman'
+                print '\tFor Conference Testing:                 ', caller, '-t conf'
+                print '\tFor NOT Using Log server, if applicable:', caller, '-l'
+                print '\tTo  NOT apply Log filer:                ', caller, '-f'
+                menu = {'0':'default'}
+                first = 0
+                for test in sorted(test_case_matrix):
+                    key = str(chr(first+ord('a')))
+                    menu.update({key:test})
+                    first += 1
+                while True:
+                    for key in sorted(menu):
+                        print ("{} -> {}".format(key,menu[key]))
+                    if sys.version_info < (3,0,0):
+                        selection=raw_input("Please Select:")
+                    else:
+                        selection=input("Please Select:")
+                    if('0' == selection):
+                        break
+                    this_configuration = menu.get(selection,None)
+                    if(this_configuration and 0 < len(this_configuration)):
+                        break
+                    print ("Invalid, please try again")
 
-        if(0 == len(this_configuration)):
+        if(None == this_configuration or 0 == len(this_configuration)):
             test_params = (['-s',command_line_elements[0],
                             '-t',command_line_elements[1]
                             ])
