@@ -15,7 +15,7 @@ def safe_exit(level, frame):
     exit(0)
 
 def sig_handler(sig, frame):
-    print "got sig(", sig,")\n"
+    print ("got sig({})\n".format(sig))
     safe_exit(sig, frame)
 
 signal.signal(signal.SIGUSR1,sig_handler)
