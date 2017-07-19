@@ -113,16 +113,16 @@ try:
     #dev_mserver_log_collector=log_collector('mserver',"mserver1n1-la.siptalk.com",True)
     mserver_log_collector=log_collector('mserver',"mserver1n1-la.siptalk.com")
     mserver_log_collector.collect_log()
-    conf_log_collector=log_collector('conf',"mserver1n1-la.siptalk.com",True)
-    conf_log_collector.run('./staging_conf_only.sh')
-    #check_output('/home/nir/bin/staging_conf_only.sh')
+    #conf_log_collector=log_collector('conf',"mserver1n1-la.siptalk.com",True)
+    #p = conf_log_collector.collect_log()  #.run('./staging_conf_only.sh')
+    check_output('/home/nir/bin/staging_conf_only.sh')
 
     #dev_qman_log_collector=log_collector('qman')
     #dev_qman_log_collector.run('test.py -p qman_dev')#('time sleep {}'.format(60*60))#('time sleeper.sh 120')('./dev_qman_2_influxdb.sh')
 
     sleep(30)
-
-    del conf_log_collector
+    #p.kill()
+    #del conf_log_collector
     del mserver_log_collector
     del db_log_collector
 

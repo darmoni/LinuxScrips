@@ -18,13 +18,14 @@ try:
     mserver_log_collector=log_collector('mserver',"mserver1n1-la.siptalk.com")
     mserver_log_collector.collect_log()
     conf_log_collector=log_collector('conf',"mserver1n1-la.siptalk.com",True)
-    conf_log_collector.collect_log()  #.run('/home/nir/bin/staging_qman_2_influxdb.sh')
+    p = conf_log_collector.collect_log()  #.run('/home/nir/bin/staging_qman_2_influxdb.sh')
     check_output('/home/nir/bin/staging_qman_2_influxdb.sh')
 
     #dev_qman_log_collector=log_collector('qman')
     #dev_qman_log_collector.run('test.py -p qman_dev')#('time sleep {}'.format(60*60))#('time sleeper.sh 120')('./dev_qman_2_influxdb.sh')
 
     sleep(30)
+    p.kill()
     del conf_log_collector
     del mserver_log_collector
     del db_log_collector

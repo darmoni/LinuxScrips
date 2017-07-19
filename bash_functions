@@ -777,17 +777,21 @@ function stage_media_library () {
     time=`timestamp | sed 's/[:|-]//g'`;
     remote="ssh xcast@`stage_srv`"
     deploy="cd ~/lib/mserver && mv hstarter hstarter.$time && mv libhermes.so libhermes.so.$time && ~/bin/mserver_ctl stop && \
-~/bin/cserver_ctl stop && cp ~/tmp/hstarter.nir hstarter && cp ~/tmp/libhermes.so.nir libhermes.so && ~/bin/mserver_ctl start && ~/bin/cserver_ctl start"
+~/bin/cserver_ctl stop && cp -p ~/tmp/hstarter.nir hstarter && cp -p ~/tmp/libhermes.so.nir libhermes.so && ~/bin/mserver_ctl start && ~/bin/cserver_ctl start && \
+echo '# vim media.xml && kill -1 `pgrep cserver` && killall hstarter XScript mapp confdep' "
     remote_deploy="${remote} '${deploy}'"
     echo "pushd ~/Downloads"
-    echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/hstarter hstarter.nir'
-    echo 'scp ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/libhermes.so libhermes.so.nir'
-    echo 'scp libhermes.so.nir xcast@stage1n1-la.siptalk.com:tmp/libhermes.so.nir'
-    echo 'scp hstarter.nir xcast@stage1n1-la.siptalk.com:tmp/hstarter.nir'
+    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/hstarter hstarter.nir'
+    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/libhermes.so libhermes.so.nir'
+    echo "sleep 2"
+    echo 'scp -p libhermes.so.nir xcast@stage1n1-la.siptalk.com:tmp/libhermes.so.nir'
+    echo 'scp -p hstarter.nir xcast@stage1n1-la.siptalk.com:tmp/hstarter.nir'
+    echo "sleep 2"
     echo "popd"
 
     echo 'echo on Staging server:'
     echo "# ${remote_deploy}"
+    echo "sleep 2"
 }
 
 export stage_media_library

@@ -20,7 +20,7 @@ class log_collector:
         self.setup()
         if(-1 != self._p):
             self._p.stdin.write(log_srv_cmd)
-            return self._p
+        return self._p
 
     def add_local_log(self, log, log_server):
 
@@ -99,3 +99,5 @@ class log_collector:
     def execute(self):
         if (self._execute_cmd): self.run(self._execute_cmd)
         else : self.collect_log()
+        if(-1 == self._p): return
+        self._p.kill()
