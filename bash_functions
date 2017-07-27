@@ -775,7 +775,48 @@ export stage_acd_recording
 
 function stage_media_library () {
     time=`timestamp | sed 's/[:|-]//g'`;
-    remote="ssh xcast@`stage_srv`"
+    srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
+    SUFFIX=`ssh xcast@mserver1n1-la.siptalk.com "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+    apps='hstarter libhermes.so'
+
+    echo "pushd ~/Downloads"
+    app='hstarter'
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/$app $app.nir"
+    echo "scp -p ndarmoni@pbxdev.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/$app $app$SUFFIX.nir"
+    app='libhermes.so'
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/$app $app.nir"
+    echo "scp -p ndarmoni@pbxdev.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/$app $app$SUFFIX.nir"
+
+    echo "sleep 2"
+
+    for srv in $srvs ; do
+        remote="ssh xcast@$srv"
+        SUFFIX=`$remote "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+        for app in $apps; do
+            deploy="cd ~/lib/mserver/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app$SUFFIX.nir ./$app"
+            verify="ls -l ~/lib/mserver/$app"
+            kill_master="sleep 2 && ~/bin/mserver_ctl restart && ~/bin/cserver_ctl restart"
+            remote_deploy="${remote} '${deploy}'"
+            remote_verify="${remote} '${verify}'"
+            remote_kill_master="${remote} '${kill_master}'"
+            #echo "scp -p $app.nir xcast@$srv:tmp/$app.nir"
+            echo "scp -p $app$SUFFIX.nir xcast@$srv:tmp/$app$SUFFIX.nir"
+            echo "sleep 2"
+            echo '#echo on Media servers:'
+            echo "${remote_deploy}"
+            echo "sleep 2"
+            echo "${remote_verify}"
+        done
+        echo "${remote_kill_master}"
+    done
+    echo "popd"
+}
+
+export stage_media_library
+
+function _debug_stage_media_library
+{
+    #remote="ssh xcast@`stage_srv`"
     deploy="cd ~/lib/mserver && mv hstarter hstarter.$time && mv libhermes.so libhermes.so.$time && ~/bin/mserver_ctl stop && \
 ~/bin/cserver_ctl stop && cp -p ~/tmp/hstarter.nir hstarter && cp -p ~/tmp/libhermes.so.nir libhermes.so && ~/bin/mserver_ctl start && ~/bin/cserver_ctl start && \
 echo '# vim media.xml && kill -1 `pgrep cserver` && killall hstarter XScript mapp confdep' "
@@ -794,7 +835,7 @@ echo '# vim media.xml && kill -1 `pgrep cserver` && killall hstarter XScript map
     echo "sleep 2"
 }
 
-export stage_media_library
+
 
 
 function stage_qman () {

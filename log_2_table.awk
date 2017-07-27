@@ -19,20 +19,20 @@ BEGIN {
     printf "measurement\ttime\tproc\tsubject\tinfo\n"
 }
 {
-    if(! $0 ~ /subjects_filter/) {next;}
+    #print subjects_filter;
+    if( 0 == index($0 , subjects_filter)) {next;}
     else if((0 == counter) && (0==syslog)) {
         syslog = index($0,syslog_delimiter);
         if (syslog > 0) {
             counter += 1
             $0 = substr($0, syslog+3);
         }
-
     }
     else if (syslog > 0) {
             $0 = substr($0, syslog+3);
     }
     gsub("\t"," ",$0);
-    if(! $0 ~ /subjects_filter/) {}
+    if( 0 == index($0 , subjects_filter)){}
     else if ($0 ~ / ([[:digit:]]{2}.){3}[[:digit:]]{6} /) {
         $0 =$0;
 
