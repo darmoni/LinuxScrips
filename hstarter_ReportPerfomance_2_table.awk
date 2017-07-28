@@ -121,17 +121,19 @@ BEGIN {
                     else if(info_average_item == item) {
                         n = split(infos[item],averages,"/")
                             if(n > 1) {
-                               average_wait = averages[1];
+                               _average_wait = averages[1];
                                _average_run = averages[2];
-                               average_run = substr(_average_run,0, index(_average_run,",")-1);
+                               average_wait = substr(_average_wait,0, index(_average_wait,"%")-1);
+                               average_run = substr(_average_run,0, index(_average_run,"%")-1);
                             }
                         }
                     else if(info_recent_item == item) {
                         n = split(infos[item],recents,"/")
                             if(n > 1) {
-                               recent_wait = recents[1];
+                               _recent_wait = recents[1];
                                _recent_run = recents[2];
-                               recent_run = substr(_recent_run,0, index(_recent_run,")")-1);
+                               recent_wait = substr(_recent_wait,0, index(_recent_wait,"%")-1);
+                               recent_run = substr(_recent_run,0, index(_recent_run,"%")-1);
                             }
                         }
                 }
