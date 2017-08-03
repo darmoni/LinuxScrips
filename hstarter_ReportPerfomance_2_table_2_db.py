@@ -18,11 +18,13 @@ def main(server_name='', test_mode='', host='localhost', port=8086, chunk=100):
     chunk_size = chunk
 
     client = DataFrameClient(host, port, user, password, dbname)
+    client.create_database(dbname)
     client.create_retention_policy(retention_policy, '3d', 3, default=True)
     done = False
     while not done:
         try:
             if first:
+                print("Create pandas DataFrame")
                 df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0,nrows=chunk_size,engine='python')
                 if df.empty:
                     done = True
@@ -33,8 +35,6 @@ def main(server_name='', test_mode='', host='localhost', port=8086, chunk=100):
                     if('' != test_mode): measurement = "{}.{}.{}".format(df.iloc[0][0],server_name,test_mode)
                     else: measurement = "{}.{}".format(df.iloc[0][0],server_name)
                     print "Create database: {}, measurement={}".format(dbname, measurement)
-                    client.create_database(dbname)
-                    print("Create pandas DataFrame")
                     first = False
             else:
                 df =pd.read_table(sys.stdin, parse_dates=True,index_col=[1],nrows=chunk_size,names=names,engine='python')

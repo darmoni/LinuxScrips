@@ -883,6 +883,32 @@ function stage_indexCDR () {
 }
 export stage_indexCDR
 
+function stage_inbound_fax () {
+    time=`timestamp | sed 's/[:|-]//g'`;
+    srvs=`stage_srv`
+    echo "pushd ~/Downloads"
+    echo "scp -p xcast@xdev64.xcastlabs.com:bin/process_inbound_fax.php process_inbound_fax.php.nir"
+    echo "scp -p xcast@xdev64.xcastlabs.com:lib/mserver/app/FaxIn.xms FaxIn.xms.nir"
+    echo 'sleep 3'
+    for srv in $srvs ; do
+        remote="ssh xcast@$srv"
+        deploy="cd ~/bin && mv ./process_inbound_fax.php ./process_inbound_fax.php.$time && cp -p ~/tmp/process_inbound_fax.php.nir ./process_inbound_fax.php \
+        cd ~/lib/mserver/app && mv ./FaxIn.xms ./FaxIn.xms.$time && cp -p ~/tmp/FaxIn.xms.nir ./FaxIn.xms"
+        remote_deploy="${remote} '${deploy}'"
+        verify="ls -l ~/bin/process_inbound_fax.php ~/lib/mserver/app/FaxIn.xms"
+        remote_verify="${remote} '${verify}'"
+        echo "scp -p process_inbound_fax.php.nir xcast@$srv:tmp/process_inbound_fax.php.nir"
+        echo "scp -p FaxIn.xms.nir xcast@$srv:tmp/FaxIn.xms.nir"
+        echo 'sleep 3'
+        echo 'echo on Media servers:'
+        echo "${remote_deploy}"
+        echo 'sleep 3'
+        echo "${remote_verify}"
+        done
+    echo "popd"
+}
+export stage_inbound_fax
+
 function start_staging_baresip () {
     nohup ~/bin/start_test.py &
 }
@@ -900,7 +926,9 @@ done'
 }
 
 function influx_it {
-    influx -database 'logs' -execute 'select * from /logs.*/ order by time desc limit 6'
+    influx -database 'logs' -precision rfc3339 -execute 'select * from /logs.*/ order by time desc limit 6'
+    influx -database 'MediaPerfomance' -precision rfc3339 -execute 'SELECT * FROM "awesome_policy"./ReportPerfomance.*.vad.*/ where time > now() -2d  order by time desc limit 3'
+
 }
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
