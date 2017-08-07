@@ -38,17 +38,24 @@ class Counter:
             print 'Last Counter object deleted'
         else:
             print self.Count, 'Counter objects remaining'
-
-def main(host, port, chunk):
+g_chunk = None
+def main(host, port, chunk, uname):
+    global g_chunk
+    g_chunk = chunk
     counters = []
+    if('localhost' == host): ssh_cmd ='bash -c '
+    else: ssh_cmd = "ssh " + uname + "@"+host
+    
     def start_baresip():
-        args = shlex.split("ssh xcast@"+host+ " 'ps -ef | grep -v grep | grep baresip'")
+        args = shlex.split(ssh_cmd + " 'ps -ef | grep -v grep | grep baresip | grep root'")
         print (args)
         try:
             print (check_output(args))
+            counters.append(Counter(main))
         except CalledProcessError:
-            args = shlex.split("ssh xcast@"+host+ " 'sudo /usr/local/bin/baresip'")
-            counters.append(Counter(Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)))
+            args = shlex.split(ssh_cmd + " 'sudo /usr/local/bin/baresip'")
+            p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
+            if (p): counters.append(Counter(p))
         except Exception as inst:
             print type(inst)
             print inst.args
@@ -56,12 +63,25 @@ def main(host, port, chunk):
             print __file__, 'Oops'
 
     def start_RPM_test():
-        args = shlex.split("ssh xcast@"+host+ " ~/bin/test_RPMLoad.sh "+str(chunk))
-        print (check_output(args))
+        global g_chunk
+        try:
+            cmd = " '~/bin/test_RPMLoad.sh "+str(g_chunk) +" ' "
+            args = shlex.split(ssh_cmd +cmd)
+            print(args)
+            print (check_output(args))
+        except CalledProcessError:pass
+        except Exception as inst:
+            print type(inst)
+            print inst.args
+            print inst
+            print __file__, 'Oops'
 
     def stop_RPM_test():
-        args = shlex.split("ssh xcast@"+host+ " ~/bin/stoptest_RPMLoad.sh "+str(chunk))
+        global g_chunk
         try:
+            cmd = " '~/bin/stoptest_RPMLoad.sh "+str(g_chunk) +" ' "
+            args = shlex.split(ssh_cmd +cmd)
+            print(args)
             print (check_output(args))
         except CalledProcessError:pass
         except Exception as inst:
@@ -71,7 +91,7 @@ def main(host, port, chunk):
             print __file__, 'Oops'
 
     def quit_baresip():
-        args = shlex.split("ssh xcast@"+host+ " ~/bin/kill_baresip.sh")
+        args = shlex.split(ssh_cmd + " ~/bin/kill_baresip.sh")
         try:
             print (check_output(args))
         except CalledProcessError:pass
@@ -80,6 +100,17 @@ def main(host, port, chunk):
             print inst.args
             print inst
             print __file__, 'Oops'
+
+    def update_chunk():
+        global g_chunk
+        print ("current chunk = " + str(g_chunk) +  "\n")
+        if sys.version_info < (3,0,0):
+            _chunk = int(raw_input("Enter the new Chuck value\n"))
+        else:
+            _chunk = int(input("Enter the new Chuck value\n"))
+        if (_chunk):
+            print ("current chunk = " + str(_chunk) +  "\n")
+            g_chunk=_chunk
 
     def my_quit_fn():
         try:
@@ -101,7 +132,8 @@ def main(host, port, chunk):
             '2':("Run RPM",start_RPM_test),
             '3':("Stop RPMs",stop_RPM_test),
             '4':("Quit baresip",quit_baresip),
-            '5':("Exit",my_quit_fn)
+            '5':("Chunk",update_chunk),
+            '6':("Exit",my_quit_fn)
             }
     for entry in sorted(menu.keys()):
         print ("{},{}".format(str(chr(first+ord('a')))[0],entry))
@@ -128,6 +160,8 @@ def parse_args():
                         help='port of RTP Testing')
     parser.add_argument('--chunk', type=int, required=False, default=56,
                         help='Number of calls in a chunk')
+    parser.add_argument('--uname', type=str, required=False, default='xcast',
+                        help='User Name on the server')
     return parser.parse_args()
 
 
@@ -135,7 +169,7 @@ if __name__ == '__main__':
     args = parse_args()
     #dump(args)
     try:
-        main(host=args.host, port=args.port, chunk=args.chunk)
+        main(host=args.host, port=args.port, chunk=args.chunk, uname=args.uname)
     except Exception as inst:
         print type(inst)
         print inst.args
