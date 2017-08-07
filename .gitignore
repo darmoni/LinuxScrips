@@ -1,4 +1,6 @@
 core
+*.txt
+*.log
 *.xls
 *.pid
 *.pyc
