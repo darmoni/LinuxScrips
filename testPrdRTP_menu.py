@@ -39,7 +39,7 @@ class Counter:
         else:
             print self.Count, 'Counter objects remaining'
 g_chunk = None
-def main(host, port, chunk, uname):
+def main(host, chunk, uname):
     global g_chunk
     g_chunk = chunk
     counters = []
@@ -108,9 +108,11 @@ def main(host, port, chunk, uname):
             _chunk = int(raw_input("Enter the new Chunk value\n"))
         else:
             _chunk = int(input("Enter the new Chunk value\n"))
-        if (_chunk):
+        if (_chunk and 0 < _chunk):
             print ("current chunk = " + str(_chunk) +  "\n")
             g_chunk=_chunk
+        else:
+            print ("accepting positive numbers only\n")
 
     def my_quit_fn():
         try:
@@ -128,21 +130,18 @@ def main(host, port, chunk, uname):
       print ("INVALID CHOICE!")
 
     first = 0
-    menu = {"1":("Start barsip:", start_baresip),
-            '2':("Run RTP",start_RTP_test),
-            '3':("Stop RTPs",stop_RTP_test),
+    menu = {"1":("Start barsip on "+host, start_baresip),
+            '2':("Run RTP *{}* Test calls".format(g_chunk),start_RTP_test),
+            '3':("Stop RTP *{}* Test".format(g_chunk),stop_RTP_test),
             '4':("Quit baresip",quit_baresip),
-            '5':("Chunk",update_chunk),
+            '5':("Chunk = {}".format(g_chunk) ,update_chunk),
             '6':("Exit",my_quit_fn)
             }
-    for entry in sorted(menu.keys()):
-        print ("{},{}".format(str(chr(first+ord('a')))[0],entry))
-        first +=1
-
+    fmt = '{0:>3} => {1:>6}'
     while True:
       options=menu.keys()
       for entry in sorted(options):
-          print (entry, menu[entry][0])
+          print (fmt.format(entry, menu[entry][0]))
 
       if sys.version_info < (3,0,0):
         selection=raw_input("Please Select:")
@@ -156,9 +155,9 @@ def parse_args():
     parser.add_argument('--host', type=str, required=False,
                         default='sbc11n2-la.siptalk.com',
                         help='hostname for RTP Testing')
-    parser.add_argument('--port', type=int, required=False, default=33000,
-                        help='port of RTP Testing')
-    parser.add_argument('--chunk', type=int, required=False, default=56,
+    #parser.add_argument('--port', type=int, required=False, default=33000,
+    #                    help='port of RTP Testing')
+    parser.add_argument('--chunk', type=int, required=False, default=7,
                         help='Number of calls in a chunk')
     parser.add_argument('--uname', type=str, required=False, default='xcast',
                         help='User Name on the server')
@@ -169,7 +168,7 @@ if __name__ == '__main__':
     args = parse_args()
     #dump(args)
     try:
-        main(host=args.host, port=args.port, chunk=args.chunk, uname=args.uname)
+        main(host=args.host, chunk=args.chunk, uname=args.uname)
     except Exception as inst:
         print type(inst)
         print inst.args
