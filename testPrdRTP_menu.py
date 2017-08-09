@@ -62,10 +62,10 @@ def main(host, port, chunk, uname):
             print inst
             print __file__, 'Oops'
 
-    def start_RPM_test():
+    def start_RTP_test():
         global g_chunk
         try:
-            cmd = " '~/bin/test_RPMLoad.sh "+str(g_chunk) +" ' "
+            cmd = " '~/bin/test_RTPLoad.sh "+str(g_chunk) +" ' "
             args = shlex.split(ssh_cmd +cmd)
             print(args)
             print (check_output(args))
@@ -76,10 +76,10 @@ def main(host, port, chunk, uname):
             print inst
             print __file__, 'Oops'
 
-    def stop_RPM_test():
+    def stop_RTP_test():
         global g_chunk
         try:
-            cmd = " '~/bin/stoptest_RPMLoad.sh "+str(g_chunk) +" ' "
+            cmd = " '~/bin/stoptest_RTPLoad.sh "+str(g_chunk) +" ' "
             args = shlex.split(ssh_cmd +cmd)
             print(args)
             print (check_output(args))
@@ -105,9 +105,9 @@ def main(host, port, chunk, uname):
         global g_chunk
         print ("current chunk = " + str(g_chunk) +  "\n")
         if sys.version_info < (3,0,0):
-            _chunk = int(raw_input("Enter the new Chuck value\n"))
+            _chunk = int(raw_input("Enter the new Chunk value\n"))
         else:
-            _chunk = int(input("Enter the new Chuck value\n"))
+            _chunk = int(input("Enter the new Chunk value\n"))
         if (_chunk):
             print ("current chunk = " + str(_chunk) +  "\n")
             g_chunk=_chunk
@@ -129,8 +129,8 @@ def main(host, port, chunk, uname):
 
     first = 0
     menu = {"1":("Start barsip:", start_baresip),
-            '2':("Run RPM",start_RPM_test),
-            '3':("Stop RPMs",stop_RPM_test),
+            '2':("Run RTP",start_RTP_test),
+            '3':("Stop RTPs",stop_RTP_test),
             '4':("Quit baresip",quit_baresip),
             '5':("Chunk",update_chunk),
             '6':("Exit",my_quit_fn)
