@@ -130,24 +130,24 @@ def main(host, chunk, uname):
       print ("INVALID CHOICE!")
 
     first = 0
-    menu = {"1":("Start barsip on "+host, start_baresip),
-            '2':("Run RTP *{}* Test calls".format(g_chunk),start_RTP_test),
-            '3':("Stop RTP *{}* Test".format(g_chunk),stop_RTP_test),
-            '4':("Quit baresip",quit_baresip),
-            '5':("Chunk = {}".format(g_chunk) ,update_chunk),
-            '6':("Exit",my_quit_fn)
-            }
     fmt = '{0:>3} => {1:>6}'
     while True:
-      options=menu.keys()
-      for entry in sorted(options):
+        menu = {"1":("Start barsip on "+host, start_baresip),
+                '2':("Run RTP *{}* Test calls".format(g_chunk),start_RTP_test),
+                '3':("Stop RTP *{}* Test".format(g_chunk),stop_RTP_test),
+                '4':("Quit baresip",quit_baresip),
+                '5':("Chunk = {}".format(g_chunk) ,update_chunk),
+                '6':("Exit",my_quit_fn)
+                }
+        options=menu.keys()
+        for entry in sorted(options):
           print (fmt.format(entry, menu[entry][0]))
 
-      if sys.version_info < (3,0,0):
-        selection=raw_input("Please Select:")
-      else:
-        selection=input("Please Select:")
-      menu.get(selection,[None,invalid])[1]()
+        if sys.version_info < (3,0,0):
+            selection=raw_input("Please Select:")
+        else:
+            selection=input("Please Select:")
+        menu.get(selection,[None,invalid])[1]()
 
 def parse_args():
     parser = argparse.ArgumentParser(

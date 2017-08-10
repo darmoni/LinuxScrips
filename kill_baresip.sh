@@ -1,6 +1,19 @@
 #! /bin/bash
-a=`ps -ef | grep -v grep | grep baresip | grep root`
+. ~/bin/testRTP.cfg
+
+a=`ps -ef | egrep -v 'grep|ssh' | grep -v $$ | grep "/usr/local/bin/baresip" |grep root | awk '! /sudo/{print $2;}'`
+
 if [ "" = "$a" ] ; then echo nothing to do, baresip is not running
+
 else 
-curl 'http://127.0.0.1:33000/?q'
+echo I am "$$" found these "$a" candidates
+for b in $a;
+do if [ "$$" != "$b" ] ; then echo killing $b;
+        echo `ps -ef | egrep -v 'grep|ssh' | grep -v $$ | grep $b`;
+        $(kill $b); sleep 1 ;
+        fi;
+done
+curl $baresip_access_curl'q'
+sleep 1
+echo `ps -ef | egrep -v 'grep|ssh' | grep -v $$ | grep "/usr/local/bin/baresip" |grep root | awk '! /sudo/'`
 fi

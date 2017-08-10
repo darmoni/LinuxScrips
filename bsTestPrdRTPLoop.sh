@@ -1,2 +1,3 @@
 #! /bin/bash
-curl 'http://127.0.0.1:33000/?Td996633' > /dev/null
+. ~/bin/testRTP.cfg
+curl $baresip_access_curl'Td996633' > /dev/null
