@@ -4,6 +4,7 @@ import argparse, sys
 import shlex
 from subprocess import call, Popen, check_call, check_output, PIPE, CalledProcessError
 from weakref import WeakValueDictionary
+import os
 import signal
 
 def sig_handler(sig, frame):
@@ -38,24 +39,30 @@ class Counter:
             print 'Last Counter object deleted'
         else:
             print self.Count, 'Counter objects remaining'
+
 g_chunk = None
+g_agents_num = 0
 def main(host, chunk, uname):
     global g_chunk
+    global g_agents_num
+    g_agents_num = 0
     g_chunk = chunk
     counters = []
     if('localhost' == host): ssh_cmd ='bash -c '
     else: ssh_cmd = "ssh " + uname + "@"+host
-    
+    mydir=os.path.dirname(__file__)
+
     def start_baresip():
         args = shlex.split(ssh_cmd + " 'ps -ef | grep -v grep | grep baresip | grep root'")
-        print (args)
+        #print (args)
         try:
-            print (check_output(args))
-            counters.append(Counter(main))
+            check_output(args)  # if service is not running, we will skip to execute except CalledProcessError
+
         except CalledProcessError:
             args = shlex.split(ssh_cmd + " 'sudo /usr/local/bin/baresip'")
             p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
-            if (p): counters.append(Counter(p))
+            if (p):
+                counters.append(Counter(p))
         except Exception as inst:
             print type(inst)
             print inst.args
@@ -91,15 +98,32 @@ def main(host, chunk, uname):
             print __file__, 'Oops'
 
     def quit_baresip():
-        args = shlex.split(ssh_cmd + " ~/bin/kill_baresip.sh")
+        global g_agents_num
         try:
-            print (check_output(args))
+            while len(counters) > 0 and len(Counter._instances) > 0:
+                for id in counters:
+                    id.name.stdin.write("q")
+                    counters.remove(id)
+                    break
+            g_agents_num=0
+            #args = shlex.split(ssh_cmd + " ~/bin/kill_baresip.sh")
+            #print (check_output(args))
         except CalledProcessError:pass
         except Exception as inst:
             print type(inst)
             print inst.args
             print inst
             print __file__, 'Oops'
+
+    def count_agents():
+        global g_agents_num
+        if(0 == g_agents_num):
+            cmd = ' ~/bin/countAgents.sh 2> /dev/null'
+            args = shlex.split(ssh_cmd +cmd)
+            res=check_output(args)
+            if(len(res) > 0): g_agents_num=int(res)
+        if (g_agents_num):
+            print ("Number of Agents is {}\n".format(g_agents_num))
 
     def update_chunk():
         global g_chunk
@@ -130,15 +154,19 @@ def main(host, chunk, uname):
       print ("INVALID CHOICE!")
 
     first = 0
-    fmt = '{0:>3} => {1:>6}'
+    fmt = '{0:>3} => {1:<16}'
     while True:
-        menu = {"1":("Start barsip on "+host, start_baresip),
-                '2':("Run RTP *{}* Test calls".format(g_chunk),start_RTP_test),
-                '3':("Stop RTP *{}* Test".format(g_chunk),stop_RTP_test),
+        chunk_agents_report="[Chunk/Agents:{}/{}]".format(g_chunk,"???" if (0 == g_agents_num) else g_agents_num)
+        if(0 == len(Counter._instances)): menu = {"1":("Start barsip on "+host, start_baresip)}
+        else:
+            menu = {} if (0 < g_agents_num) else {"1":("Count Agents (!!! only before calls are running !!!) ", count_agents)}
+        menu.update({
+                '2':("{} Run RTP Test calls".format(chunk_agents_report),start_RTP_test),
+                '3':("{} Stop RTP Test".format(chunk_agents_report),stop_RTP_test),
                 '4':("Quit baresip",quit_baresip),
                 '5':("Chunk = {}".format(g_chunk) ,update_chunk),
                 '6':("Exit",my_quit_fn)
-                }
+                })
         options=menu.keys()
         for entry in sorted(options):
           print (fmt.format(entry, menu[entry][0]))

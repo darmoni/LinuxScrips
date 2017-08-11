@@ -1,5 +1,6 @@
 #! /bin/bash
-. ~/bin/testRTP.cfg
+mydirname=`dirname $0`
+. $mydirname/testRTP.cfg
 
 a=`ps -ef | egrep -v 'grep|ssh' | grep -v $$ | grep "/usr/local/bin/baresip" |grep root | awk '! /sudo/{print $2;}'`
 

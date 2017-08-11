@@ -16,8 +16,8 @@ curl_bye_cmd=$baresip_access_curl$list
 a=`ps -ef | grep -v grep | grep baresip | grep root`
 if [ "" = "$a" ] ; then echo nothing to do, baresip is not running
 else 
-curl $curl_cmd
+curl $curl_cmd 2> /dev/null
 for i in `seq 1 $loops`;do curl $curl_bye_cmd ; sleep 1; done
 sleep 1;
-curl $curl_cmd
+curl $curl_cmd 2> /dev/null
 fi
