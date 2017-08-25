@@ -46,7 +46,9 @@ def main(server_name='', test_mode='', host='localhost', port=8086, chunk=100):
                 #dump(df)
                 print("range = {}".format(len(df.axes[1])))
                 #dump(df.axes)
+            sleep(2)
             client.write_points(df,measurement,tag_columns=[1,2],field_columns=range(2,len(df.axes[1])))
+        except ValueError:continue
         except Exception as inst:
             print type(inst)
             print inst.args
@@ -55,7 +57,9 @@ def main(server_name='', test_mode='', host='localhost', port=8086, chunk=100):
             break
     if(not df.empty):
         #dump(df)
-        client.write_points(df,measurement,tag_columns=[1,2],field_columns=range(2,len(df.axes[1])))
+        try:
+            client.write_points(df,measurement,tag_columns=[1,2],field_columns=range(2,len(df.axes[1])))
+        except:pass
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -72,7 +76,7 @@ def parse_args():
                         help='PBX System alias')
     parser.add_argument('--test_mode', type=str, required=False,
                         default='vad_on',
-                        help='PBX System alias')
+                        help='Test Mode')
     return parser.parse_args()
 
 

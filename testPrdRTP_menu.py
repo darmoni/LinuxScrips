@@ -59,7 +59,8 @@ def main(host, chunk, uname):
             check_output(args)  # if service is not running, we will skip to execute except CalledProcessError
 
         except CalledProcessError:
-            args = shlex.split(ssh_cmd + " 'sudo /usr/local/bin/baresip'")
+            sudo = " sudo " if('localhost' != host) else ""
+            args = shlex.split(ssh_cmd + sudo +" '/usr/local/bin/baresip'")
             p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
             if (p):
                 counters.append(Counter(p))
@@ -106,8 +107,9 @@ def main(host, chunk, uname):
                     counters.remove(id)
                     break
             g_agents_num=0
-            #args = shlex.split(ssh_cmd + " ~/bin/kill_baresip.sh")
-            #print (check_output(args))
+            sudo = " sudo " if('localhost' != host) else ""
+            args = shlex.split(ssh_cmd + sudo +" ~/bin/kill_baresip.sh")
+            print (check_output(args))
         except CalledProcessError:pass
         except Exception as inst:
             print type(inst)

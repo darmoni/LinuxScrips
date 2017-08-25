@@ -928,8 +928,13 @@ done'
 function influx_it {
     influx -database 'logs' -precision rfc3339 -execute 'select * from /logs.*/ order by time desc limit 6'
     influx -database 'MediaPerfomance' -precision rfc3339 -execute 'SELECT * FROM "awesome_policy"./ReportPerfomance.*.vad.*/ where time > now() -2d  order by time desc limit 3'
-
+    influx -database 'MediaPerfomance' -precision rfc3339 -execute 'SELECT * FROM "awesome_policy"./PacketLoss.*.vad.*/ where time > now() -2d  order by time desc limit 3'
 }
+
+function logs_load {
+    logs_load.py
+}
+
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/

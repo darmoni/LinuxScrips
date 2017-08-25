@@ -5,6 +5,7 @@ import pandas as pd
 
 from influxdb import DataFrameClient
 from nested_print import dump, dumpclean
+from time import sleep
 
 def main(host='localhost', port=8086, chunk=10000):
     user = 'root'
@@ -18,7 +19,8 @@ def main(host='localhost', port=8086, chunk=10000):
     while not done:
         try:
             if first:
-                df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0,nrows=chunk_size,engine='python')
+                #df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0,nrows=chunk_size,engine='python')
+                df = pd.read_table(sys.stdin, parse_dates=True,index_col=[1],header=0,nrows=chunk_size,engine='c')
                 if df.empty:
                     done = True
                     print "Done!"
@@ -31,13 +33,15 @@ def main(host='localhost', port=8086, chunk=10000):
                     print("Create pandas DataFrame")
                     first = False
             else:
-                df =pd.read_table(sys.stdin, parse_dates=True,index_col=[1],nrows=chunk_size,names=names,engine='python')
+                #df =pd.read_table(sys.stdin, parse_dates=True,index_col=[1],nrows=chunk_size,names=names,engine='python')
+                df =pd.read_table(sys.stdin, parse_dates=True,index_col=[1],nrows=chunk_size,names=names,engine='c')
             if df.empty:
                 done = True
                 print "Done!"
                 break
             else:
                 #dump(df)
+                sleep(1)
                 client.write_points(df,measurement,tag_columns=[1,2],field_columns=[3])
         except Exception as inst:
             print type(inst)

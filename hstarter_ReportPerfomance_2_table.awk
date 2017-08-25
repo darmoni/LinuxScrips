@@ -138,14 +138,14 @@ BEGIN {
                         }
                 }
             }
-            printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", name, timetsamp,proc,subject,info,
-                    queue,rcv,drp,prc,tmr,average_wait,average_run,recent_wait,recent_run;
+            #printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", name, timetsamp,proc,subject,info,
+            #        queue,rcv,drp,prc,tmr,average_wait,average_run,recent_wait,recent_run;
             if(length(subjects_filter) > 0) {
                 for (_s in subjects) {
                     if(subjects[_s] == subject) {
                         printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", name, timetsamp,proc,subject,info,
                             queue,rcv,drp,prc,tmr,average_wait,average_run,recent_wait,recent_run;
-                        break;
+                        #break;
                     }
                 }
             }
