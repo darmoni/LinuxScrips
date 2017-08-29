@@ -926,6 +926,9 @@ done'
 }
 
 function influx_it {
+    echo '# sudo systemctl restart influxdb'
+    echo '# sudo vim /etc/influxdb/influxdb.conf'
+
     influx -database 'logs' -precision rfc3339 -execute 'select * from /logs.*/ order by time desc limit 6'
     influx -database 'MediaPerfomance' -precision rfc3339 -execute 'SELECT * FROM "awesome_policy"./ReportPerfomance.*.vad.*/ where time > now() -2d  order by time desc limit 3'
     influx -database 'MediaPerfomance' -precision rfc3339 -execute 'SELECT * FROM "awesome_policy"./PacketLoss.*.vad.*/ where time > now() -2d  order by time desc limit 3'

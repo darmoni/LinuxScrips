@@ -20,7 +20,9 @@ BEGIN {
 }
 {
     #print subjects_filter;
-    if( 0 == index($0 , subjects_filter)) {next;}
+    gsub("\t"," ",$0);
+    $0 = $0;
+    if((length(subjects_filter) > 0) && ( 0 == index($0 , subjects_filter))) {next;}
     else if((0 == counter) && (0==syslog)) {
         syslog = index($0,syslog_delimiter);
         if (syslog > 0) {
@@ -32,7 +34,7 @@ BEGIN {
             $0 = substr($0, syslog+3);
     }
     gsub("\t"," ",$0);
-    if( 0 == index($0 , subjects_filter)){}
+    if((length(subjects_filter) > 0) && ( 0 == index($0 , subjects_filter))){}
     else if ($0 ~ / ([[:digit:]]{2}.){3}[[:digit:]]{6} /) {
         $0 =$0;
 
