@@ -1,4 +1,8 @@
+// $Id$ $Date$
+
+
 #include <stdio.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
@@ -6,6 +10,7 @@
 #include <map>
 #include <unistd.h>
 #include <sys/wait.h>
+
 using namespace std;
 #define RUN_IT 1
 
@@ -37,12 +42,27 @@ class command_runner {
 #if RUN_IT
         int run();
 #endif // RUN_IT
+    string to_string()
+    {
+        string me(path());
+        if(_argv.size() > 1)
+        for(int i=1; i <  _argv.size()-1 ; ++i)
+        {
+            {
+                me.append(" '");
+                me.append(_argv[i]);
+                me.append("' ");
+            }
+        }
+        return me;
+    }
 };
 #if RUN_IT
-    int command_runner::run(){
+    int command_runner::run() {
         pid_t child_pid;
 
         if(prepare()) {
+            cout << "DEBUG:: parent: running this: " << to_string() << endl;
             child_pid = fork();
             if (child_pid == -1)
             {
@@ -51,7 +71,7 @@ class command_runner {
             }
             if(child_pid == 0) {
             /* This is done by the child process. */
-
+                cout << "DEBUG:: child:running this: " << to_string() << endl;
                 execv(path(), argv());
 
             /* If execv returns, it must have failed. */
@@ -92,6 +112,7 @@ bool command_runner::prepare() {
     for(vector<char * >::iterator i =_argv.begin(); i != _argv.end(); ++i)
     /*if(NULL != *i)*/ printf("'%s' ",*i);
 //#endif
+
     printf("prepare is done\n");
     return true;
 }
@@ -104,36 +125,32 @@ char * const s5 = s4;
 //char * const s6 = (const char * )("test");
 #include <sys/stat.h>
 #include <inttypes.h>
-int file_size(const std::string& path)
-{
+int file_size(const std::string& path) {
     struct stat statbuf;
-    if (stat(path.c_str(), &statbuf) == -1)
-    {
+    if (stat(path.c_str(), &statbuf) == -1) {
       return -1;
     }
     return statbuf.st_size;
 }
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 //usr/local/registrator/lib/mserver/app/mappemail_acdrecording.php 30320 109050 25518 "7160" 15999 "9801" "7161" \
 "Near Darmoni 61" ""Message Center" <message-center@xcastlabs.com>" \
 "ndarmoni@xcastlabs.com" "/usr/local/registrator/callrecordings//siptalk64.xcastlabs.com/71/acdcallrec-15999-109049.mp3" wav
     command_runner my_exec;
     int ret = 0;
-//    my_exec.cmd("/usr/bin/php");
-//    my_exec.arg("-f");
-//    my_exec.arg("get_params.php");
     my_exec.cmd("/bin/fuser");
 
-    //string fn = argv[0];
-    string fn = __FILE__;
+    string fn = argv[0];
     if(argc >1)fn.assign(argv[1]);
-    printf("running %s %s \n",my_exec.path(),fn.c_str());
-    if(-1 == file_size(fn)) ret = -1;
+
+    char resolved_path[PATH_MAX+1];
+    char * me =realpath(fn.c_str(), resolved_path);
+    printf("resolved '%s' '%s'\n", fn.c_str(),me?resolved_path:"");
+    if(me) fn.assign(resolved_path);
+    printf("running '%s' '%s' \n",my_exec.path(),fn.c_str());
+    if(-1 == file_size(fn)){}
     else
         my_exec.arg(fn);
-    //my_exec.arg("qman_staging_log_server");
-
 
 #if RUN_IT
     if(!ret) ret = my_exec.run();
