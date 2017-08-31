@@ -1,4 +1,6 @@
 #! /bin/bash
+# $Id$ $Date$
+
 mydirname=`dirname $0`
 . $mydirname/testRTP.cfg
 if [ ! -n "$1" ]; then

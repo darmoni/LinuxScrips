@@ -1,5 +1,7 @@
 *.* ident
+*.c filter=dater
 *.cpp filter=dater
+*.sh filter=dater
 *.h filter=dater
 *.awk filter=dater
 *.py filter=dater
