@@ -3,8 +3,15 @@
 
 import shlex, sys
 from subprocess import check_output
+def main(argv):
+    param = ''
+    if(len(argv)):
+        argc = len(argv)
+        param = ' -- ' + argv[0]
 
-data = sys.stdin.read()
-args = shlex.split('git log --pretty=format:"%ad" -1')
-last_date = check_output(args)
-print data.replace('$Date$', '$Date: ' + last_date + '$')
+    data = sys.stdin.read()
+    args = shlex.split('git log --pretty=format:"%ad" -1 ' + param)
+    last_date = check_output(args)
+    print data.replace('$Date$', '$Date: ' + last_date + '$')
+if __name__ == "__main__":
+    main(sys.argv[1:])
