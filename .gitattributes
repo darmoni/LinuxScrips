@@ -1,4 +1,5 @@
-*.* ident
+* ident
+extand_date ident
 *.c filter=dater
 *.cpp filter=dater
 *.sh filter=dater
