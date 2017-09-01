@@ -19,4 +19,3 @@ sleep 1;
 echo curl $curl_cmd
 curl $curl_cmd
 fi
-
