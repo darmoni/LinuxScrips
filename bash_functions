@@ -1,5 +1,5 @@
 #!/bin/bash -x
-
+# $Id$ $Date$
 function me {
   echo $LOGNAME
 }
@@ -61,10 +61,10 @@ export -f fb_devices
 
 function ver()
 {
- for device in `adb_devices` ; do
-    APver=`adb -s $device shell getprop ro.build.fingerprint | sed -e "s/.*\[//" -e "s/\]//"`
-    BPver=`adb -s $device shell getprop gsm.version.baseband | sed -e "s/.*\[//" -e "s/\]//"`
-    FSGver=`adb -s $device shell getprop ril.baseband.config.ver_num | sed -e "s/.*\[//" -e "s/\]//"`
+ for device in $(adb_devices) ; do
+    APver=$(adb -s $device shell getprop ro.build.fingerprint | sed -e "s/.*\[//" -e "s/\]//")
+    BPver=$(adb -s $device shell getprop gsm.version.baseband | sed -e "s/.*\[//" -e "s/\]//")
+    FSGver=$(adb -s $device shell getprop ril.baseband.config.ver_num | sed -e "s/.*\[//" -e "s/\]//")
     echo "Serial Number: $device"
     echo "AP:  $APver"
     echo "BP:  $BPver"
@@ -147,8 +147,8 @@ export -f logcat
 
 function flash_it() {
 if [ ! -n "$1" ]; then
-    guess=`ls -1trF fastboot*.tar.gz | tail -1`
-    folder=`echo $guess | sed 's/fastboot.//' | sed 's/\.tar\.gz//'`
+    guess=$(ls -1trF fastboot*.tar.gz | tail -1)
+    folder=$(echo $guess | sed 's/fastboot.//' | sed 's/\.tar\.gz//')
 else
   folder=$1;
 fi
@@ -168,11 +168,11 @@ export -f flash_it
 function get_keys_version (){
 
 keys='serialno|version|keys|ro.boot|MBM-NG-V|fingerprint'
-devices=`fb_devices`
+devices=$(fb_devices)
 if [ ! -z "$devices" ] ; then
    getvar | grep -iE $keys
 fi
-devices=`adb_devices`
+devices=$(adb_devices)
   for device in $devices ; do
     echo serialno: $device
     adb -s $device shell getprop | grep -iE $keys;
@@ -216,24 +216,14 @@ function echo_if_dir {
 }
 
 function ltr {
-
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltr $file ;done
-else
-  ls -ltr
-fi
+    ls -ltr $*
 }
 
 export -f ltr
 
 function flsrt () {
 
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -lSrF $file | grep / ; done |tail
-else
-  ls -lSrF  | grep / | tail
-fi
-
+  ls -lSrF  $*| grep / | tail
 }
 
 export -f flsrt
@@ -252,61 +242,32 @@ export -f lsrt
 #alias fltrt='ls -ltrF | grep / | tail'
 
 function ltrh () {
-
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file ; done | head
-else
-  ls -ltrF | head
-fi
-
+    ls -ltrF $*| head
 }
 
 export -f ltrh
 
 function ltrt () {
-
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file ; done | tail
-else
-  ls -ltrF | tail
-fi
-
+  ls -ltrF $* | tail
 }
 
 export -f ltrt
 
 function fltrh () {
 
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done | head
-else
-  ls -ltrF  | grep / | head
-fi
-
+  ls -ltrF  $* | grep / | head
 }
 
 export -f fltrh
 
 function fltr () {
-
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done
-else
-  ls -ltrF  | grep /
-fi
-
+  ls -ltrF  $* | grep /
 }
 
 export -f fltr
 
 function fltrt () {
-
-if [ -n "$1" ] ; then
-  for file in $* ; do echo_if_dir $file ; ls -ltrF $file | grep / ; done | tail
-else
-  ls -ltrF  | grep / | tail
-fi
-
+  ls -ltrF $* | grep / | tail
 }
 
 export -f fltrt
@@ -314,7 +275,7 @@ export -f fltrt
 
 function getvar () {
 
-for d in `fb_devices` ; do
+for d in $(fb_devices) ; do
   echo serialno: $d
   if [ -n "$1" ] ; then
     fastboot -s $d getvar $* 2>&1
@@ -382,7 +343,7 @@ if [ -n "$2" ] ; then
   device=$1
   partition=$2
   echo $1 $2
-  `fastboot -s $device oem partition dump $partition`
+  $(fastboot -s $device oem partition dump $partition)
   mv $partition.img "$device.$partition.img"
 else
   echo 'Usage: save_partition <serial_number> <partition_name>'
@@ -410,7 +371,7 @@ fi
 export -f save_dev
 
 function save_devs() {
-  for device in `fb_devices` ;
+  for device in $(fb_devices) ;
     do mkdir -p $device &&  pushd $device && save_dev $device && popd ; done
 }
 
@@ -425,7 +386,7 @@ export -f erase_data
 
 
 function erase_devs {
-  for device in `fb_devices` ; do erase_data $device ;done
+  for device in $(fb_devices) ; do erase_data $device ;done
 }
 
 export -f erase_devs
@@ -433,7 +394,7 @@ export -f erase_devs
 function factory_upgrade {
 
    save_devs && \
-   for device in `fb_devices` ; do erase_data $device ; done && \
+   for device in $(fb_devices) ; do erase_data $device ; done && \
    if [ -e flashall.sh ] ; then flashall.sh ; fi
 }
 
@@ -463,7 +424,7 @@ function flashem () {
 
     dlist="$*"
     if [ -z "$dlist" ];then
-       dlist+=`fb_devices`
+       dlist+=$(fb_devices)
     fi
     if [ -z "$dlist" ];then
         echo "No devices where found!"
@@ -479,7 +440,7 @@ export -f flashem
 function get_relnotes () {
 relnotes=$1
 
-wget --user=`me` --ask-password $1
+wget --user=$(me) --ask-password $1
 
 }
 
@@ -582,7 +543,7 @@ function kill_procs(){
 if [ -n "$1" ] ; then
    proc_name=$1
    echo "killing all proc named $proc_name"
-   for id in `ps -C $proc_name -o pid=` ; do echo "kill $id" ; done
+   for id in $(ps -C $proc_name -o pid=) ; do echo "kill $id" ; done
 fi
 }
 export -f kill_procs
@@ -607,27 +568,27 @@ function webdev {
 
 function xcweb {
    domain="xcastlabs.com"
-   ssh xcast@`webdev`.$domain
+   ssh xcast@$(webdev).$domain
 }
 
 function xc {
    domain="xcastlabs.com"
-   ssh xcast@`dev64`.$domain
+   ssh xcast@$(dev64).$domain
 }
 
 function dev {
    domain="xcastlabs.com"
-   ssh ndarmoni@`dev64`.$domain
+   ssh ndarmoni@$(dev64).$domain
 }
 function mount_webdev {
 	dev_mounting_point="$HOME/Desktop/webdev"
     domain="xcastlabs.com"
-    sshfs xcast@`webdev`.$domain:nir $dev_mounting_point
+    sshfs xcast@$(webdev).$domain:nir $dev_mounting_point
 }
 function mount_dev {
 	dev_mounting_point="$HOME/Desktop/sftp"
     domain="xcastlabs.com"
-    sshfs ndarmoni@`dev64`.$domain:/net/home/ $dev_mounting_point
+    sshfs ndarmoni@$(dev64).$domain:/net/home/ $dev_mounting_point
 }
 
 function mount_usr {
@@ -635,7 +596,7 @@ function mount_usr {
     domain="xcastlabs.com"
     mkdir -p $usr_mounting_point
 	if [ $? == 0 ]; then
-	    sshfs ndarmoni@`dev64`.$domain:/usr $usr_mounting_point
+	    sshfs ndarmoni@$(dev64).$domain:/usr $usr_mounting_point
       export ACE_ROOT=$usr_mounting_point/local/ACE_wrappers
 	fi
 }
@@ -665,23 +626,43 @@ function ts() {
 unset TS
 
 if [ -z "$*" ]; then
-    TS=`date +%s`
+    #TS=$(date +%.s)
+    TS=$(date +%s.%N)
 else
-   echo  "$*" | egrep -q '[^0-9]'
-    if [ $? -eq 0 ];then
-	TS=`date +%s -d "$*" 2>/dev/null`
-    else
-	TS=$*
+    LongTS="$*"
+    echo "$LongTS" | egrep -q '[^0-9]'
+    if [ $? -ne 0 ];
+    then
+            len=$(echo "$*" | wc -m)
+            #echo "len=$len"
+            if [ $len \> 19 ] ;
+            then
+                #echo "LongTS=$LongTS"
+                nano=${LongTS:10}
+                dt=${LongTS:0:10}
+                TS="$dt.$nano"
+                #echo $TS
+            fi
+    fi
+    echo "LongTS=$LongTS, TS=$TS"
+    if [ "" == "$TS" ] ; then
+        #echo "We are in the other long numeric ts section"
+        echo  "$LongTS" | egrep -q '[^0-9\.]'
+        if [ $? -ne 0 ];then
+            #echo "We are in the pointed ts section"
+            TS=$LongTS
+            #echo "LongTS=$LongTS, TS=$TS"
+        fi
     fi
 fi
-
-LTM=`date -d "1970-01-01 UTC $TS sec" 2>/dev/null`
+#echo $TS
+LTM=$(date  --rfc-3339=ns -d "1970-01-01 UTC $TS sec " 2>/dev/null)
 if [ $? -ne 0  -o  -z "$TS" ]; then
     echo Incorrect date: $*
-    exit 1
+    return 1
 fi
 
-UTM=`date -u "+%Y-%m-%d %H:%M:%S UTC" -d "1970-01-01 UTC $TS sec"`
+UTM=$(date -u "+%Y-%m-%d %H:%M:%S.%N UTC" -d "1970-01-01 UTC $TS sec ")
 
 echo -e $TS '  ===>  ' $LTM '  ===>  ' $UTM
 
@@ -698,24 +679,43 @@ function apt_help () {
 	echo  apt-file search $what
 }
 function cmp_tmp () {
-    for file in Makefile *cpp *h ; do echo $file ; diff $file `pwd|sed 's/work_torm/work/'`/$file ;done
+    for file in Makefile *cpp *h ; do echo $file ; diff $file $(pwd|sed 's/work_torm/work/')/$file ;done
 }
 
 function switch_on () {
     ssh xcast@tswitch3.siptalk.com
 }
 
+function get_file_from_pbx () {
+        time=$(timestamp | sed 's/[:|-]//g');
+        if [ -z $1 ];then
+            echo "Usage: get_file_from_pbx <path>"
+            return
+        else
+        for what in $* ;
+            do
+                #what=$1
+                base_name=$(basename "$what")
+                to_name=$(realpath ~/Downloads/production.$time.$base_name)
+                #echo "$what, $base_name, $to_name"
+                cmd="scp -p xcast@tswitch3.siptalk.com:$what $to_name"
+                echo $cmd
+                $($cmd)
+                if [ $? == 0 ] ; then echo "$to_name" ; fi
+            done
+        fi
+        }
+
 function get_res_from_pbx () {
-        time=`timestamp | sed 's/[:|-]//g'`;
-            scp xcast@tswitch3.siptalk.com:/usr/local/registrator/lib/mserver/app/cpuload.php.res ~/production.$time.cpuload.php.csv
+        $(get_file_from_pbx 'lib/mserver/app/cpuload.php.res')
         }
 
 function stage_lib_ms_apps () {
     if [ ! -z "$1" ] ; then
         apps=$*;
-        time=`timestamp | sed 's/[:|-]//g'`;
+        time=$(timestamp | sed 's/[:|-]//g');
         srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
-        SUFFIX=`ssh xcast@mserver1n1-la.siptalk.com "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+        SUFFIX=$(ssh xcast@mserver1n1-la.siptalk.com "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'")
 
         echo "pushd ~/Downloads"
         for app in $apps; do
@@ -725,7 +725,7 @@ function stage_lib_ms_apps () {
         done
         for srv in $srvs ; do
             remote="ssh xcast@$srv"
-            SUFFIX=`$remote "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+            SUFFIX=$($remote "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'")
             for app in $apps; do
                 deploy="cd ~/lib/mserver/app/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app$SUFFIX.nir ./$app"
                 verify="ls -l ~/lib/mserver/app/$app"
@@ -749,7 +749,7 @@ function stage_lib_ms_apps () {
 export stage_lib_ms_apps
 
 function stage_acd_recording () {
-    time=`timestamp | sed 's/[:|-]//g'`;
+    time=$(timestamp | sed 's/[:|-]//g');
     app='mappemail_acdrecording.php'
     srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com'
     echo "pushd ~/Downloads"
@@ -774,9 +774,9 @@ export stage_acd_recording
 
 
 function stage_media_library () {
-    time=`timestamp | sed 's/[:|-]//g'`;
+    time=$(timestamp | sed 's/[:|-]//g');
     srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com stage1n1-la.siptalk.com'
-    SUFFIX=`ssh xcast@mserver1n1-la.siptalk.com "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+    SUFFIX=$(ssh xcast@mserver1n1-la.siptalk.com "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'")
     apps='hstarter libhermes.so'
 
     echo "pushd ~/Downloads"
@@ -791,7 +791,7 @@ function stage_media_library () {
 
     for srv in $srvs ; do
         remote="ssh xcast@$srv"
-        SUFFIX=`$remote "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'"`
+        SUFFIX=$($remote "grep '^%el' /etc/rpm/macros.dist 2> /dev/null| sed -r 's/%(el[0-9]*).*/.\1/'")
         for app in $apps; do
             deploy="cd ~/lib/mserver/ && mv ./$app ./$app.$time && cp -p ~/tmp/$app$SUFFIX.nir ./$app"
             verify="ls -l ~/lib/mserver/$app"
@@ -814,33 +814,9 @@ function stage_media_library () {
 
 export stage_media_library
 
-function _debug_stage_media_library
-{
-    #remote="ssh xcast@`stage_srv`"
-    deploy="cd ~/lib/mserver && mv hstarter hstarter.$time && mv libhermes.so libhermes.so.$time && ~/bin/mserver_ctl stop && \
-~/bin/cserver_ctl stop && cp -p ~/tmp/hstarter.nir hstarter && cp -p ~/tmp/libhermes.so.nir libhermes.so && ~/bin/mserver_ctl start && ~/bin/cserver_ctl start && \
-echo '# vim media.xml && kill -1 `pgrep cserver` && killall hstarter XScript mapp confdep' "
-    remote_deploy="${remote} '${deploy}'"
-    echo "pushd ~/Downloads"
-    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/hstarter hstarter.nir'
-    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/libhermes.so libhermes.so.nir'
-    echo "sleep 2"
-    echo 'scp -p libhermes.so.nir xcast@stage1n1-la.siptalk.com:tmp/libhermes.so.nir'
-    echo 'scp -p hstarter.nir xcast@stage1n1-la.siptalk.com:tmp/hstarter.nir'
-    echo "sleep 2"
-    echo "popd"
-
-    echo 'echo on Staging server:'
-    echo "# ${remote_deploy}"
-    echo "sleep 2"
-}
-
-
-
-
 function stage_qman () {
-    time=`timestamp | sed 's/[:|-]//g'`;
-    remote="ssh xcast@`stage_srv`"
+    time=$(timestamp | sed 's/[:|-]//g');
+    remote="ssh xcast@$(stage_srv)"
     deploy="cd ~/bin && cp -p ~/tmp/qman.nir . && mv qman qman.$time && ./qman_ctl stop && cp -p qman.nir qman && ./qman_ctl start"
     remote_deploy="${remote} '${deploy}'"
     echo "pushd ~/Downloads"
@@ -861,8 +837,8 @@ export stage_qman
 
 
 function stage_indexCDR () {
-    time=`timestamp | sed 's/[:|-]//g'`;
-    srvs=`stage_srv`
+    time=$(timestamp | sed 's/[:|-]//g');
+    srvs=$(stage_srv)
     echo "pushd ~/Downloads"
     echo "scp -p xcast@xdev64.xcastlabs.com:bin/indexCDRs_php indexCDRs_php.nir"
     echo 'sleep 3'
@@ -884,8 +860,8 @@ function stage_indexCDR () {
 export stage_indexCDR
 
 function stage_inbound_fax () {
-    time=`timestamp | sed 's/[:|-]//g'`;
-    srvs=`stage_srv`
+    time=$(timestamp | sed 's/[:|-]//g');
+    srvs=$(stage_srv)
     echo "pushd ~/Downloads"
     echo "scp -p xcast@xdev64.xcastlabs.com:bin/process_inbound_fax.php process_inbound_fax.php.nir"
     echo "scp -p xcast@xdev64.xcastlabs.com:lib/mserver/app/FaxIn.xms FaxIn.xms.nir"
@@ -923,6 +899,12 @@ function flac2mp3 {
 echo 'for a in ./*.flac; do
   ffmpeg -i "$a" -qscale:a 0 "${a[@]/%flac/mp3}"
 done'
+}
+
+function audio_duration () {
+    for f in $* ; do echo $f;
+  ffmpeg -i $f 2>&1 |awk '/Duration/ { print substr($2,0,length($2)-1) }'
+  done
 }
 
 function influx_it {
