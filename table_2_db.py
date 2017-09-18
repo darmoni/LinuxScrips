@@ -93,4 +93,4 @@ if __name__ == '__main__':
         print type(inst)
         print inst.args
         print inst
-        print __file__, 'Oops'
+        print __file__, 'Oops' 
