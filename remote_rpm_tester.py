@@ -26,7 +26,7 @@ def select_rpm():
     global rpm_builders
     menu={}
     i=0
-    for gtt in rpm_builders:
+    for gtt in sorted(rpm_builders):
         script=rpm_builders[gtt]
         menu.update({chr(ord('a')+i):[gtt,script]})
         i=i+1
@@ -69,6 +69,13 @@ def run_the_build():
     try:
         run(args)
         get_rpm_name()
+    except:pass
+
+def fetch_rpm_spec():
+    global commands
+    try:
+        args = shlex.split(commands['get_rpm_spec_cmd'])
+        run(args)
     except:pass
 
 def get_rpm_name():
@@ -144,6 +151,12 @@ def populate_rpm_builders():
 def main(host, rpm):
     global commands,rpm_builders
 
+    servers={
+        'old':'xdev64.xcastlabs.com',
+        'new':'pbxdev.xcastlabs.com'
+            }
+    host=servers[host.lower()]
+
     host_account="ndarmoni@{}".format(host)
     connection_part="ssh {}".format(host_account)
     commands['get_rpm_n_script_names_cmd']= "{} 'cd {} && source ./rpm_names.sh'".format(connection_part,build_folder[host])
@@ -176,6 +189,7 @@ def main(host, rpm):
         # running a build now
 
         commands['get_log_file_cmd']="{} 'cat {}.log'".format(connection_part,executable_path)
+        commands['get_rpm_spec_cmd']="{} 'cd {}; cat {}.spec'".format(connection_part,build_folder[host],rpm)
         commands['run_the_build_cmd']="{} 'cd {}; {} > {}.log 2>&1'".format(connection_part,build_folder[host],executable_path,executable_path)
         commands['pull_build_file_cmd']="scp -p {}:{} {}".format(host_account,executable_path,build_rpm)
         commands['push_build_file_cmd']="scp -p {} {}:{} ".format(build_rpm, host_account,executable_path)
@@ -189,17 +203,18 @@ def main(host, rpm):
         print(__file__, 'Oops')
         raise SystemExit
 
-    first = 0
-    menu = {'1':("Run the build", run_the_build),
-            '2':("Read the log file", fetch_log_file),
-            '3':("Pull the script file", pull_build_file),
-            '4':("Push the script file", push_build_file),
-            '5':("Get latest CVS tags", get_latest_cvs_tags),
-            '6':("Get last rpm name", get_rpm_name),
-            '7':("Refresh Rpm Builds",populate_rpm_builders),
-            '8':("Select rpm",select_rpm),
-            'q':("Quit",my_quit_fn)
-            }
+    i=1
+    menu = {'q':("Quit",my_quit_fn)}
+    menu[str(i)]=("Run the build", run_the_build)
+    i+=1;    menu[str(i)]=("Read the log file", fetch_log_file)
+    i+=1;    menu[str(i)]=("Read the spec file", fetch_rpm_spec)
+    i+=1;    menu[str(i)]=("Pull the script file", pull_build_file)
+    i+=1;    menu[str(i)]=("Push the script file", push_build_file)
+    i+=1;    menu[str(i)]=("Get latest CVS tags", get_latest_cvs_tags)
+    i+=1;    menu[str(i)]=("Get last Rpm name", get_rpm_name)
+    i+=1;    menu[str(i)]=("Refresh Rpm Builds",populate_rpm_builders)
+    i+=1;    menu[str(i)]=("Select Rpm",select_rpm)
+
     while True:
         print(16*'-',' '*8,'-'*16)
         options=menu.keys()
@@ -212,9 +227,9 @@ def main(host, rpm):
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Creating test rpm')
-    parser.add_argument('--host', type=str, required=False, default='pbxdev.xcastlabs.com',
+    parser.add_argument('--host', type=str, required=False, default='old',
                         help='builds hostname')
-    parser.add_argument('--rpm', type=str, required=False, default='gtt-fileloader',
+    parser.add_argument('--rpm', type=str, required=False, default='',
                         help='Rpm name to build')
     return parser.parse_args()
 
