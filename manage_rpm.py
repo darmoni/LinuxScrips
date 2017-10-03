@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#ident $Id$ $Date$
+#ident $Id$Date$
 
 from subprocess import run, check_output, CalledProcessError, call, Popen, PIPE
 import sys, argparse, shlex
