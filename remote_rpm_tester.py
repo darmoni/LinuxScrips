@@ -21,8 +21,21 @@ def my_quit_fn():
 def chr_index(i,base='a'):
     return chr(ord(base)+i)
 
-def main(host, rpm):
+def all_in_one_update_build_pull(manager):
+    try:
+        manager.push_build_file()
+        manager.run_the_build()
+        manager.fetch_log_file()
+    except:
+        return -1
+        
+def main(host, rpm, auto):
     manager=manage_rpm(host,rpm)
+    if(rpm != "" and auto ):
+        try:
+            if (-1 != all_in_one_update_build_pull(manager)):
+                return 0
+        except:pass
     i=0
     menu = {'q':(6*'* '+"Quit"+7*' *',my_quit_fn)}
     menu[chr_index(i)]=("Run the build", manager.run_the_build)
@@ -53,8 +66,10 @@ def parse_args():
                         help='builds hostname')
     parser.add_argument('--rpm', type=str, required=False, default='',
                         help='Rpm name to build')
+    parser.add_argument('--auto', type=int, required=False, default=False,
+                        help='run a build')
     return parser.parse_args()
 
 if __name__ == '__main__':
     args = parse_args()
-    main(host=args.host, rpm=args.rpm)
+    main(host=args.host, rpm=args.rpm, auto=args.auto)

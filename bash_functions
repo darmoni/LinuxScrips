@@ -719,7 +719,7 @@ function stage_lib_ms_apps () {
 
         echo "pushd ~/Downloads"
         for app in $apps; do
-            echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/$app $app.nir"
+            echo "scp -p ndarmoni@xdev64.xcastlabs.com:w1/build/Registrator/mapp/$app $app.nir"
             echo "scp -p ndarmoni@pbxdev.xcastlabs.com:work/Registrator/mapp/$app $app$SUFFIX.nir"
             echo "sleep 2"
         done
@@ -753,7 +753,7 @@ function stage_acd_recording () {
     app='mappemail_acdrecording.php'
     srvs='mserver1n1-la.siptalk.com mserver1n2-la.siptalk.com'
     echo "pushd ~/Downloads"
-    echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mapp/mappemail_acdrecording.php mappemail_acdrecording.php.nir"
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:w1/build/Registrator/mapp/mappemail_acdrecording.php mappemail_acdrecording.php.nir"
     echo 'sleep 2'
     for srv in $srvs ; do
         remote="ssh xcast@$srv"
@@ -781,10 +781,10 @@ function stage_media_library () {
 
     echo "pushd ~/Downloads"
     app='hstarter'
-    echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/$app $app.nir"
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:w1/build/Registrator/mediaframework/Hermes/hstarter/$app $app.nir"
     echo "scp -p ndarmoni@pbxdev.xcastlabs.com:work/Registrator/mediaframework/Hermes/hstarter/$app $app$SUFFIX.nir"
     app='libhermes.so'
-    echo "scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/$app $app.nir"
+    echo "scp -p ndarmoni@xdev64.xcastlabs.com:w1/build/Registrator/mediaframework/Hermes/libs64/$app $app.nir"
     echo "scp -p ndarmoni@pbxdev.xcastlabs.com:work/Registrator/mediaframework/Hermes/libs64/$app $app$SUFFIX.nir"
 
     echo "sleep 2"
@@ -820,7 +820,7 @@ function stage_qman () {
     deploy="cd ~/bin && cp -p ~/tmp/qman.nir . && mv qman qman.$time && ./qman_ctl stop && cp -p qman.nir qman && ./qman_ctl start"
     remote_deploy="${remote} '${deploy}'"
     echo "pushd ~/Downloads"
-    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:work/Registrator/ACD/qman qman.nir'
+    echo 'scp -p ndarmoni@xdev64.xcastlabs.com:w1/build/Registrator/ACD/qman qman.nir'
     echo "scp -p ndarmoni@xdev64.xcastlabs.com:/net/home/ndarmoni/work/Registrator/ACD/idl/libAcd.so.1.6.0 libAcd.so.1.6.0.nir"
     echo 'sleep 3'
     echo 'scp -p qman.nir xcast@stage1n1-la.siptalk.com:tmp/qman.nir'
@@ -920,6 +920,15 @@ function logs_load {
     logs_load.py
 }
 
+function build_this_rpm () {
+    for build in $* ; do 
+    echo $build
+    curl -X POST \
+     -F token=TOKEN \
+     -F ref=REF_NAME \
+     https://scm.xcastlabs.net/api/v4/projects/58/trigger/pipeline;
+     done
+}
 #this is for CORBA
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/

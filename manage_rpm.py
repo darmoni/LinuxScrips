@@ -18,7 +18,7 @@ class manage_rpm:
             }
         self.build_folder={
             'pbxdev.xcastlabs.com':'/home/ndarmoni/build',
-            'xdev64.xcastlabs.com':'/net/home/ndarmoni/w1/build'
+            'xdev64.xcastlabs.com':'/net/home/ndarmoni/w1/build_old_platform'
         }
         self.set_commands()
 
