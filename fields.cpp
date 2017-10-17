@@ -1,7 +1,7 @@
 /* $Id$ $Date$
 */
 
-#include <vector>       // std::vector
+#include <map>          // std::map
 #include <string>       // std::string
 #include <iostream>     // std::cout
 #include <sstream>      // std::stringstream, std::stringbuf
@@ -30,41 +30,44 @@ class field: public anyfield
     field( string _name, T val):prev(val),name(_name){}
     virtual string to_string();
     void set(T f){next = f;clean=false;}
+    string get_name() const {return name;}
 };
-string event(string table_name, vector<anyfield * > v);
+string event(string table_name, map<string,anyfield * > m);
 
 int main ()
 {
-    vector<anyfield * > v;
-    v.push_back(new field<int>("INT",3));
+    map<string,anyfield * > m;
+    m["INT"]=new field<int>("INT",3);
     field<int> *t = new field<int>("INT2",123);
     t->set(15);
-    v.push_back(t);
+    m["INT2"]=t;
     field<string> *s = new field<string> ("STR","meh");
     s->set("duh");
-    v.push_back(s);
+    m[s->get_name()]=s;
     cout << "this should show something '" << s->to_string() << "'\n";
     s->set("okay, Meh");
     cout << "this should show another thing '" << s->to_string() << "'\n";
-    cout << "size of vector: "<< v.size() << "\n";
-    cout << "this should show nothing '" << t->to_string() << "'\n";
-    
+    cout << "size of map: "<< m.size() << "\n";
+    cout << "this should show nothing '" << m["INT"]->to_string() << "'\n";
+
     field<int> *t_int = NULL;
     field<string> *t_str = NULL;
 
-    cout << event("table=fields",v);
-    anyfield * p = v[0];
-    if (t_int = dynamic_cast<field<int> *>(p))
+    cout << event("table=fields",m);
+    if(m.size() > 0)
     {
-        t_int->set(1984);
+        anyfield * p = m.begin()->second;
+        if (t_int = dynamic_cast<field<int> *>(p))
+        {
+            t_int->set(1984);
+        }
+        else if (t_str = dynamic_cast<field<string>*>(p))
+        {
+            t_str->set("1984");
+        }
     }
-    else if (t_str = dynamic_cast<field<string>*>(p))
-    {
-        t_str->set("1984");
-    }
-    cout << event("table=fields",v);
+    cout << event("table=fields",m);
 }
-    
 
 template<class T>
 string field<T>::to_string()
@@ -78,13 +81,13 @@ string field<T>::to_string()
    else return "";
 }
 
-string event(string table_name, vector<anyfield * > v)
+string event(string table_name, map<string,anyfield * > m)
 {
     string record="";
     bool empty=true;
-    for (int i=0 ; i < v.size(); ++i)
+    for (map<string,anyfield * >::iterator i=m.begin() ; i != m.end(); ++i)
     {
-         string delta=v[i]->to_string();
+         string delta=i->second->to_string();
          if(delta.length() == 0) continue;
          if(!empty)record +=';';
          record +=delta;
