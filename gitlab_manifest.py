@@ -48,7 +48,7 @@ class my_manifest:
                         return self.valid
         return self.valid
     def get_record(self):
-        return ("git clone {} {} && \n pushd {} && \n git checkout {} && \n git checkout -B branch_{} && \n popd\n".format(
+        return ("git clone {} {} && \n pushd {} && \n git checkout {} && \n git checkout -B {} && \n popd\n".format(
             self.path,self.folder,self.folder,self.hash,self.branch)
         )
 
