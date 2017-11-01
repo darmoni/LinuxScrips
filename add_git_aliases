@@ -1,0 +1,3 @@
+git config --global alias.sdiff '!'"git diff && git submodule foreach 'git diff'"
+git config --global alias.spush 'push --recurse-submodules=on-demand'
+git config --global alias.supdate 'submodule update --remote --merge'

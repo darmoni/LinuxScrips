@@ -1,0 +1,55 @@
+******************* on ndarmoni/build_old_platform **************
+before_script:
+  #- "if [ -f $rpm_to_build ] ; then rpm=$(cat $rpm_to_build); script_to_build=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+  #- export
+
+variables:
+ GIT_STRATEGY: 'fetch'
+ GIT_CHECKOUT: 'true'
+ which_script: "$script_to_build"
+    
+stage_test:
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'mkdir -p artifacts'
+    - 'if [ -f $rpm_to_build ] ; then'
+    - 'rpm=$(cat $rpm_to_build)'
+    - 'echo rpm=$rpm'
+    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+    - 'echo which_script=$which_script'
+    #- 'ls -l build_*sh'
+    #- 'ls -l build_*sh > artifacts/list_of_build_scripts'
+    - 'python3 ~/bin/auto_build_old_rpm.py --rpm $which_script'
+    #- 'mv *rpm artifacts/'
+
+
+
+
+
+******************* on chi/RpmBuilder **************
+before_script:
+  #- "if [ -f $rpm_to_build ] ; then rpm=$(cat $rpm_to_build); script_to_build=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+  #- export
+
+variables:
+ GIT_STRATEGY: 'fetch'
+ GIT_CHECKOUT: 'true'
+ which_script: "$script_to_build"
+    
+stage_test:
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'mkdir -p artifacts'
+    - 'if [ -f $rpm_to_build ] ; then'
+    - 'rpm=$(cat $rpm_to_build)'
+    - 'echo rpm=$rpm'
+    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+    - 'echo which_script=$which_script'
+    #- 'ls -l build_*sh'
+    #- 'ls -l build_*sh > artifacts/list_of_build_scripts'
+    - './$which_script'
+    - 'mv *rpm artifacts/'

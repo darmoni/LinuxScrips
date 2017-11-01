@@ -1,0 +1,485 @@
+******************* on ndarmoni/build_old_platform **************
+before_script:
+  #- "if [ -f $rpm_to_build ] ; then rpm=$(cat $rpm_to_build); script_to_build=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+  #- export
+
+variables:
+ GIT_STRATEGY: 'fetch'
+ GIT_CHECKOUT: 'true'
+ which_script: "$script_to_build"
+    
+stage_test:
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'mkdir -p artifacts'
+    - 'if [ -f $rpm_to_build ] ; then'
+    - 'rpm=$(cat $rpm_to_build)'
+    - 'echo rpm=$rpm'
+    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+    - 'echo which_script=$which_script'
+    #- 'ls -l build_*sh'
+    #- 'ls -l build_*sh > artifacts/list_of_build_scripts'
+    - 'python3 ~/bin/auto_build_old_rpm.py --rpm $which_script'
+    #- 'mv *rpm artifacts/'
+
+
+
+
+
+******************* on chi/RpmBuilder **************
+before_script:
+  #- "if [ -f $rpm_to_build ] ; then rpm=$(cat $rpm_to_build); script_to_build=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+  #- export
+
+variables:
+ GIT_STRATEGY: 'fetch'
+ GIT_CHECKOUT: 'true'
+ which_script: "$script_to_build"
+    
+stage_test:
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'mkdir -p artifacts'
+    - 'if [ -f $rpm_to_build ] ; then'
+    - 'rpm=$(cat $rpm_to_build)'
+    - 'echo rpm=$rpm'
+    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+    - 'echo which_script=$which_script'
+    #- 'ls -l build_*sh'
+    #- 'ls -l build_*sh > artifacts/list_of_build_scripts'
+    - './$which_script'
+    - 'mv *rpm artifacts/'
+
+
+
+on chi//Registrator
+before_script:
+  - 'git submodule init'
+  - 'git submodule update'
+
+variables:
+ GIT_STRATEGY: 'fetch'
+ GIT_CHECKOUT: 'true'
+
+stages:
+  - 'setup'
+  - 'build'
+#  - 'deply'
+
+stage_setup:
+  stage: setup
+  script:
+  - "find . -type d |egrep -v 'CVS|.git'"
+
+stage_build:
+  stage: build
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'mkdir -p artifacts'
+#    - 'if [ -f $rpm_to_build ] ; then'
+#    - 'rpm=$(cat $rpm_to_build)'
+#    - 'echo rpm=$rpm'
+#    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+#    - 'echo which_script=$which_script'
+#    - './$which_script'
+#    - 'mv *rpm artifacts/'
+
+
+problem with SubmoduleName
+git submodule deinit PathTo/SubmoduleName
+git rm PathTo/SubmoduleName
+sudo rm -rf .git/modules/PathTo/SubmoduleName
+
+git submodule add ../SubmoduleName.git
+
+
+
+
+.before_script:
+  - 'git submodule init'
+  - 'git submodule update --recursive'
+
+variables:
+ GIT_STRATEGY: 'fetch'
+ GIT_CHECKOUT: 'true'
+ GIT_SUBMODULE_STRATEGY: 'recursive'
+
+stages:
+  - 'setup'
+  - 'build'
+#  - 'deply'
+
+stage_setup:
+  stage: setup
+  script:
+  - "find . -type d |egrep -v 'CVS|.git'"
+
+stage_build:
+  stage: build
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'mkdir -p artifacts'
+#    - 'if [ -f $rpm_to_build ] ; then'
+#    - 'rpm=$(cat $rpm_to_build)'
+#    - 'echo rpm=$rpm'
+#    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+#    - 'echo which_script=$which_script'
+#    - './$which_script'
+#    - 'mv *rpm artifacts/'
+
+git pull origin master
+git submodule add ../ACD.git ACD
+git commit -m "adding ACD" 
+git push origin master
+git push -u origin --tags
+
+before_script:
+  - 'mkdir -p artifacts'
+#  - 'git submodule init'
+#  - 'git submodule update --init --recursive'
+#  - "git submodule foreach --recursive 'git checkout master'"
+#  - 'git submodule update --recursive'
+  - "git submodule foreach --recursive 'git log -1 HEAD' > artifacts/master_repo.txt"
+  - "find . -type d |egrep -v 'CVS|.git'"
+
+after_script:
+  - 'cd $CI_PROJECT_DIR'
+  - "git submodule foreach --recursive 'git log -1 HEAD' > artifacts/build_repo.txt" 
+  - 'mv *rpm artifacts/'
+    
+variables:
+ GIT_STRATEGY: 'fetch'
+# GIT_CHECKOUT: 'true'
+ GIT_SUBMODULE_STRATEGY: 'recursive'
+
+
+stages:
+  - 'setup'
+  - 'build'
+#  - 'deply'
+
+stage_setup:
+  stage: setup
+  script:
+  - 'echo "CI_PROJECT_DIR=$CI_PROJECT_DIR"'
+  - 'echo  "CI_BUILD_REF_NAME=$CI_BUILD_REF_NAME"'
+  - 'echo "stage setup"'
+  - 'cat .gitmodules'
+
+stage_build:
+  stage: build
+  artifacts:
+    paths:
+      - artifacts/
+  script:
+    - 'ls -ltr'
+    - 'echo "stage build"'
+#    - 'if [ -f $rpm_to_build ] ; then'
+#    - 'rpm=$(cat $rpm_to_build)'
+#    - 'echo rpm=$rpm'
+#    - "which_script=$(. ./rpm_names.sh | grep $rpm | awk -F: '{print $(NF);}') ; fi"
+#    - 'echo which_script=$which_script'
+#    - './$which_script'
+    - 'touch dummy.rpm'
+
+
+
+build_db instructions
+
+from working folder
+CURRENT_DIR=`pwd`
+
+DB_CVSTAG=R2017-07-12
+ACD_CVSTAG=R2017-10-10
+UTILS_CVSTAG=R2017-09-20
+EVSRV_CVSTAG=R2017-04-19
+
+
+mkdir -p Registrator
+
+
+#clone version
+git clone git@scm.xcastlabs.net:chi/phoneplatform/db.git Registrator/db
+pushd Registrator/db && git checkout -B branch_$DB_CVSTAG && git checkout $DB_CVSTAG && popd
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/ACD.git Registrator/ACD
+pushd Registrator/ACD && git checkout -B branch_$ACD_CVSTAG && git checkout $ACD_CVSTAG && popd
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_utils.git Registrator/middle/utils
+pushd Registrator/middle/utils && git checkout -B branch_$UTILS_CVSTAG && git checkout $UTILS_CVSTAG && popd
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/monitoring_EvService.git Registrator/monitoring/EvService
+pushd Registrator/monitoring/EvService && git checkout -B branch_$EVSRV_CVSTAG && git checkout $EVSRV_CVSTAG && popd
+
+
+#Compilation phase
+cd $CURRENT_DIR
+cd Registrator/middle/utils
+make -j5
+if [ $? != 0 ]; then
+echo 'Libutils compilation failed! Can not continue..'
+exit 1
+fi
+
+cd $CURRENT_DIR
+cd Registrator/monitoring/EvService
+make -j5
+if [ $? != 0 ]; then
+echo 'EvService compilation failed! Can not continue..'
+exit 1
+fi
+
+cd $CURRENT_DIR
+cd Registrator/db/idl
+make
+if [ $? != 0 ]; then
+echo 'Db idl compilation failed! Can not contidiff --git a/build_xbroker.sh b/build_xbroker.sh
+index ab85d92..5b53b2b 100755
+--- a/build_xbroker.sh
++++ b/build_xbroker.sh
+@@ -32,17 +32,20 @@ XBROKER_CVSTAG=R2017-10-24
+ 
+ # Initial Cleanip
+ rm -rf $BUILD_ROOT
++rm -rf Registrator
+ mkdir -p $BUILD_ROOT/$PREFIX/run/xbroker
+-git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git 
+-git submodule update --init --recursive --remote
++#git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git 
++#git submodule update --init --recursive --remote
+ 
+ # Checkout Phase 
+-pushd Registrator/middle/utils && git checkout -B branch_$UTILS_CVSTAG &&  git checkout $UTILS_CVSTAG && popd
+-pushd Registrator/middle/sparser && git checkout -B branch_$SPARSER_CVSTAG &&  git checkout $SPARSER_CVSTAG && popd
+-pushd Registrator/middle/stack_opt && git checkout -B branch_$SIPSTACK_CVSTAG &&  git checkout $SIPSTACK_CVSTAG && popd
+-pushd Registrator/middle/stack_opt/bbua && git checkout -B branch_$XBROKER_CVSTAG &&  git checkout $XBROKER_CVSTAG && popd
+-pushd Registrator/middle/utils && git checkout -B branch_$&&  git checkout $&& popd
+-pushd Registrator && git clone git@scm.xcastlabs.net:chi/phoneplatform/config_xbroker.git config/xbroker
++git clone git@scm.xcastlabs.net:chi/phoneplatform/middle.git Registrator/middle
++pushd Registrator/middle && git submodule update --init --recursive --remote 
++pushd Registrator/middle/utils && git checkout -B branch_$UTILS_CVSTAG && git checkout $UTILS_CVSTAG && popd
++pushd Registrator/middle/sparser && git checkout -B branch_$SPARSER_CVSTAG && git checkout $SPARSER_CVSTAG && popd
++pushd Registrator/middle/stack_opt && git checkout -B branch_$SIPSTACK_CVSTAG && git checkout $SIPSTACK_CVSTAG && popd
++pushd Registrator/middle/stack_opt/bbua && git checkout -B branch_$XBROKER_CVSTAG && git checkout $XBROKER_CVSTAG && popd
++popd
++git clone git@scm.xcastlabs.net:chi/phoneplatform/config_xbroker.git Registrator/config/xbroker
+ 
+ --
+build_xbroker.sh-
+build_xbroker.sh-# Checkout Phase 
+build_xbroker.sh-
+build_xbroker.sh:manifest_name="$CURRENT_DIR/manifest_$PACKAGE_NAME-$RPM_VERSION-${RPM_RELEASE}${SUFFIX}.$ARC.rpm"
+build_xbroker.sh:rm -f $manifest_name
+build_xbroker.sh-
+build_xbroker.sh-
+build_xbroker.sh-git clone git@scm.xcastlabs.net:chi/phoneplatform/middle.git Registrator/middle
+--
+build_xbroker.sh-pushd utils && git checkout $UTILS_CVSTAG && git checkout -B branch_$UTILS_CVSTAG && popd
+build_xbroker.sh-pushd sparser && git checkout $SPARSER_CVSTAG && git checkout -B branch_$SPARSER_CVSTAG && popd
+build_xbroker.sh-
+build_xbroker.sh:pushd stack_opt && git submodule init && git submodule update bbua > /dev/null && git checkout -b stack_opt_$(basename $manifest_name) && popd
+build_xbroker.sh-pushd stack_opt/bbua && git checkout $BROKER_CVSTAG && git checkout -B branch_$XBROKER_CVSTAG && popd
+build_xbroker.sh-
+build_xbroker.sh-popd
+--
+build_xbroker.sh-
+build_xbroker.sh-for dd in middle middle/utils middle/sparser middle/stack_opt middle/stack_opt/bbua config/xbroker ; 
+build_xbroker.sh-do
+build_xbroker.sh:       $CURRENT_DIR/create_rpm_manifest.sh $CURRENT_DIR/Registrator/$dd >> $manifest_name 
+build_xbroker.sh-done
+build_xbroker.sh:#cat $manifest_name
+build_xbroker.sh-#exit 0
+build_xbroker.sh-#Compilation phase
+build_xbroker.sh-
+
+ #Compilation phase
+
+
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/db.git Registrator/db
+pushd Registrator/db && git checkout $DB_CVSTAG && git checkout -B branch_$DB_CVSTAG && popd
+git clone git@scm.xcastlabs.net:chi/phoneplatform/ACD.git Registrator/ACD
+pushd Registrator/ACD && git checkout $ACD_CVSTAG && git checkout -B branch_$ACD_CVSTAG && popd
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_utils.git Registrator/middle/utils
+pushd Registrator/middle/utils && git checkout $UTILS_CVSTAG && git checkout -B branch_$UTILS_CVSTAG && popd
+git clone git@scm.xcastlabs.net:chi/phoneplatform/monitoring_EvService.git Registrator/monitoring/EvService
+pushd Registrator/monitoring/EvService && git checkout $EVSRV_CVSTAG && git checkout -B branch_$EVSRV_CVSTAG && popd
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_sparser.git Registrator/middle/sparser
+pushd Registrator/middle/sparser && git checkout $SPARSER_CVSTAG && git checkout -B branch_$SPARSER_CVSTAG && popd
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt.git Registrator/middle/stack_opt
+pushd Registrator/middle/stack_opt && git checkout $SIPSTACK_CVSTAG && git checkout -B branch_$SIPSTACK_CVSTAG && popd
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_proxy.git Registrator/middle/stack_opt/proxy
+pushd Registrator/middle/stack_opt/proxy && git checkout $SIPPROXY_CVSTAG && git checkout -B branch_$SIPPROXY_CVSTAG && popd
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_console.git Registrator/middle/stack_opt/console
+pushd Registrator/middle/stack_opt/console && git checkout $CONSOLE_CVSTAG && git checkout -B branch_$CONSOLE_CVSTAG && popd
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_na_proxy_scripts.git Registrator/middle/stack_na/proxy/scripts
+git clone git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_na_proxy_sb_config.git Registrator/middle/stack_na/proxy_sb/config
+git clone git@scm.xcastlabs.net:chi/phoneplatform/monitoring_cfg.git Registrator/monitoring/cfg
+
+for dd in db ACD middle/utils middle/sparser middle/stack_opt middle/stack_opt/proxy middle/stack_opt/console middle/stack_na/proxy/scripts middle/stack_na/proxy_sb/config monitoring/cfg;
+do
+       $CURRENT_DIR/create_rpm_manifest.sh $CURRENT_DIR/Registrator/$dd >> $manifest_name
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pushd Registrator/middle/stack_opt/proxy && git checkout $SIPPROXY_CVSTAG && git checkout -B branch_$SIPPROXY_CVSTAG && popd
+pushd Registrator/middle/stack_opt/console && git checkout q$CONSOLE_CVSTAG && git checkout -B branch_$CONSOLE_CVSTAG && popd
+
+
+
+
+
+
+
+awk '!/_CVSTAG=\$/ && /^[[:alpha:]]+_CVSTAG=/' build*sh |sort | uniq
+ACD_CVSTAG=R2017-04-19
+ACD_CVSTAG=R2017-10-10
+
+ACDMON_CVSTAG=R2017-03-20
+
+CNFMON_CVSTAG=R2017-03-13
+
+COAST_CVSTAG=R2016-09-07
+
+CODECS_CVSTAG=r2011-04-19
+
+CONFDEP_CVSTAG=R2016-10-27
+
+CONSOLE_CVSTAG=R2017-06-29
+
+DASHMAN_CVSTAG=R2017-06-29
+
+DB_CVSTAG=R2016-12-29
+DB_CVSTAG=R2017-06-06
+DB_CVSTAG=R2017-07-12
+DB_CVSTAG=R2017-10-24
+
+EVSRV_CVSTAG=R2017-03-28
+EVSRV_CVSTAG=R2017-04-19
+
+HERMES_CVSTAG=R2017-07-31
+
+INDEXCDRS_CVSTAG=R2016-12-27
+
+MAPP_CVSTAG=R2017-02-03-new
+MAPP_CVSTAG=R2017-06-29
+
+MIDDLE_CVSTAG=R2016-12-15
+MIDDLE_CVSTAG=R2017-10-24
+
+MIDMISC_CVSTAG=R2007-10-30
+
+MSERVER_CVSTAG=R2017-01-25
+MSERVER_CVSTAG=R2017-06-05
+MSERVER_CVSTAG=R2017-09-25
+
+SIPPROXY_CVSTAG=R2017-05-31
+SIPPROXY_CVSTAG=R2017-10-24
+
+SIPSTACK_CVSTAG=R2015-01-22
+SIPSTACK_CVSTAG=R2016-03-09
+SIPSTACK_CVSTAG=R2017-05-17
+
+SPARSER_CVSTAG=R2014-10-15
+SPARSER_CVSTAG=R2015-10-15
+SPARSER_CVSTAG=R2016-12-15
+SPARSER_CVSTAG=R2017-06-29
+
+TBLOCK_CVSTAG=R2016-03-23
+
+TUI_CVSTAG=R2016-09-07
+
+UPDATER_CVSTAG=R2016-09-07
+
+UTILS_CVSTAG=R2015-01-22
+UTILS_CVSTAG=R2015-10-15
+UTILS_CVSTAG=R2016-10-05
+UTILS_CVSTAG=R2016-12-29
+UTILS_CVSTAG=R2017-03-27
+UTILS_CVSTAG=R2017-06-29
+UTILS_CVSTAG=R2017-09-20
+
+VOICELOADER_CVSTAG=R2016-09-07
+VOICELOADER_CVSTAG=R2017-09-21
+
+WPHONE_CVSTAG=R2017-06-29
+
+XBROKER_CVSTAG=R2015-01-22
+
+
+awk '/cvs .+ Registrator/ {print $(NF),$(NF-1);}' build*sh |sort | uniq
+Registrator/ACD $ACD_CVSTAG
+Registrator/ACD/idl $ACD_CVSTAG
+Registrator/coast $COAST_CVSTAG
+Registrator/confdep $CONFDEP_CVSTAG
+Registrator/config/xbroker HEAD
+Registrator/db/balance $DB_CVSTAG
+Registrator/db/config $DB_CVSTAG
+Registrator/db $DB_CVSTAG
+Registrator/db/dbmon $DB_CVSTAG
+Registrator/db/idl $DB_CVSTAG
+Registrator/mapp $MAPP_CVSTAG
+Registrator/mediaframework/Codecs $CODECS_CVSTAG
+Registrator/mediaframework/Hermes $HERMES_CVSTAG
+Registrator/middle/config $MIDMISC_CVSTAG
+Registrator/middle/fw_scripts $MIDMISC_CVSTAG
+Registrator/middle/middle_ng/G711 $MIDDLE_CVSTAG
+Registrator/middle/middle_ng/iLBC $MIDDLE_CVSTAG
+Registrator/middle/middle_ng $MIDDLE_CVSTAG
+Registrator/middle/natpass_config HEAD
+Registrator/middle/natpass_scripts HEAD
+Registrator/middle/rings $MIDMISC_CVSTAG
+Registrator/middle/scripts $MIDMISC_CVSTAG
+Registrator/middle/sparser $SPARSER_CVSTAG
+Registrator/middle/stack_na/mserver/config $MSERVER_CVSTAG
+Registrator/middle/stack_na/mserver/scripts $MSERVER_CVSTAG
+Registrator/middle/stack_na/proxy_sb/config/ HEAD
+Registrator/middle/stack_na/proxy/scripts/ HEAD
+Registrator/middle/stack_opt/bbua $XBROKER_CVSTAG
+Registrator/middle/stack_opt/console $CONSOLE_CVSTAG
+Registrator/middle/stack_opt/mserver $MSERVER_CVSTAG
+Registrator/middle/stack_opt/mserver/t38 $T38_CVSTAG
+Registrator/middle/stack_opt/proxy $SIPPROXY_CVSTAG
+Registrator/middle/stack_opt $SIPSTACK_CVSTAG
+Registrator/middle/stack_opt/teleblock $TBLOCK_CVSTAG
+Registrator/middle/stack_opt/webphone $WPHONE_CVSTAG
+Registrator/middle/utils $UTILS_CVSTAG
+Registrator/monitoring/AcdMon $ACDMON_CVSTAG
+Registrator/monitoring/cfg HEAD
+Registrator/monitoring/CnfMon $CNFMON_CVSTAG
+Registrator/monitoring/DashMan $DASHMAN_CVSTAG
+Registrator/monitoring/EvService $EVSRV_CVSTAG
+Registrator/scripts/cdrs $INDEXCDRS_CVSTAG
+Registrator/scripts/utils $SCRIPT_UTILS_CVSTAG
+Registrator/tui/composer $TUI_CVSTAG
+Registrator/updater $UPDATER_CVSTAG
+Registrator/voice_loader/fonts $VOICELOADER_CVSTAG
+Registrator/voice_loader/freetype/include $VOICELOADER_CVSTAG
+Registrator/voice_loader/freetype $VOICELOADER_CVSTAG
+Registrator/voice_loader/idl $VOICELOADER_CVSTAG
+Registrator/voice_loader/libx264 $VOICELOADER_CVSTAG
+Registrator/voice_loader/scripts $VOICELOADER_CVSTAG
+Registrator/voice_loader $VOICELOADER_CVSTAG
+Registrator/voice_loader/vputil $VOICELOADER_CVSTAG

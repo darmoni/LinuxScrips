@@ -26,9 +26,9 @@ def sig_handler(sig, frame):
 
 signal.signal(signal.SIGUSR1,sig_handler)
 signal.signal(signal.SIGUSR2,sig_handler)
-#signal.signal(signal.SIGINT,sig_handler)
-#signal.signal(signal.SIGTERM,sig_handler)
-#signal.signal(signal.SIGHUP,sig_handler)
+signal.signal(signal.SIGINT,sig_handler)
+signal.signal(signal.SIGTERM,sig_handler)
+signal.signal(signal.SIGHUP,sig_handler)
 
 def start_baresip(user, server):
     HOST="ssh "+user+"@"+server
