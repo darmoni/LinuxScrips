@@ -32,16 +32,21 @@ class field: public anyfield
     void set(T f){next = f;clean=false;}
     string get_name() const {return name;}
 };
+
+typedef field<int> int_history;
+typedef field<string> string_history;
+
 string event(string table_name, map<string,anyfield * > m);
 
 int main ()
 {
     map<string,anyfield * > m;
-    m["INT"]=new field<int>("INT",3);
-    field<int> *t = new field<int>("INT2",123);
+    //    m["INT"]=new field<int>("INT",3);
+    m["INT"]=new int_history("INT",3);
+    field<int> *t = new int_history("INT2",123);
     t->set(15);
     m["INT2"]=t;
-    field<string> *s = new field<string> ("STR","meh");
+    field<string> *s = new string_history ("STR","meh");
     s->set("duh");
     m[s->get_name()]=s;
     cout << "this should show something '" << s->to_string() << "'\n";
@@ -50,18 +55,18 @@ int main ()
     cout << "size of map: "<< m.size() << "\n";
     cout << "this should show nothing '" << m["INT"]->to_string() << "'\n";
 
-    field<int> *t_int = NULL;
-    field<string> *t_str = NULL;
+    int_history *t_int = NULL;
+    string_history *t_str = NULL;
 
     cout << event("table=fields",m);
     if(m.size() > 0)
     {
         anyfield * p = m.begin()->second;
-        if (t_int = dynamic_cast<field<int> *>(p))
+        if (t_int = dynamic_cast<int_history *>(p))
         {
             t_int->set(1984);
         }
-        else if (t_str = dynamic_cast<field<string>*>(p))
+        else if (t_str = dynamic_cast<string_history *>(p))
         {
             t_str->set("1984");
         }

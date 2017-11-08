@@ -92,7 +92,7 @@ git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git --recurse-subm
 #project_tags={}
 #git_projects={}
 def load_git_paths(project_tags):
-    '''   
+    '''
     cvs_tags.update({"ACD_CVSTAG":"R2017-04-19"})
     cvs_tags.update({"ACD_CVSTAG":"R2017-10-10"})
     cvs_tags.update({"ACDMON_CVSTAG":"R2017-03-20"})
@@ -174,6 +174,7 @@ def load_git_paths(project_tags):
     project_tags.update({"Registrator/middle/stack_opt/mserver":"$MSERVER_CVSTAG"})
     project_tags.update({"Registrator/middle/stack_opt/mserver/t38":"$T38_CVSTAG"})
     project_tags.update({"Registrator/middle/stack_opt/proxy":"$SIPPROXY_CVSTAG"})
+    project_tags.update({"Registrator/middle/stack_opt/redir":"$REDIR_CVSTAG"})
     project_tags.update({"Registrator/middle/stack_opt":"$SIPSTACK_CVSTAG"})
     project_tags.update({"Registrator/middle/stack_opt/teleblock":"$TBLOCK_CVSTAG"})
     project_tags.update({"Registrator/middle/stack_opt/webphone":"$WPHONE_CVSTAG"})
@@ -300,6 +301,7 @@ def load_git_projects(git_projects):
     git_projects.update({'Registrator/middle/stack_opt/mserver':['git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_mserver.git','']})
     git_projects.update({'Registrator/middle/stack_opt/mserver/t38':['git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_mserver_t38.git','']})
     git_projects.update({'Registrator/middle/stack_opt/proxy':['git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_proxy.git','']})
+    git_projects.update({'Registrator/middle/stack_opt/redir':['git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_proxy.git','']})
     git_projects.update({'Registrator/middle/stack_opt/teleblock':['git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_teleblock.git','']})
     git_projects.update({'Registrator/middle/stack_opt/webphone':['git@scm.xcastlabs.net:chi/phoneplatform/middle_stack_opt_webphone.git','']})
     git_projects.update({'Registrator/middle/utils':['git@scm.xcastlabs.net:chi/phoneplatform/middle_utils.git','']})
@@ -342,8 +344,8 @@ def convert_cvs_2git(cvs_line,method="clone_cd_co_br"):
             p.cd_co_br()
         else:
             p.clone()
-            
-    
+
+
 
 class git_project:
     project_tags={}
@@ -367,7 +369,7 @@ class git_project:
             print("pushd {} && git checkout -q {} && popd".format(self.path,"master"))
 
 def main(method):
-        
+
 
     load_git_projects(git_project.git_projects)
     load_git_paths(git_project.project_tags)
@@ -377,7 +379,7 @@ def main(method):
     rm -rf $BUILD_ROOT
     mkdir -p $BUILD_ROOT/$PREFIX
 
-    # Checkup Phase 
+    # Checkup Phase
     cvs get -l -r $DB_CVSTAG Registrator/db/idl
     cvs get -r $ACD_CVSTAG Registrator/ACD/idl
     cvs get -l -r $UTILS_CVSTAG Registrator/middle/utils
@@ -416,7 +418,7 @@ for key in project_tags:
     p=git_project(key,git,tag)
     #p.cd_co_br()
     p.clone_cd_co_br()
-    #print("project={};cd $project && remote=$(git config remote.origin.url) && cd - ").format(key) 
+    #print("project={};cd $project && remote=$(git config remote.origin.url) && cd - ").format(key)
     #print('echo "git_projects.update({\'$project\':\'$remote\'})"')
     #print("echo 'pushd {} && git checkout -q {} && git checkout -B branch_{} && popd'".format(key,tag,tag))
 '''
@@ -432,4 +434,19 @@ if __name__ == '__main__':
     args = parse_args()
     main(method=args.method)
 
+
+'''
+manifest_name="$CURRENT_DIR/manifest_$PACKAGE_NAME-$RPM_VERSION-${RPM_RELEASE}${SUFFIX}.$ARC.rpm"
+rm -f $manifest_name
+
+
+
+for dd in db ACD middle/utils monitoring/EvService;
+  do
+    $CURRENT_DIR/create_rpm_manifest.sh $CURRENT_DIR/Registrator/$dd >> $manifest_name
+  done
+
+#exit 0
+#cheating here:
+touch QMAN_ChangeLog
 

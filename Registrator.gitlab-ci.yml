@@ -7,7 +7,7 @@ variables:
  GIT_STRATEGY: 'fetch'
  GIT_CHECKOUT: 'true'
  which_script: "$script_to_build"
-    
+
 stage_test:
   artifacts:
     paths:
@@ -37,7 +37,7 @@ variables:
  GIT_STRATEGY: 'fetch'
  GIT_CHECKOUT: 'true'
  which_script: "$script_to_build"
-    
+
 stage_test:
   artifacts:
     paths:
@@ -137,7 +137,7 @@ stage_build:
 
 git pull origin master
 git submodule add ../ACD.git ACD
-git commit -m "adding ACD" 
+git commit -m "adding ACD"
 git push origin master
 git push -u origin --tags
 
@@ -152,9 +152,9 @@ before_script:
 
 after_script:
   - 'cd $CI_PROJECT_DIR'
-  - "git submodule foreach --recursive 'git log -1 HEAD' > artifacts/build_repo.txt" 
+  - "git submodule foreach --recursive 'git log -1 HEAD' > artifacts/build_repo.txt"
   - 'mv *rpm artifacts/'
-    
+
 variables:
  GIT_STRATEGY: 'fetch'
 # GIT_CHECKOUT: 'true'
@@ -246,17 +246,17 @@ index ab85d92..5b53b2b 100755
 --- a/build_xbroker.sh
 +++ b/build_xbroker.sh
 @@ -32,17 +32,20 @@ XBROKER_CVSTAG=R2017-10-24
- 
+
  # Initial Cleanip
  rm -rf $BUILD_ROOT
 +rm -rf Registrator
  mkdir -p $BUILD_ROOT/$PREFIX/run/xbroker
--git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git 
+-git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git
 -git submodule update --init --recursive --remote
-+#git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git 
++#git clone git@scm.xcastlabs.net:chi/phoneplatform/Registrator.git
 +#git submodule update --init --recursive --remote
- 
- # Checkout Phase 
+
+ # Checkout Phase
 -pushd Registrator/middle/utils && git checkout -B branch_$UTILS_CVSTAG &&  git checkout $UTILS_CVSTAG && popd
 -pushd Registrator/middle/sparser && git checkout -B branch_$SPARSER_CVSTAG &&  git checkout $SPARSER_CVSTAG && popd
 -pushd Registrator/middle/stack_opt && git checkout -B branch_$SIPSTACK_CVSTAG &&  git checkout $SIPSTACK_CVSTAG && popd
@@ -264,17 +264,17 @@ index ab85d92..5b53b2b 100755
 -pushd Registrator/middle/utils && git checkout -B branch_$&&  git checkout $&& popd
 -pushd Registrator && git clone git@scm.xcastlabs.net:chi/phoneplatform/config_xbroker.git config/xbroker
 +git clone git@scm.xcastlabs.net:chi/phoneplatform/middle.git Registrator/middle
-+pushd Registrator/middle && git submodule update --init --recursive --remote 
++pushd Registrator/middle && git submodule update --init --recursive --remote
 +pushd Registrator/middle/utils && git checkout -B branch_$UTILS_CVSTAG && git checkout $UTILS_CVSTAG && popd
 +pushd Registrator/middle/sparser && git checkout -B branch_$SPARSER_CVSTAG && git checkout $SPARSER_CVSTAG && popd
 +pushd Registrator/middle/stack_opt && git checkout -B branch_$SIPSTACK_CVSTAG && git checkout $SIPSTACK_CVSTAG && popd
 +pushd Registrator/middle/stack_opt/bbua && git checkout -B branch_$XBROKER_CVSTAG && git checkout $XBROKER_CVSTAG && popd
 +popd
 +git clone git@scm.xcastlabs.net:chi/phoneplatform/config_xbroker.git Registrator/config/xbroker
- 
+
  --
 build_xbroker.sh-
-build_xbroker.sh-# Checkout Phase 
+build_xbroker.sh-# Checkout Phase
 build_xbroker.sh-
 build_xbroker.sh:manifest_name="$CURRENT_DIR/manifest_$PACKAGE_NAME-$RPM_VERSION-${RPM_RELEASE}${SUFFIX}.$ARC.rpm"
 build_xbroker.sh:rm -f $manifest_name
@@ -291,9 +291,9 @@ build_xbroker.sh-
 build_xbroker.sh-popd
 --
 build_xbroker.sh-
-build_xbroker.sh-for dd in middle middle/utils middle/sparser middle/stack_opt middle/stack_opt/bbua config/xbroker ; 
+build_xbroker.sh-for dd in middle middle/utils middle/sparser middle/stack_opt middle/stack_opt/bbua config/xbroker ;
 build_xbroker.sh-do
-build_xbroker.sh:       $CURRENT_DIR/create_rpm_manifest.sh $CURRENT_DIR/Registrator/$dd >> $manifest_name 
+build_xbroker.sh:       $CURRENT_DIR/create_rpm_manifest.sh $CURRENT_DIR/Registrator/$dd >> $manifest_name
 build_xbroker.sh-done
 build_xbroker.sh:#cat $manifest_name
 build_xbroker.sh-#exit 0
