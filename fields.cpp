@@ -5,8 +5,11 @@
 #include <string>       // std::string
 #include <iostream>     // std::cout
 #include <sstream>      // std::stringstream, std::stringbuf
+#include <typeinfo>     // typeid(T).name()
+#include <cxxabi.h>
 
 using namespace std;
+
 class anyfield
 {
     protected:
@@ -74,9 +77,14 @@ int main ()
     cout << event("table=fields",m);
 }
 
-template<class T>
+template<typename T>
 string field<T>::to_string()
 {
+   string n = typeid(T).name();
+   if (n == "i") { n.assign("int");}
+   else if (n == "j") { n.assign("unsigned int"); }
+   else if (n.find("basic_string") >= 0 ) { n.assign("String"); }
+   cout << "T is " << n << "\n";
    if (!clean && prev != next)
    {
        stringstream ss;
