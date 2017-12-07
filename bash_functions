@@ -578,7 +578,7 @@ function xc {
 
 function dev {
    domain="xcastlabs.com"
-   ssh ndarmoni@$(dev64).$domain
+   ssh -X ndarmoni@$(dev64).$domain
 }
 function mount_webdev {
 	dev_mounting_point="$HOME/Desktop/webdev"
