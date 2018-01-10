@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # $Id$ $Date$
 function me {
   echo $LOGNAME
@@ -531,12 +531,6 @@ for file in *.?pp ;do clean_ws $file ;done
 }
 
 export -f clean_all_while_space
-function dev() {
-#ignore input for now, use default
-	pushd ~/tools
-}
-
-export -f dev
 
 function kill_procs(){
 
@@ -568,12 +562,17 @@ function webdev {
 
 function xcweb {
    domain="xcastlabs.com"
-   ssh xcast@$(webdev).$domain
+   ssh -X xcast@$(webdev).$domain
+}
+
+function pbxdev {
+    domain="pbxdev.xcastlabs.com"
+    ssh -X ndarmoni@$domain
 }
 
 function xc {
    domain="xcastlabs.com"
-   ssh xcast@$(dev64).$domain
+   ssh -X xcast@$(dev64).$domain
 }
 
 function dev {
@@ -582,13 +581,15 @@ function dev {
 }
 function mount_webdev {
 	dev_mounting_point="$HOME/Desktop/webdev"
+    mkdir -p $dev_mounting_point
     domain="xcastlabs.com"
     sshfs xcast@$(webdev).$domain:nir $dev_mounting_point
 }
 function mount_dev {
 	dev_mounting_point="$HOME/Desktop/sftp"
+    mkdir -p $dev_mounting_point
     domain="xcastlabs.com"
-    sshfs ndarmoni@$(dev64).$domain:/net/home/ $dev_mounting_point
+    sshfs ndarmoni@$(dev64).$domain: $dev_mounting_point
 }
 
 function mount_usr {
@@ -599,6 +600,13 @@ function mount_usr {
 	    sshfs ndarmoni@$(dev64).$domain:/usr $usr_mounting_point
       export ACE_ROOT=$usr_mounting_point/local/ACE_wrappers
 	fi
+}
+
+function mount_pbxdev {
+	pbxdev_mounting_point="$HOME/Desktop/pbxdev"
+    mkdir -p $pbxdev_mounting_point
+    domain="xcastlabs.com"
+    sshfs ndarmoni@pbxdev.$domain: $pbxdev_mounting_point
 }
 
 function show(){

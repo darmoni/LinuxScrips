@@ -1,0 +1,18 @@
+#!/bin/bash
+echo "git you don't exist go away"
+unset GREENLIGHT
+while read line
+do
+    test "$LOGNAME" == "$line" && GREENLIGHT=1;break
+    echo "$line"
+done < "${1:-/dev/stdin}"
+test -z $GREENLIGHT && exit 0
+cmd="
+gvfs-mount 'sftp://ndarmoni@xdev64.xcastlabs.com';
+gvfs-mount 'sftp://ndarmoni@pbxdev.xcastlabs.com';
+mount_dev;
+mount_pbxdev;
+mount_usr
+"
+echo $cmd
+#$(cmd)
