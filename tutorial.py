@@ -1,7 +1,9 @@
 import argparse
 
 from influxdb import InfluxDBClient
-
+import math
+import datetime
+import time
 
 def main(host='localhost', port=8086):
     user = 'root'
@@ -10,6 +12,7 @@ def main(host='localhost', port=8086):
     dbuser = 'smly'
     dbuser_password = 'my_secret_password'
     query = 'select value from cpu_load_short;'
+    now = datetime.datetime.today()
     json_body = [
         {
             "measurement": "cpu_load_short",
@@ -17,7 +20,7 @@ def main(host='localhost', port=8086):
                 "host": "server01",
                 "region": "us-west"
             },
-            "time": "2009-11-10T23:00:00Z",
+            "time": int(now.strftime('%s')),#"2009-11-10T23:00:00Z",
             "fields": {
                 "Float_value": 0.64,
                 "Int_value": 3,
