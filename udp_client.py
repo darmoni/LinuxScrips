@@ -81,6 +81,6 @@ if __name__ == '__main__':
     msg = "Hello UDP server"
     for counter in range(3):
         sock.sendto(msg.encode('utf-8'),('', PORT))
-        data, addr = sock.recvfrom(MAX_SIZE)
+        #data, addr = sock.recvfrom(MAX_SIZE)
         #print(data.decode(), "\n")
-        print("Server says:{}".format(repr(process_event(data))))
+        #print("Server says:{}".format(repr(process_event(data))))
