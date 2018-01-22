@@ -175,10 +175,10 @@ def process_event(event, measurement):
         unreg_pos = event[type_pos:].find(b'UNREG')
         if(0 <= unreg_pos):
             #print ("unreg_pos = {}".format(unreg_pos))
-            db_insert = unregistering_event(event[type_pos:].strip(), measurement+".unreg")
+            db_insert = unregistering_event(event[type_pos:].strip(), measurement)#+".unreg")
         elif (0 <= reg_pos):
             #print ("reg_pos = {}".format(reg_pos))
-            db_insert = registering_event(event[type_pos:].strip(), measurement+".reg")
+            db_insert = registering_event(event[type_pos:].strip(), measurement)#+".reg")
         if (db_insert.ev_ready):
             cmd = 'influx -database "reg_events" -precision "ns" -execute "' + db_insert.tostring().format("registration_event") + '"'
             #print (cmd)
