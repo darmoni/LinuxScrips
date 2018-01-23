@@ -406,7 +406,7 @@ class baresip_test:
                 print >>sys.stderr, "ERROR: %s" % error
 
             print  "DEBUG Done", (time.strftime("%H:%M:%S")),
-            if(0 < sleep_time):  # WE ARE NOT GOTING TO SLEEP TODAY
+            if(0 < sleep_time):  # WE ARE NOT GOING TO SLEEP TODAY
                 print 'sleeping', sleep_time, 'seconds'
                 time.sleep(sleep_time) # let all settle down
             else:

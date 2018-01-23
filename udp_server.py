@@ -40,7 +40,7 @@ AOR: sip:1113D01L01*siptalk64.xcastlabs.com-75.145.154.225+9901@75.145.154.234:7
 
 
 def generate_event():
-    if(500 > random.randint(1, 1000)):
+    if(500.5 > random.randint(1, 1000)):
         return unreg_event#.format(int(time.time()))
     else:
         return reg_event#.format(int(time.time()))

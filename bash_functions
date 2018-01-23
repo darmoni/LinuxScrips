@@ -560,6 +560,16 @@ function webdev {
    echo 'dev3n1'
 }
 
+function xclickit {
+   domain="siptalk.com"
+   ssh -X xcast@bdsupportdb-02.$domain
+}
+
+function clickit {
+   domain="siptalk.com"
+   ssh -X ndarmoni@bdsupportdb-02.$domain
+}
+
 function xcweb {
    domain="xcastlabs.com"
    ssh -X xcast@$(webdev).$domain
