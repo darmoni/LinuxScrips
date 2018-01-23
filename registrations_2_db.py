@@ -168,6 +168,7 @@ class registering_event:
                 return command
 
 def process_event(event, measurement):
+    print("process_event: " + event)
     type_pos=event.find(b'Event: ')
     #print("process_event: ", event)
     if(0 <= type_pos):

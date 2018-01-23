@@ -6,6 +6,23 @@ import random
 import time
 import select
 
+real_events=[
+'Event: INVITE\nUniqNo: 65734\nDomain: siptalk64.xcastlabs.com\nDirection: CLN\nFrom: UC8xx-0001-01\nTo: 7160\n',
+'Event: INVITE\nUniqNo: 65734\nDomain: siptalk64.xcastlabs.com\nDirection: CLN\nFrom: UC8xx-0001-01\nTo: 7160\n',
+'Event: TALK\nUniqNo: 65734\nDomain: siptalk64.xcastlabs.com\nFMode: =\n',
+'Event: BYE\nUniqNo: 65734\nDomain: siptalk64.xcastlabs.com\nDirection: SRV\n',
+'Event: DTOR\nUniqNo: 65734\nDomain: siptalk64.xcastlabs.com\n',
+'Event: REG\nDomain: siptalk64.xcastlabs.com\nLine: UC8xx-0001-01\nAOR: sip:UC8xx-0001-01*siptalk64.xcastlabs.com-75.145.154.225+5260@75.145.154.234:7064\nCallID: efd00b116ba451d@10.10.8.10\nAgent: Htek UC840 V1.0.4.2.11\nIntIP: 10.10.8.10\nExtIP: 75.145.154.225\n',
+'Event: ACTIVE\nStarted: 1516742939\nRegs: 20\nDialogs: 0\nCalls: 0\nFull: 0\nExtra: R:20\n',
+'Event: ACTIVE\nStarted: 1516742939\nRegs: 20\nDialogs: 0\nCalls: 0\nFull: 0\nExtra: R:20\n',
+'Event: REG\nDomain: siptalk64.xcastlabs.com\nLine: UC8xx-0001-01\nAOR: sip:UC8xx-0001-01*siptalk64.xcastlabs.com-75.145.154.225+5260@75.145.154.234:7064\nCallID: efd00b116ba451d@10.10.8.10\nAgent: Htek UC840 V1.0.4.2.11\nIntIP: 10.10.8.10\nExtIP: 75.145.154.225\n',
+'Event: ACTIVE\nStarted: 1516742939\nRegs: 20\nDialogs: 0\nCalls: 0\nFull: 0\nExtra: R:20\n',
+'Event: ACTIVE\nStarted: 1516742939\nRegs: 20\nDialogs: 0\nCalls: 0\nFull: 0\nExtra: R:20\n',
+'Event: FAILD\nDomain: siptalk64.xcastlabs.com\nLine: SPA303-0001-01\nCallID: 6a0fecd4-6f19d202@10.0.0.13\nAgent: Cisco/SPA303-7.6.2c\nIntIP: 10.0.0.13\nExtIP: 67.167.37.164\nReason: Not our Device\n',
+'Event: REG\nDomain: siptalk64.xcastlabs.com\nLine: UC8xx-0001-01\nAOR: sip:UC8xx-0001-01*siptalk64.xcastlabs.com-75.145.154.225+5260@75.145.154.234:7064\nCallID: efd00b116ba451d@10.10.8.10\nAgent: Htek UC840 V1.0.4.2.11\nIntIP: 10.10.8.10\nExtIP: 75.145.154.225\n',
+'Event: ACTIVE\nStarted: 1516742939\nRegs: 20\nDialogs: 0\nCalls: 0\nFull: 0\nExtra: R:20\n',
+'Event: ACTIVE\nStarted: 1516742939\nRegs: 20\nDialogs: 0\nCalls: 0\nFull: 0\nExtra: R:20\n'
+]
 old_reg_event="""Event: REG
 CallID: 1661796768_59574292@4.55.17.227
 Domain: xcastlabs.voippbsite.net
@@ -40,10 +57,8 @@ AOR: sip:1113D01L01*siptalk64.xcastlabs.com-75.145.154.225+9901@75.145.154.234:7
 
 
 def generate_event():
-    if(500.5 > random.randint(1, 1000)):
-        return unreg_event#.format(int(time.time()))
-    else:
-        return reg_event#.format(int(time.time()))
+    event_index=random.randint(0,len(real_events)-1)
+    return real_events[event_index]
 
 sock = socket(AF_INET,SOCK_DGRAM)
 sock.bind(('',12345))
