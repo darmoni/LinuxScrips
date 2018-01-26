@@ -7,9 +7,10 @@ import argparse
 #from nested_print import dump, dumpclean
 import time
 import shlex, sys, signal
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, check_output
 if sys.version_info < (3,0,0):
     from nbstreamreader import NonBlockingStreamReader as NBSR
+import threading
 
 retention_policy = 'awesome_policy'
 
@@ -17,9 +18,10 @@ retention_policy = 'awesome_policy'
 global test_server
 
 def safe_exit(level):
-    global test_server
-    print 'Killing Server'
-    test_server.stdin.write("q\n")
+    global test_server, kill_remote
+    print ('Killing Server ')
+    check_output(shlex.split(kill_remote))
+    #test_server.stdin.write("q\n")
     time.sleep(0.1)
     test_server.kill()
     exit(0)
@@ -188,19 +190,30 @@ def process_event(event, measurement):
         else:
             return None
 
-def events_client(client, nbsr, chunk = 5, measurement="registration_events"):
-    try:
+def to_db(q, s):
+    line = s.readline()
+    #print("to_db: " + line)
+    if(line.find("\\n") > 0):
+        parts=line.strip().split("\\n")
+    elif(line.find("\n") > 0):
+        parts=line.strip().split("\n")
+    if(parts and len(parts)< 1): return None
+    fields={}
+    for f in parts:
+        if(0 < f.find(":")):
+            #print("to_db: f = " +f)
+            key, value = f.strip().split(": ")
+            fields[key.strip()] = value.strip()
+    fields["time"] = int(time.time() * 1000000000)
+    q.put(fields)
+
+def events_client(client, q, chunk = 5, measurement="registration_events"):
+    #try:
         #print("events_client:")
         points = []
         counter = 0
         while True:
-            data=nbsr.readline()
-            if((None == data) or (0 == len(data))):
-                print("events_client: no data yet, counter = {}".format(counter))
-                time.sleep(3)
-                continue
-            #print("events_client: data = ", data)
-            point=process_event(data, measurement)
+            point=q.get()#process_event(data, measurement)
             if((point is None) or (0 == len(point))): continue
             counter += 1
             points.append(point)
@@ -222,9 +235,10 @@ def events_client(client, nbsr, chunk = 5, measurement="registration_events"):
             print(inst)
             print(__file__, 'Oops')
             #raise SystemExit
-
+'''
 def main(host='localhost', port=8086, chunk=100, retention_policy = 'awesome_policy'):
-    global test_server
+    global test_server, kill_remote
+    kill_remote = "ssh ndarmoni@xdev64.xcastlabs.com 'pkill -f ~ndarmoni/bin/event_listener.py'"
     while True:
         try:
             user = 'root'
@@ -238,27 +252,33 @@ def main(host='localhost', port=8086, chunk=100, retention_policy = 'awesome_pol
             client.create_database(dbname)
             client.switch_database(dbname)
             client.create_retention_policy(retention_policy, '3d', 3, default=True)
-
+            #print(check_output(shlex.split(kill_remote)))
             #setup the listener
-            args = shlex.split('/home/nir/bin/reg_event_listener.py')
+            args = shlex.split("ssh ndarmoni@xdev64.xcastlabs.com")
             p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
-            # wrap p.stdout with a NonBlockingStreamReader object:
+            # wrap parser.stdout with a NonBlockingStreamReader object:
             if( p ):
                 test_server=p
                 nbsr = NBSR(p.stdout)
+                print(args)
                 print("main: calling events_client")
-                events_client(client,nbsr, chunk)
-                #while True:
-                #    print(p.stdout.read())
+                t = threading.Thread(target=events_client, args=(client,nbsr, chunk))
+                t.start()
+                p.stdin.write("~ndarmoni/bin/event_listener.py\n")
+                t.join()
+                #p.stdout.close()
+            else: exit()
         except Exception as inst:
-                #(type(inst))
+                type(inst)
                 p.kill()
                 print(inst.args)
                 print(inst)
                 print(__file__, 'Oops')
-                #raise SystemExit
+                if( p ):
+                    p.stdin.write("pkill -f ~ndarmoni/bin/event_listener.py\n")
+                exit(-1)
 
-    p.kill()
+    test_server.kill()
 
 def parse_args():
     parser = argparse.ArgumentParser(
