@@ -73,6 +73,35 @@ recdate Date MATERIALIZED toDate(time)
 ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
 #PARTITION BY recdate ORDER BY recdate;
 
+DROP TABLE IF EXISTS srv_audio_table;
+CREATE TABLE  srv_audio_table
+(
+recdate Date MATERIALIZED toDate(time)
+, domain String, event String, from String, serverip String, time Float64, uniqno String
+)
+ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
+#PARTITION BY recdate ORDER BY recdate;
+
+insert into srv_audio_table (domain,from,serverip,uniqno,time,event) values('russ.xcastlabs.com','75.145.154.234:43720','10.10.10.62','84593',1517244033.519648075,'SRV_AUDIO');
+DROP TABLE IF EXISTS cln_audio_table;
+CREATE TABLE  cln_audio_table
+(
+recdate Date MATERIALIZED toDate(time)
+, domain String, event String, from String, serverip String, time Float64, uniqno String
+)
+ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
+#PARTITION BY recdate ORDER BY recdate;
+
+DROP TABLE IF EXISTS cln_video_table;
+CREATE TABLE  cln_video_table
+(
+recdate Date MATERIALIZED toDate(time)
+, domain String, event String, from String, serverip String, time Float64, uniqno String
+)
+ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
+#PARTITION BY recdate ORDER BY recdate;
+
+
 insert into active_table (full,dialogs,calls,extra,started,regs,serverip,time,event) values('0','0','0','R:22','1516742939','22','10.10.10.62',1517237039.363743067,'ACTIVE');
 insert into reg_table (domain,callid,intip,agent,serverip,aor,time,line,extip,event) values('russ.xcastlabs.com','5326ef0a-c226ff31@10.0.0.207','10.0.0.207','Linksys/SPA1001-3.1.19(SE)','10.10.10.62','sip:312D01L01*russ.xcastlabs.com-67.167.37.164+16195@75.145.154.234:7064',1517237115.241877079,'312D01L01','67.167.37.164','REG');
 insert into reg_table (domain,callid,intip,agent,serverip,aor,time,line,extip,event) values('siptalk64.xcastlabs.com','1471544780@192.168.1.173','192.168.1.173','Yealink SIP-T22P 7.73.193.50','10.10.10.62','sip:7131YL01*siptalk64.xcastlabs.com-173.15.117.197+35932@75.145.154.234:7064',1517237244.529793024,'7131YL01','173.15.117.197','REG');
@@ -82,11 +111,15 @@ insert into talk_table (domain,serverip,uniqno,fmode,time,event) values('siptalk
 insert into bye_table (domain,direction,serverip,uniqno,time,event) values('siptalk64.xcastlabs.com','SRV','10.10.10.62','84345',1517237321.107734919,'BYE');
 insert into active_table (full,dialogs,calls,extra,started,regs,serverip,time,event) values('0','2','0','R:22,-:1','1516742939','22','10.10.10.62',1517237339.364963055,'ACTIVE');
 insert into dtor_table (uniqno,domain,event,serverip,time) values('84345','siptalk64.xcastlabs.com','DTOR','10.10.10.62',1517237361.107492924);
+insert into srv_audio_table (domain,from,serverip,uniqno,time,event) values('russ.xcastlabs.com','75.145.154.234:43720','10.10.10.62','84593',1517244033.519648075,'SRV_AUDIO');
+insert into cln_audio_table (domain,from,serverip,uniqno,time,event) values('russ.xcastlabs.com','75.145.154.225:58276','10.10.10.62','84593',1517244033.573282957,'CLN_AUDIO');
+insert into cln_video_table (domain,from,serverip,uniqno,time,event) values('russ.xcastlabs.com','75.145.154.225:46124','10.10.10.62','84593',1517244033.586697102,'CLN_VIDEO');
+
 """
 
 from socket import socket, AF_INET, SOCK_DGRAM, gethostbyname
 MAX_SIZE=4096
-import time
+import time, sys
 from Queue import Queue
 from threading import Thread
 
@@ -96,25 +129,26 @@ non_string_fields={'Time':'Float64'}
 
 class xcast_event_table:
 
-    def print_tables(self):
-        print(xcast_event_tables)
+    def print_table(self):
+        if self.table_name in xcast_event_tables:
+            return(self.create_new_table)
 
     def __init__(self,record,ev_type,table_name,even_if_exists=False):
+        self.table_name = table_name
         if( table_name in xcast_event_tables):
+            self.create_new_table=''
             pass
         else:
+            drop_old_table="DROP TABLE IF EXISTS {};".format(table_name)
             other_fields=''
-            create_even_if_exists= ("IF NOT EXISTS ","") [even_if_exists]
+            create_even_if_exists= ("IF NOT EXISTS ",drop_old_table) [even_if_exists]
             for key in sorted(record.keys()):
                 if (key in non_string_fields): 
                     type_name=non_string_fields[key]
                 else:
                     type_name='String'
                 other_fields += (", {} {}".format(key.lower(), type_name))
-            drop_old_table="DROP TABLE IF EXISTS {};".format(table_name)
-            if(even_if_exists):
-                print(drop_old_table)
-            create_new_table="""CREATE TABLE {} {}
+            self.create_new_table="""CREATE TABLE {} {}
 (
 recdate Date MATERIALIZED toDate(time)
 {}
@@ -122,8 +156,7 @@ recdate Date MATERIALIZED toDate(time)
 ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
 #PARTITION BY recdate ORDER BY recdate;
 """.format(create_even_if_exists, table_name, other_fields)
-            print(create_new_table)
-            xcast_event_tables.update({table_name:create_new_table})
+            xcast_event_tables.update({self.table_name:self.create_new_table})
     def __del__ (self):
         pass
 
@@ -142,14 +175,14 @@ def to_db(line,q):
             fields[key.strip()] = value.strip()
     q.put(fields)
 
-def prepare_insert_query(q):
+def prepare_insert_query(q,s=sys.stdout):
     while True:
         record=q.get()
         if(record):
             #create_table.print_tables()
             ev_type=record["Event"]
             table_name=ev_type.lower()+'_table'
-            create_table=xcast_event_table(record,ev_type,table_name)
+            create_table=xcast_event_table(record,ev_type,table_name).print_table()
             
             field_names=(",".join(record.keys())).lower()
             record_values=[]
@@ -168,7 +201,7 @@ def prepare_insert_query(q):
             #for key in sorted(record.keys()):
             #    value = record[key]
             #    query += (", {}='{}'".format(key.lower(),value))
-            print(query)
+            s.write(create_table + query +"\n")
         q.task_done()
 
 if __name__ == '__main__':
@@ -176,8 +209,9 @@ if __name__ == '__main__':
     sock.bind(('',32802))
     msg = "Hello UDP server"
     events_q = Queue(maxsize=0)
+
     for i in range(5):
-      worker = Thread(target=prepare_insert_query, args=(events_q,))
+      worker = Thread(target=prepare_insert_query, args=(events_q,sys.stdout))
       worker.setDaemon(True)
       worker.start()
     while True:

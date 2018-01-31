@@ -562,12 +562,12 @@ function webdev {
 
 function xclickit {
    domain="siptalk.com"
-   ssh -X xcast@bdsupportdb-02.$domain
+   ssh xcast@bdsupportdb-02.$domain
 }
 
 function clickit {
    domain="siptalk.com"
-   ssh -X ndarmoni@bdsupportdb-02.$domain
+   ssh ndarmoni@bdsupportdb-02.$domain
 }
 
 function xcweb {
