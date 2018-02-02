@@ -78,5 +78,5 @@ while True:
         if('127.0.0.1' == addr[0]):
             resp = generate_event()
             #b'UDP server sending data'
-            sender_sock.sendto(resp.encode('utf-8'),('', 54321))
+            sender_sock.sendto(resp.encode('utf-8'),('bdsupportdb-02.siptalk.com', 54321))
     
