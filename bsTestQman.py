@@ -49,7 +49,7 @@ def safe_exit(level):
     global agents
     # save stuff
     print("Exiting ...\n")
-    cleanup(calls+2*agents, cmdline)
+    cleanup(calls, cmdline)
     exit(0)
 
 def cleanup (calls, cmdline):
@@ -57,7 +57,7 @@ def cleanup (calls, cmdline):
 
 #    if(is_numeric(calls)):
     print "Number of calls to close is", calls, "\n"
-    for a_calls in range(calls):
+    for a_calls in range(int(calls*1.2)):
         cmdline.write("b")
         sleep(0.1)
         if(1 < agents):
@@ -81,11 +81,11 @@ def testing(count, agents, dial):
 #calls = 204
 calls = 95 #focus
 print "dialing -", calls, "calls\n"
-dials = ("55560", "3000", "3001", "70062", "4703","67892","4701","713300")
+#dials = ("55560", "3000", "3001", "70062", "4703","67892","4701","713300")
 #dials = ("4703",)  # focus on a single Queue
-#dials = ("8600",)  # Dev
-agents = 5;
-#agents = 1;
+dials = ("8600",)  # Dev
+#agents = 5;
+agents = 2;
 print dials
 port = '5565'
 #port = '5555'
@@ -106,10 +106,10 @@ while (True):
 
     if (time.time() > (timeout + TIMEOUT_SECONDS)):
         print "timeout\n", timeout, time.time()
-        cleanup(calls+2*agents,cmdline)
+        cleanup(calls,cmdline)
         break
     sleep(3)
-    cleanup(calls+2*agents,cmdline)
+    cleanup(calls,cmdline)
     sleep(3)
     if (time.time() > (timeout + TIMEOUT_SECONDS)):
         print "timeout\n", timeout, time.time()
