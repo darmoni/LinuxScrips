@@ -1,18 +1,52 @@
 #!/usr/bin/env python
 
-import socket
+import socket, time, sys
+from threading import Thread
+import signal
 
 
-TCP_IP = '127.0.0.1'
-PORT = 50007
+def sig_handler(sig, frame):
+    print "got sig(%d) \n" % sig
+    safe_exit()
 
-BUFFER_SIZE = 1024
-MESSAGE = "Hello, World!"
+signal.signal(signal.SIGUSR1,sig_handler)
+signal.signal(signal.SIGUSR2,sig_handler)
+signal.signal(signal.SIGINT,sig_handler)
+signal.signal(signal.SIGTERM,sig_handler)
+signal.signal(signal.SIGHUP,sig_handler)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((TCP_IP, PORT))
-s.send(MESSAGE)
-data = s.recv(BUFFER_SIZE)
-s.close()
+resources=[]
 
-print "received data:", data
+def safe_exit():
+    for r in resources:
+        del r
+    exit(0)
+
+PORT = 32802
+BUFFER_SIZE = 4096
+
+def read_from_middle(s):
+    try:
+        while s:
+            data, addr = s.recvfrom(BUFFER_SIZE)
+            if(data):
+                when=time.time()
+                data += "Time: {:18.9f}\nServerIP: {}\n".format(when,addr[0])
+                #print(data)
+                print(repr(data.strip()).strip("'"))
+            else:
+                time.sleep(1)
+    except:
+        sys.exit(-1)
+    if(s):
+        s.close()
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.bind(('', PORT))
+middle_worker = Thread(target=read_from_middle, args=(s,))
+middle_worker.setDaemon(True)
+middle_worker.start()
+resources.append(middle_worker)
+while middle_worker:
+    time.sleep(3)
+middle_worker.join()

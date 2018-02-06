@@ -700,6 +700,13 @@ function cmp_tmp () {
     for file in Makefile *cpp *h ; do echo $file ; diff $file $(pwd|sed 's/work_torm/work/')/$file ;done
 }
 
+function active() {
+   sudo netstat -anp 
+}
+
+function show_symbols () {
+    nm -anC $1
+}
 function switch_on () {
     ssh xcast@tswitch3.siptalk.com
 }

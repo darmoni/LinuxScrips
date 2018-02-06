@@ -125,16 +125,20 @@ ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
 
 
 def to_db(line,q):
+    #print(line)
     parts=line.replace("\\n","\n").split("\n")
+    #print(parts)
     if(len(parts)< 1):
         return None
     if('Event' != parts[0].strip().split(": ")[0]):
+        print(parts[0].strip().split(": ")[0])
         return None
-
+    
+    #print(parts)
     fields={}
     for f in parts:
         if(0 < f.find(":")):
-            key, value = f.strip().split(": ")
+            key, value = f.split(": ")
             if not separate_addr_port(key, value,fields):
                 fields[key.strip()] = value.strip()
     #print(fields)
@@ -142,11 +146,16 @@ def to_db(line,q):
 
 def prepare_insert_query(q,client):
     try:
+        if not q:
+            print("There is no Queue")
+        if not client:
+            print("There is no client")
         if not client:
             safe_exit()
         while client:
             record=q.get()
             if(record):
+                #print(record)
                 #create_table.print_tables()
                 ev_type=record["Event"]
                 #table_name='middle_events_'+ev_type.lower()
@@ -183,7 +192,9 @@ def prepare_insert_query(q,client):
                     print inst
                     print __file__, 'Oops'
             #del record
-            q.task_done()
+                q.task_done()
+            else:
+                print("there is no record")
     except Exception as inst:
         print type(inst)
         print inst.args
@@ -202,18 +213,28 @@ def read_from_middle(sock,events_q):
         else:
             time.sleep(1)
 
+def read_from_stdin(events_q):
+    while True:
+        data=sys.stdin.readline().strip()
+        if(data):
+            #print(data)
+            to_db(data,events_q)
+        else:
+            time.sleep(1)
+
+
 def collect_middle_events(client):
-    sock = socket(AF_INET,SOCK_DGRAM)
-    sock.bind(('',32802))
-    msg = "Hello UDP server"
+    #sock = socket(AF_INET,SOCK_DGRAM)
+    #sock.bind(('',32802))
+    #msg = "Hello UDP server"
     events_q = Queue(maxsize=0)
     #db_cmd_q = Queue(maxsize=0)
-    for i in range(1):
+    for i in range(8):
         worker = Thread(target=prepare_insert_query, args=(events_q,client))
         worker.setDaemon(True)
         worker.start()
     for i in range(8):
-        middle_worker = Thread(target=read_from_middle, args=(sock,events_q))
+        middle_worker = Thread(target=read_from_stdin, args=(events_q,))
         middle_worker.setDaemon(True)
         middle_worker.start()
 
