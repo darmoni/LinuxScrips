@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+def usage():
+    print('~/Downloads/kafka_2.11-1.0.0/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-replicated-topic | reg_event_kafka_consumer.py')
+
 """
 CREATE TABLE monitoring.middle_active ( calls String,  dialogs String,  event String,  extra String,  full String,  regs String,  serverip String,  started String,  time Float64,  recdate Date MATERIALIZED toDate(time)) ENGINE = MergeTree(recdate, (recdate, serverip), 8192)
 CREATE TABLE monitoring.middle_registration ( agent String,  aor String,  callid String,  domain String,  event String,  extip String,  intip String,  line String,  reason String,  serverip String,  time Float64,  recdate Date MATERIALIZED toDate(time)) ENGINE = MergeTree(recdate, (recdate, serverip), 8192)
@@ -62,8 +65,45 @@ signal.signal(signal.SIGHUP,sig_handler)
 xcast_event_tables={}
 non_string_fields={'time':'Float64','Time':'Float64'}
 fields_with_ports=['from','to']
+'''
+Event: INVITE\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nDirection: CLN\nFrom: UC8xx-0001-01\nTo: 98563\nTime: 1518186873.736757994\nServerIP: 10.10.10.62
+Event: INVITE\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nDirection: CLN\nFrom: UC8xx-0001-01\nTo: 98563\nTime: 1518186873.786770105\nServerIP: 10.10.10.62
+Event: REJECT\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nExtra: 408,Request TimeoutTime: 1518186876.922652960\nServerIP: 10.10.10.62
+Event: DTOR\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nTime: 1518186916.922527075\nServerIP: 10.10.10.62
+('INSERT INTO middle_call (domain,from,direction,serverip,uniqno,to,time,event) VALUES', [('siptalk64.xcastlabs.com', 'UC8xx-0001-01', 'CLN', '10.10.10.62', '311363', '98563', 1518186873.736758, 'INVITE')])
+('INSERT INTO middle_call (domain,from,direction,serverip,uniqno,to,time,event) VALUES', [('siptalk64.xcastlabs.com', 'UC8xx-0001-01', 'CLN', '10.10.10.62', '311363', '98563', 1518186873.78677, 'INVITE')])
+('INSERT INTO middle_call (uniqno,domain,event,serverip,extra) VALUES', [('311363', 'siptalk64.xcastlabs.com', 'REJECT', '10.10.10.62', '408,Request TimeoutTime: 1518186876.922652960')])
+<class 'clickhouse_driver.errors.ServerException'>
+()
+Code: 47.
+DB::Exception: Unknown identifier: time. Stack trace:
+
+0. /usr/bin/clickhouse-server(StackTrace::StackTrace()+0x15) [0x70bf765]
+1. /usr/bin/clickhouse-server(DB::Exception::Exception(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int)+0x1e) [0x191f92e]
+2. /usr/bin/clickhouse-server(DB::ExpressionAnalyzer::getActionsImpl(std::shared_ptr<DB::IAST> const&, bool, bool, DB::ExpressionAnalyzer::ScopeStack&)+0x24b3) [0x6a4c7f3]
+3. /usr/bin/clickhouse-server() [0x6a4d390]
+4. /usr/bin/clickhouse-server(DB::ExpressionAnalyzer::getActions(bool)+0x285) [0x6a51075]
+5. /usr/bin/clickhouse-server(DB::evaluateMissingDefaults(DB::Block&, DB::NamesAndTypesList const&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, DB::ColumnDefault, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, DB::ColumnDefault> > > const&, DB::Context const&)+0x840) [0x6a760b0]
+6. /usr/bin/clickhouse-server(DB::AddingDefaultBlockOutputStream::write(DB::Block const&)+0x2a8) [0x68d0658]
+7. /usr/bin/clickhouse-server(DB::ProhibitColumnsBlockOutputStream::write(DB::Block const&)+0x5e) [0x6965a5e]
+8. /usr/bin/clickhouse-server(DB::SquashingBlockOutputStream::finalize()+0x255) [0x696e9e5]
+9. /usr/bin/clickhouse-server(DB::SquashingBlockOutputStream::writeSuffix()+0x10) [0x696ec50]
+10. /usr/bin/clickhouse-server(DB::TCPHandler::processInsertQuery(DB::Settings const&)+0x331) [0x192e7b1]
+11. /usr/bin/clickhouse-server(DB::TCPHandler::runImpl()+0x44b) [0x192eccb]
+12. /usr/bin/clickhouse-server(DB::TCPHandler::run()+0x2a) [0x192f9fa]
+13. /usr/bin/clickhouse-server(Poco::Net::TCPServerConnection::start()+0xe) [0x73cb2ae]
+14. /usr/bin/clickhouse-server(Poco::Net::TCPServerDispatcher::run()+0x165) [0x73cb675]
+15. /usr/bin/clickhouse-server(Poco::PooledThread::run()+0x76) [0x718c656]
+16. /usr/bin/clickhouse-server(Poco::ThreadImpl::runnableEntry(void*)+0x37) [0x7188647]
+17. /usr/bin/clickhouse-server() [0x74abb8e]
+18. /lib/x86_64-linux-gnu/libpthread.so.0(+0x76b9) [0x7efe6f3eb6b9]
+19. /lib/x86_64-linux-gnu/libc.so.6(clone+0x6c) [0x7efe6ec1441c]
+
+/home/nir/bin/reg_event_kafka_consumer.py Oops
+^Cgot sig(2)
 
 
+'''
 def separate_addr_port(key, value,fields):
     if(key.lower() in fields_with_ports):
         m=re.match(r"(.+):(\d+)$",value)
@@ -137,8 +177,12 @@ def to_db(line,q):
     #print(parts)
     fields={}
     for f in parts:
-        if(0 < f.find(":")):
-            key, value = f.split(": ")
+        legal_field=f.find(": ")
+        value_pos = legal_field+2
+        if(0 < legal_field):
+            key = f[:legal_field]
+            value = f[value_pos:]
+            #key, value = f.split(": ")
             if not separate_addr_port(key, value,fields):
                 fields[key.strip()] = value.strip()
     #print(fields)
@@ -159,7 +203,10 @@ def prepare_insert_query(q,client):
                 #create_table.print_tables()
                 ev_type=record["Event"]
                 #table_name='middle_events_'+ev_type.lower()
-                
+                if('Time' not in record):
+                    print('ERROR: There if no time field in the record !!!: {}\n Fixing it locally'.format(record))
+                    record["Time"]=  "{:18.9f}".format(time.time())
+                    #continue
                 field_names=(",".join(record.keys())).lower()
                 record_values=[]
                 for k in record.keys():
@@ -180,7 +227,7 @@ def prepare_insert_query(q,client):
                             if(create_table):
                                 #print(create_table)
                                 r =client.execute(create_table)
-                                time.sleep(2)
+                                time.sleep(0.2)
                                 if r:print(r)
                         query="""INSERT INTO {} ({}) VALUES""".format(table_name,field_names)#.encode('utf-8')
                         print(query,[record_values])
@@ -216,9 +263,11 @@ def read_from_middle(sock,events_q):
 def read_from_stdin(events_q):
     while True:
         data=sys.stdin.readline().strip()
-        if(data):
+        if(data and len(data)>1):
             #print(data)
             to_db(data,events_q)
+        elif(data):
+            continue
         else:
             time.sleep(1)
 
@@ -229,11 +278,11 @@ def collect_middle_events(client):
     #msg = "Hello UDP server"
     events_q = Queue(maxsize=0)
     #db_cmd_q = Queue(maxsize=0)
-    for i in range(8):
+    for i in range(1):
         worker = Thread(target=prepare_insert_query, args=(events_q,client))
         worker.setDaemon(True)
         worker.start()
-    for i in range(8):
+    for i in range(1):
         middle_worker = Thread(target=read_from_stdin, args=(events_q,))
         middle_worker.setDaemon(True)
         middle_worker.start()
