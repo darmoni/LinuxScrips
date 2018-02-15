@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 def usage():
-    print('client.py |  ~/Downloads/kafka_2.11-1.0.0/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my-replicated-topic')
+    print('client.py |  ~/Downloads/kafka_2.11-1.0.0/bin/kafka-console-producer.sh --broker-list localhost:9094 --topic my-replicated-topic')
 import socket, time, sys, shlex
 from threading import Thread
 import signal
@@ -49,7 +49,7 @@ def read_from_middle(s,sout):
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(('', PORT))
 
-producer=shlex.split("/home/nir/Downloads/kafka_2.11-1.0.0/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my-replicated-topic")
+producer=shlex.split("/home/nir/Downloads/kafka_2.11-1.0.0/bin/kafka-console-producer.sh --broker-list localhost:9094 --topic my-replicated-topic")
 p = Popen(producer, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False, bufsize=0)
 if not p:
     print("producer is not running")
@@ -64,4 +64,6 @@ resources.append(middle_worker)
 
 while p and middle_worker:
     time.sleep(3)
+
+safe_exit()
 #middle_worker.join()

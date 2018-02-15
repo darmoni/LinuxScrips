@@ -40,7 +40,7 @@ from threading import Thread
 
 from clickhouse_driver import Client
 import ConfigParser as configparser
-#import log
+import log
 from connection import Connection
 import signal
 
@@ -61,11 +61,11 @@ signal.signal(signal.SIGTERM,sig_handler)
 signal.signal(signal.SIGHUP,sig_handler)
 
 #print(client.execute('SHOW TABLES;'))
-
+'''
 xcast_event_tables={}
 non_string_fields={'time':'Float64','Time':'Float64'}
 fields_with_ports=['from','to']
-'''
+
 Event: INVITE\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nDirection: CLN\nFrom: UC8xx-0001-01\nTo: 98563\nTime: 1518186873.736757994\nServerIP: 10.10.10.62
 Event: INVITE\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nDirection: CLN\nFrom: UC8xx-0001-01\nTo: 98563\nTime: 1518186873.786770105\nServerIP: 10.10.10.62
 Event: REJECT\nUniqNo: 311363\nDomain: siptalk64.xcastlabs.com\nExtra: 408,Request TimeoutTime: 1518186876.922652960\nServerIP: 10.10.10.62
@@ -104,65 +104,8 @@ DB::Exception: Unknown identifier: time. Stack trace:
 
 
 '''
-def separate_addr_port(key, value,fields):
-    if(key.lower() in fields_with_ports):
-        m=re.match(r"(.+):(\d+)$",value)
-        if m:
-            fields[key.strip()]=m.group(1).strip()
-            fields[key.strip()+'_port']=m.group(2).strip()
-            return True
-    return False
-
-def translate_field(x,v):
-    return {
-        'int': int(float(v)),
-        'float64': float(v),
-    }.get(x.lower(), v)
-
-tables={
-    "call":         ['event','time','serverip','uniqno','domain','direction','from','from_port','to','to_port','extra','fmode'],
-    "registration": ['event','time','serverip','domain','callid','intip','agent','aor','line','extip','reason'],
-    "active":       ['event','time','serverip','full','dialogs','calls','extra','started','regs']
-    }
-
-class xcast_event_table:
-
-    def print_table(self,table_name):
-        if self.table_name in xcast_event_tables:
-            return(self.create_new_table)
-
-    def __init__(self,record,ev_type,table_name_prefix,even_if_exists=False):
-        #print(record,ev_type,table_name_prefix,even_if_exists)
-        if ev_type.lower() in ['active',] : table_name = "active"
-        elif ev_type.lower() in ['invite','timeout','bye','cancel','talk', 'dtor','reject','srv_audio','cln_audio','srv_video','cln_video'] : table_name = "call"
-        elif ev_type.lower() in ['reg','unreg','faild'] : table_name = "registration"
-        else: raise SystemExit
-        self.table_name=table_name_prefix+table_name
-        #print(ev_type,self.table_name,even_if_exists)
-        if( self.table_name in xcast_event_tables):
-            self.create_new_table=''
-            pass
-        else:
-            drop_old_table="DROP TABLE IF EXISTS {};".format(self.table_name)
-            other_fields=''
-            create_even_if_exists= ("IF NOT EXISTS ",drop_old_table) [even_if_exists]
-            for key in sorted(tables[table_name]):
-                if (key in non_string_fields): 
-                    type_name=non_string_fields[key]
-                else:
-                    type_name='String'
-                other_fields += (", {} {}".format(key.lower(), type_name))
-            self.create_new_table="""CREATE TABLE {} {}
-(
-recdate Date MATERIALIZED toDate(time)
-{}
-)
-ENGINE = MergeTree(recdate, (recdate,serverip), 8192);
-""".format(create_even_if_exists, self.table_name, other_fields)
-            xcast_event_tables.update({self.table_name:self.create_new_table})
-    def __del__ (self):
-        pass
-
+from middle_event_structure import Xcast_event_table, translate_field, separate_addr_port
+#import middle_event_structure
 
 def to_db(line,q):
     #print(line)
@@ -210,8 +153,8 @@ def prepare_insert_query(q,client):
                 field_names=(",".join(record.keys())).lower()
                 record_values=[]
                 for k in record.keys():
-                    if (k in non_string_fields):
-                        value = translate_field(non_string_fields[k],record[k])
+                    if (k in Xcast_event_table.non_string_fields):
+                        value = translate_field(Xcast_event_table.non_string_fields[k],record[k])
                     else:
                         value = str(record[k])
                     record_values.append(value)
@@ -220,7 +163,7 @@ def prepare_insert_query(q,client):
 
                 try:
                     if(len(record_values)>0):
-                        event_processor=xcast_event_table(record,ev_type,'middle_')
+                        event_processor=Xcast_event_table(record,ev_type,'middle_')
                         if event_processor:
                             table_name= event_processor.table_name
                             create_table=event_processor.print_table(table_name)#.encode('utf-8')
@@ -300,8 +243,8 @@ def collect_middle_events(client):
 if __name__ == '__main__':
     file_config = configparser.ConfigParser()
     file_config.read(['setup.cfg'])
-#    log.configure(file_config.get('log', 'level'))
-    
+    log.configure(file_config.get('log', 'level'))
+
     host = file_config.get('db', 'host')
     #port = file_config.getint('db', 'port') using default port
     database = file_config.get('db', 'database')
