@@ -20,16 +20,18 @@ class Xcast_event_table:
     non_string_fields={'time':'Float64','Time':'Float64'}
     fields_with_ports=['from','to']
     tables={
+        "test":         ['event','time','serverip','testing','tested'],
         "dos":          ['event','time','serverip','ip','port','shield'],
         "call":         ['event','time','serverip','uniqno','domain','direction','from','from_port','to','to_port','extra','fmode'],
         "registration": ['event','time','serverip','domain','callid','intip','agent','aor','line','extip','reason'],
         "active":       ['event','time','serverip','full','dialogs','calls','extra','started','regs']
         }
     table_names_dict={
+    "test":['testing',],
     "dos":['block', 'unblock', 'ddos'],
     "registration":['reg','unreg','faild'],
     "call":['invite','timeout','bye','cancel','talk', 'dtor','reject','srv_audio','cln_audio','srv_video','cln_video'],
-    "active": ['active',]
+    "active": ['active','stop']
     }
 
     def print_table(self,table_name):

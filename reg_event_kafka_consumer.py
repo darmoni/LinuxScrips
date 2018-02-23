@@ -173,7 +173,7 @@ def prepare_insert_query(q,client):
                                 time.sleep(0.2)
                                 if r:print(r)
                         query="""INSERT INTO {} ({}) VALUES""".format(table_name,field_names)#.encode('utf-8')
-                        print(query,[record_values])
+                        #print(query,[record_values])
                         r=client.execute(query,[record_values],types_check=True)
                         if r:print(r)
                 except Exception as inst:
@@ -201,7 +201,7 @@ def read_from_middle(sock,events_q):
             data += "\nTime: {:18.9f} \nServerIP: {}".format(when, addr[0])
             to_db(data,events_q)
         else:
-            time.sleep(1)
+            time.sleep(0.1)
 
 def read_from_stdin(events_q):
     while True:
@@ -212,7 +212,7 @@ def read_from_stdin(events_q):
         elif(data):
             continue
         else:
-            time.sleep(1)
+            time.sleep(0.1)
 
 
 def collect_middle_events(client):

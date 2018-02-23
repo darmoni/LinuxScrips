@@ -44,16 +44,16 @@ if __name__ == '__main__':
     compression=file_config.get('db', 'compression') 
     #print (host, port, database, user, password)
     middle_prefix='middle_'
-    table_name='dos'
+    table_name='test'
     try:
         print("main:")
-        my_dos=Xcast_event_table(['',''],'unblock',middle_prefix)
+        my_dos=Xcast_event_table(['',''],'testing',middle_prefix)
         print (my_dos.print_table(middle_prefix+table_name))
         Xcast_event_table.xcast_event_tables.clear()
         my_dos=Xcast_event_table(['',''],'ddos',middle_prefix,True)
         print (my_dos.print_table(middle_prefix+table_name))
         Xcast_event_table.xcast_event_tables.clear()
-        my_dos=Xcast_event_table(['',''],'ddos',middle_prefix,False)
+        my_dos=Xcast_event_table(['',''],'testing',middle_prefix,False)
         print (my_dos.print_table(middle_prefix+table_name))
 
         safe_exit()

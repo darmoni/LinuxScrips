@@ -38,9 +38,9 @@ def read_from_middle(s,sout):
                 data += "Time: {:18.9f}\nServerIP: {}\n".format(when,addr[0])
                 formated_data=repr(data.strip()).strip("'").encode('utf-8')+"\n"
                 sout.write(formated_data)
-                print(formated_data)
+                #print(formated_data)
             else:
-                time.sleep(1)
+                time.sleep(0.1)
     except:
         sys.exit(-1)
     if(s):
