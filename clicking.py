@@ -40,7 +40,7 @@ def cleanup():
     for w in trd_workers:
         try:
             del w#trd_workers.remove(w)
-        except: 
+        except:
             trd_workers.remove(w)
             #check_output(shlex.split(kill_cmd))
             continue
