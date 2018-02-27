@@ -5,10 +5,14 @@ from kafka import KafkaConsumer, KafkaProducer
 import ConfigParser as configparser
 import signal, time
 
+client_id='XCASTLABS_events_debug_consumer'
 resources=[]
 def safe_exit():
+    counter=1
     for r in resources:
+        print ("deleting {}\n".format(counter))
         del r
+        counter +=1
     exit(0)
 
 def sig_handler(sig, frame):
@@ -29,6 +33,7 @@ def read_consumer(consumer,topic):
         for key in metrics:
             print ("{}:{}\n".format(key,metrics[key]))
         while True:
+            print(topic+"\n")
             for msg in consumer:
                 print (msg.value)
             else:
@@ -54,7 +59,7 @@ if __name__ == '__main__':
         if(len(bootstrap_servers)>1):
             consumer_bootstrap_server=bootstrap_servers[0]
     #print (bootstrap_servers)
-    topic=file_config.get('access', 'topic')
+    #topic=file_config.get('access', 'testing_topic')
     security_protocol = file_config.get('access', 'security_protocol')
     if('SASL_PLAINTEXT'== security_protocol):
         sasl_mechanism= file_config.get('access', 'sasl_mechanism')
@@ -63,8 +68,14 @@ if __name__ == '__main__':
     compression=file_config.get('access', 'compression') 
 
     topics=file_config.get('access', 'topics').split(",")
+    '''
+    if(2 > topics):
+        print(len(topics))
+        topic=topics[0]
+    '''
+
     for t in topics:
-        consumer = KafkaConsumer(t, bootstrap_servers=consumer_bootstrap_server,
+        consumer = KafkaConsumer(t, client_id=client_id, bootstrap_servers=consumer_bootstrap_server,
             security_protocol=security_protocol, sasl_mechanism=sasl_mechanism,
             sasl_plain_username=user,sasl_plain_password=password)
         if consumer:

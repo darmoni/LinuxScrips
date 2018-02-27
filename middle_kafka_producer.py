@@ -9,11 +9,15 @@ from Queue import Queue, Empty
 from threading import Thread
 
 MAX_SIZE=4096
+client_id='XCASTLABS_events_capture_and_producer'
 
 resources=[]
 def safe_exit():
+    counter=1
     for r in resources:
+        print ("deleting {}\n".format(counter))
         del r
+        counter +=1
     exit(0)
 
 def sig_handler(sig, frame):
@@ -68,10 +72,17 @@ def prepare_insert_query(q,producer,topic=None):
     try:
         if not q:
             print("There is no Queue")
+            safe_exit()
         if not producer:
             print("There is no producer")
             safe_exit()
+        print ("topic: {}\n".format(topic))
         while producer:
+            if(topic and 1 < topic.split(",")):
+                topics=topic.split(",")
+                print ("topics: {}\n".format(topics))
+            else:
+                topics=[topic,]
             record=q.get()
             if(record):
                 ev_type=record["Event"]
@@ -89,13 +100,13 @@ def prepare_insert_query(q,producer,topic=None):
                     counter=0
                     for k in sorted(Xcast_event_table.tables[table_name]):
                         #print(table_name,k)
-                        table_values.append(record_values.setdefault(k,"\n"))
+                        table_values.append(record_values.setdefault(k,"\N"))
                         #print(counter,table_values[counter])
                         counter += 1
                     read_topic = 'middle_'+table_name
-                    fields= "\t".join(table_values)
+                    fields= "\t".join(table_values)+"\n"
                     print(read_topic, fields)
-                    if(topic and topic != read_topic):
+                    if(topics and read_topic not in topics):
                         pass
                         #producer.send(topic, fields)
                     else:
@@ -158,18 +169,20 @@ if __name__ == '__main__':
         user = file_config.get('access', 'sasl_plain_username')
         password = file_config.get('access', 'sasl_plain_password')
     compression = file_config.get('access', 'compression') 
-    topic = file_config.get('access', 'topic')
+    testing_topic = file_config.get('access', 'testing_topic')
+    topics= file_config.get('access', 'topics')
+    print("topics: {}\n".format(topics))
     #print("NOT ready to produce topic {}\n".format(topic))
-    producer = KafkaProducer(compression_type=compression, bootstrap_servers=bootstrap_servers, security_protocol=security_protocol, sasl_mechanism=sasl_mechanism, sasl_plain_username=user,sasl_plain_password=password)
+    producer = KafkaProducer(client_id=client_id, compression_type=compression, bootstrap_servers=bootstrap_servers, security_protocol=security_protocol, sasl_mechanism=sasl_mechanism, sasl_plain_username=user,sasl_plain_password=password)
     if producer:
         resources.append(producer)
         #print("ready to produce topic {}\n".format(topic))
-        if('middle_dos' == topic):
-            dummy_dos(producer,topic)
+        if('middle_dos' == testing_topic):
+            dummy_dos(producer,testing_topic)
             producer.close()
             safe_exit()
         try:
-            collect_middle_events(producer,topic)
+            collect_middle_events(producer,topics)
             producer.close()
         except Exception as inst:
             print (type(inst))
