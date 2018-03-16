@@ -91,11 +91,13 @@ def prepare_insert_query(q,producer,topic=None):
                 event_processor=Xcast_event_table(record,ev_type,'')
                 if event_processor:
                     table_name= event_processor.table_name
-                    print(sorted(Xcast_event_table.tables[table_name]))
+                    #print(sorted(Xcast_event_table.tables[table_name]))
                     #field_names=(",".join(record.keys())).lower()
                     record_values={}
                     table_values=[]
                     for k in record:
+                        if 'dos' == table_name and 'shield' == k.lower():
+                            record[k] = ('0','1')[record[k] == 'On']
                         record_values.update({k.lower(): record[k]})
                     counter=0
                     for k in sorted(Xcast_event_table.tables[table_name]):
@@ -105,7 +107,7 @@ def prepare_insert_query(q,producer,topic=None):
                         counter += 1
                     read_topic = 'middle_'+table_name
                     fields= "\t".join(table_values)+"\n"
-                    print(read_topic, fields)
+                    #print(read_topic, fields)
                     if(topics and read_topic not in topics):
                         pass
                         #producer.send(topic, fields)

@@ -17,7 +17,7 @@ def translate_field(x,v):
 class Xcast_event_table:
 
     xcast_event_tables={}
-    non_string_fields={'time':'Float64','Time':'Float64'}
+    non_string_fields={'time':'Float64','Time':'Float64','Shield':'int','Shield'.lower():'int'}
     fields_with_ports=['from','to']
     tables={
         "test":         ['event','time','serverip','testing','tested'],

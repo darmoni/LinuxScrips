@@ -926,6 +926,32 @@ echo 'for a in ./*.flac; do
 done'
 }
 
+
+function histogram_voicemail () {
+    echo 'set @field="accountId"; set @s = concat("select distinct ", @field," , count(", @field, ") from voicemail group by ",@field); prepare stmt from @s; execute stmt;'
+    echo '<?php
+  $mysqli = new mysqli("localhost", "user", "pass", "test");
+
+  if( mysqli_connect_errno() )
+    die("Connection failed: %s\n", mysqli_connect_error());
+
+  $field = "accountId";
+
+  $query = "SELECT $field FROM t";
+
+  $result = $mysqli->query($query);
+
+  while($row = $result->fetch_assoc())
+  {
+    echo "<p>" . $row["$field"] . "</p>\n";
+  }
+
+  $result->close();
+
+  $mysqli->close();
+?>'
+}
+
 function audio_duration () {
     for f in $* ; do echo $f;
   ffmpeg -i $f 2>&1 |awk '/Duration/ { print substr($2,0,length($2)-1) }'
