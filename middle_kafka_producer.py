@@ -54,18 +54,41 @@ def to_db(line,q):
     #print(fields)
     q.put(fields)
 
+def dummy_active(producer,topic='middle_active'):
+    while producer:
+        calls='89'
+        dialogs='64'
+        event="ACTIVE"
+        extra="R:22"
+        full_mode='23'
+        registrations='22'
+        sbc_ip='dummy_active.nowhere.mars'
+        started_timestamp='1521757433'
+        event_timestamp="{:18.9f}".format(time.time())
+        event_timestamp=time.time()
+        message="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(calls,dialogs,event,extra,full_mode,registrations,sbc_ip,started_timestamp,event_timestamp)
+        print (message)
+        #print (repr(message))
+        metrics = producer.send(topic,message)
+        if (metrics):
+            print ("key = {}\n".format(metrics.get()))
+        time.sleep(3)
+
 def dummy_dos(producer,topic='middle_dos'):
     while producer:
         event='BLOCK'
         ip= '75.145.154.225'
         port=45162
         serverip='dummy_dos.nowhere.mars'
-        shield='Off'
+        shield='0'
         timestamp="{:18.9f}".format(time.time())
+        timestamp=time.time()
         message="{}\t{}\t{}\t{}\t{}\t{}\n".format(event,ip,port,serverip,shield,timestamp)
         print (message)
         #print (repr(message))
-        producer.send(topic,message)
+        metrics = producer.send(topic,message)
+        if (metrics):
+            print ("key = {}\n".format(metrics.get()))
         time.sleep(3)
 
 def prepare_insert_query(q,producer,topic=None):
@@ -77,12 +100,13 @@ def prepare_insert_query(q,producer,topic=None):
             print("There is no producer")
             safe_exit()
         print ("topic: {}\n".format(topic))
-        while producer:
+        if producer:
             if(topic and 1 < topic.split(",")):
                 topics=topic.split(",")
                 print ("topics: {}\n".format(topics))
             else:
                 topics=[topic,]
+        while producer:
             record=q.get()
             if(record):
                 ev_type=record["Event"]
@@ -107,12 +131,14 @@ def prepare_insert_query(q,producer,topic=None):
                         counter += 1
                     read_topic = 'middle_'+table_name
                     fields= "\t".join(table_values)+"\n"
-                    #print(read_topic, fields)
+                    print(read_topic, fields)
                     if(topics and read_topic not in topics):
                         pass
                         #producer.send(topic, fields)
                     else:
-                        producer.send(read_topic, fields)
+                        metrics = producer.send(read_topic, fields)
+                        if (metrics):
+                            print ("key = {}\n".format(metrics.get()))
                     del event_processor
                     q.task_done()
                 else:
@@ -181,6 +207,10 @@ if __name__ == '__main__':
         #print("ready to produce topic {}\n".format(topic))
         if('middle_dos' == testing_topic):
             dummy_dos(producer,testing_topic)
+            producer.close()
+            safe_exit()
+        if('middle_active' == testing_topic):
+            dummy_active(producer,testing_topic)
             producer.close()
             safe_exit()
         try:

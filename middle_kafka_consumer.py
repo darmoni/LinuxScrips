@@ -35,7 +35,7 @@ def read_consumer(consumer,topic):
         while True:
             print(topic+"\n")
             for msg in consumer:
-                print (msg.value)
+                print (topic+"\n",msg.value)
             else:
                 time.sleep(0.1)
             continue

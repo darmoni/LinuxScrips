@@ -971,6 +971,20 @@ function logs_load {
     logs_load.py
 }
 
+function which_staging_qman () {
+    prog='qman'
+    if [ "$1" != "" ] ; then
+        for prog in $* ;
+            do
+                echo $prog
+                cmd="rpm -qf bin/$prog"
+                rpm=`ssh xcast@stage1n1-la.siptalk.com "$cmd"`
+                ssh xcast@stage1n1-la.siptalk.com "rpm -qi $rpm";
+            done;
+    else ssh xcast@stage1n1-la.siptalk.com 'rpm -qi `rpm -qf bin/qman`';
+    fi
+}
+
 function build_this_rpm () {
     for build in $* ; do 
     echo $build
