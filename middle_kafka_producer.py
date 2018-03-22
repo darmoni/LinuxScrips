@@ -77,12 +77,13 @@ def prepare_insert_query(q,producer,topic=None):
             print("There is no producer")
             safe_exit()
         print ("topic: {}\n".format(topic))
-        while producer:
+        if producer:
             if(topic and 1 < topic.split(",")):
                 topics=topic.split(",")
                 print ("topics: {}\n".format(topics))
             else:
                 topics=[topic,]
+        while producer:
             record=q.get()
             if(record):
                 ev_type=record["Event"]
