@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-const char key[] = {'N', 'i', 'R', 'd'}; //Any chars will work
+const char key[] = "*|\\|[!@7$[)+"; //Any chars will work
 
 string encryptDecrypt(string toEncrypt) {
 	string output = toEncrypt;
@@ -42,11 +42,11 @@ string toHex(const string& s, bool upper_case = true)
 
     return ret.str();
 }
-
+//#define CREATE
 int main(int argc, const char * argv[])
 {
     std::vector<string> secrets;
-	/*
+#if defined CREATE
     string strs [3] = {"guest", "n0b0dy", "sip"};
     for (int i = 0 ; i < 3; i++)
 		secrets.push_back(strs[i]);
@@ -58,8 +58,8 @@ int main(int argc, const char * argv[])
 	    cout << "Encrypted: " << hexSecret << "\n";
 	}
 	secrets.clear();
-	*/
-    string configs [3] = {"291C37173A", "205930542A10", "3D0022"};
+#else
+    string configs [3] = {"4D09390F2F", "444C3E4C3F58", "59152C"};
     for (int i = 0 ; i < 3; i++)
 		secrets.push_back(configs[i]);
     for (int s = 0; s < secrets.size(); s++)
@@ -69,5 +69,6 @@ int main(int argc, const char * argv[])
 	    string decrypted = encryptDecrypt(fromHex);
 	    cout << "Decrypted: " << decrypted << "\n";
 	}
+#endif
     return 0;
 }
