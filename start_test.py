@@ -33,7 +33,7 @@ signal.signal(signal.SIGHUP,sig_handler)
 def start_baresip(user, server):
     HOST="ssh "+user+"@"+server
     # Ports are handled in ~/.ssh/config since we use OpenSSH
-    COMMAND="baresip"
+    COMMAND="nohup baresip < /dev/null"
 
     args = shlex.split(HOST+" "+ COMMAND)
     ssh = Popen(args,stdin=PIPE,stdout=PIPE,stderr=PIPE, shell=False)
@@ -58,7 +58,7 @@ def main(argv):
 
     print  "Starting",   (time.strftime("%H:%M:%S"))
     try:
-        test_server = start_baresip("nir",testserver);
+        test_server = start_baresip("xcast",testserver);
         events= NBSR(test_server.stdout)
         print 'Testing from', testserver, 'has started, and will kill itself in 24 hours'
         while(True):
