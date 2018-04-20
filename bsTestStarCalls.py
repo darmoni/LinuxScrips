@@ -8,8 +8,20 @@ from subprocess import call, Popen, check_output, PIPE
 from nbstreamreader import NonBlockingStreamReader as NBSR
 import signal
 
+global cmdline
+
+def safe_exit(level):
+    global cmdline
+    print 'Killing Server'
+    if not cmdline:
+        exit(0)
+    cmdline.write("q\n")
+    sleep(0.1)
+    cmdline.close()
+    exit(0)
+
 def sig_handler(sig, frame):
-    print "got sig("+sig+")\n"
+    print "got sig({})\n".format(sig)
     safe_exit(sig)
 
 signal.signal(signal.SIGUSR1,sig_handler)
@@ -25,17 +37,11 @@ def make_calls (cmdline,count,agents,dial):
         call = "d"+who+"\n"
         print call
         cmdline.write(call)
-        sleep (3)
-        cmdline.write("T")
-
-def safe_exit(level):
-    global cmdline
-    global calls
-    global process
-    # save stuff
-    print("Exiting ...\n")
-    cleanup(calls, cmdline)
-    exit(0)
+        sleep (7)
+        if not cmdline:
+            break
+        if(1 < agents):
+            cmdline.write("T\n")
 
 def cleanup (calls, cmdline):
     global agents
@@ -48,7 +54,7 @@ def cleanup (calls, cmdline):
         if(1 < agents):
             cmdline.write('T\n')
 
-TIMEOUT_SECONDS = 2*20
+TIMEOUT_SECONDS = 2*60
 
 def testing(count, agents, dial):
     global cmdline
@@ -65,13 +71,16 @@ def testing(count, agents, dial):
 
 calls = 20
 print "dialing - ", calls, "calls\n"
-dials = ("*927161","*73", "*727161","*30", "*31", "*93", "*95", "*947161")
+stars = ["*69", "*72", "*73", "*92", "*93", "*94", "*95", "*67", "*67", "*82", "*82", "*77", "*87", "*78", "*79", "*57", "*56", "*70", "*76", "*30", "*31", "*21", "*20"]
+dials = stars +["*927161","*73","*727160","*73","*727161","*30", "*31", "*93","*947160","*95", "*947161"]
 #dials = ("8600",)
 #agents = 2;
 agents = 3;
-print dials
-#port = '5565'
-port = '5555'
+agents = 1;
+print dials, agents
+#exit(0)
+port = '5565'
+#port = '5555'
 args = shlex.split('/bin/netcat -u 127.0.0.1 ' + port)
 p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
 nbsr = NBSR(p.stdout)
