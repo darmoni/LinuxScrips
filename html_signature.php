@@ -1,5 +1,5 @@
 <?php
-#ident $Id$ $Date: Tue Oct 3 14:48:49 2017 -0500$
+#ident $Id$ $Date$
 
 $my_text_signature="
 Nir Darmoni

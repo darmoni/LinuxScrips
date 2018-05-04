@@ -7,4 +7,5 @@ bash_functions filter=dater
 *.h filter=dater
 *.awk filter=dater
 *.py filter=dater
+*.php filter=dater
 date*.* filter=dater
