@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+#ident $Id$ $Date$
+
 import shlex, subprocess
 import socket
 import os
@@ -9,15 +12,17 @@ from nbstreamreader import NonBlockingStreamReader as NBSR
 import signal
 import sys, getopt
 
-
-global test_server
+global workers
 
 def safe_exit(level):
-    global test_server
-    print 'Killing Server'
-    test_server.stdin.write("q\n")
-    sleep(0.1)
-    test_server.terminate()
+    global workers
+    print 'Killing Server', "len(workers) = {}".format(len(workers))
+    for test_server in wait(workers):
+        if (test_server):
+            test_server.stdin.write("q\n")
+            sleep(0.1)
+            test_server.terminate()
+            workers.remove(test_server)
     exit(0)
 
 def sig_handler(sig, frame):
@@ -41,7 +46,8 @@ def start_baresip(user, server):
 
 TIMEOUT_SECONDS = 24*60*60 # 24 hours are enough ?
 def main(argv):
-    global test_server
+    global workers
+    workers = []
     testserver = 'bairsip.xcastlabs.com'
     timeout = time.time()
     try:
@@ -58,7 +64,11 @@ def main(argv):
 
     print  "Starting",   (time.strftime("%H:%M:%S"))
     try:
-        test_server = start_baresip("xcast",testserver);
+        test_server = start_baresip("nir",testserver);
+        if (test_server):
+            workers.append(test_server)
+        else:
+            exit(-1)
         events= NBSR(test_server.stdout)
         print 'Testing from', testserver, 'has started, and will kill itself in 24 hours'
         while(True):
