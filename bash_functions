@@ -1,10 +1,24 @@
-#!/bin/bash
+#!/bin/sh
 # $Id$ $Date$
 function me {
   echo $LOGNAME
 }
 
 export -f me
+
+function log_me () {
+    topic='*'
+    test -n "$1" && topic="$1"
+    log_name_pattern="$topic*.node*.log"
+    today=$( date +%Y%m%d)
+    logserver_cmd="/usr/bin/ssh xcast@logserver3-la.siptalk.com "
+    #for my_mserver in container1-la.xcastlabs.net container2-la.xcastlabs.net ; do
+    for my_mserver in container*-la.xcastlabs.net ; do
+        log_name="ls -lSrh logs/servers/$my_mserver/$today/$log_name_pattern | grep -v 'job-'"
+        ls_log="$logserver_cmd '$log_name'"
+        echo $ls_log |$SHELL
+    done
+}
 
 function timestamp {
 
@@ -998,6 +1012,25 @@ function build_this_rpm () {
 export LD_LIBRARY_PATH=/usr/local/lib/
 export OMNINAMES_LOGDIR=/var/log/omniNames/
 export OMNIORBBASE=/home/nir/omniorb/omniORB-4.2.1
+
+#setting -up git prompt
+# Git
+GIT_PS1_SHOWDIRTYSTATE='y'
+GIT_PS1_SHOWSTASHSTATE='y'
+GIT_PS1_SHOWUNTRACKEDFILES='y'
+GIT_PS1_DESCRIBE_STYLE='contains'
+GIT_PS1_DESCRIBE_STYLE='branch'
+GIT_PS1_SHOWUPSTREAM='auto'
+GIT_PS1_SHOWUPSTREAM='y'
+
+source /etc/bash_completion.d/git-prompt
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(__git_ps1) \$ '
+fi
+unset color_prompt force_color_prompt
 
 alias lsx='find  -type f -executable -maxdepth 1'
 alias gdbbt='gdb -q -n -ex bt -batch'
