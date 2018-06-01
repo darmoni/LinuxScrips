@@ -7,17 +7,29 @@ function me {
 export -f me
 
 function log_me () {
-    topic='*'
-    test -n "$1" && topic="$1"
+    #topic='server'
+    topic=${1:-*}
+    DBACK=${2:-0}
+    TMSTAMP=$(expr `date +%s` - 86400 '*' ${DBACK})
+    DAY=$(date +%Y%m%d -d "1970-01-01 UTC ${TMSTAMP} sec")
+
     log_name_pattern="$topic*.node*.log"
-    today=$( date +%Y%m%d)
+    #today=$( date +%Y%m%d)
     logserver_cmd="/usr/bin/ssh xcast@logserver3-la.siptalk.com "
     #for my_mserver in container1-la.xcastlabs.net container2-la.xcastlabs.net ; do
-    for my_mserver in container*-la.xcastlabs.net ; do
-        log_name="ls -lSrh logs/servers/$my_mserver/$today/$log_name_pattern | grep -v 'job-'"
-        ls_log="$logserver_cmd '$log_name'"
-        echo $ls_log |$SHELL
+    for my_topic in container*-la.xcastlabs.net ; do
+        log_name="ls -lSrh logs/servers/$my_topic/$DAY/*$log_name_pattern | grep -v 'job-'"
+        CMD="$logserver_cmd '$log_name'"
+        #echo $CMD
+        #echo
+        eval $CMD | grep --color ${topic}
+        #echo $ls_log |$SHELL
     done
+}
+
+function flog () {
+    CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog2 $*"
+    eval $CMD | grep --color ${topic}
 }
 
 function timestamp {
