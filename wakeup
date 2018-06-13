@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#ident $Id$ $Date: Tue Oct 3 14:48:49 2017 -0500$
+#ident $Id$ $Date$
 
 goline="git you don't exist go away"
 echo "$goline"
