@@ -1030,19 +1030,48 @@ export OMNIORBBASE=/home/nir/omniorb/omniORB-4.2.1
 GIT_PS1_SHOWDIRTYSTATE='y'
 GIT_PS1_SHOWSTASHSTATE='y'
 GIT_PS1_SHOWUNTRACKEDFILES='y'
+#GIT_PS1_DESCRIBE_STYLE='describe'
 GIT_PS1_DESCRIBE_STYLE='contains'
-GIT_PS1_DESCRIBE_STYLE='branch'
+#GIT_PS1_DESCRIBE_STYLE='branch'
 GIT_PS1_SHOWUPSTREAM='auto'
-GIT_PS1_SHOWUPSTREAM='y'
+#GIT_PS1_SHOWUPSTREAM='y'
+GIT_PS1_SHOWCOLORHINTS='y'
 
 source /etc/bash_completion.d/git-prompt
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(__git_ps1) \$ '
-fi
-unset color_prompt force_color_prompt
+#if [ "$color_prompt" = yes ]; then
+    PROMPT_COMMAND='__git_ps1 "\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a[${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\] ]" " \$ "'
+#else
+#    PROMPT_COMMAND='__git_ps1 "\e]0;${debian_chroot:+($debian_chroot)}\u@\h \W\a[${debian_chroot:+($debian_chroot)}\u@\h: \W ]" " \$ "'
+#fi
+
+#PROMPT_COMMAND='__git_ps1 "\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \W\a[${debian_chroot:+($debian_chroot)}\u@\h: \W ]" " \$ "'
+
+# If this is an xterm set the title to user@host:dir
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#    ;;
+#*)
+#    ;;
+#esac
+
+
+
+function _these_are_set_in_bashrc {
+#setting -up git prompt
+# Git
+GIT_PS1_SHOWDIRTYSTATE='y'
+GIT_PS1_SHOWSTASHSTATE='y'
+GIT_PS1_SHOWUNTRACKEDFILES='y'
+#GIT_PS1_DESCRIBE_STYLE='describe'
+GIT_PS1_DESCRIBE_STYLE='contains'
+#GIT_PS1_DESCRIBE_STYLE='branch'
+GIT_PS1_SHOWUPSTREAM='auto'
+#GIT_PS1_SHOWUPSTREAM='y'
+GIT_PS1_SHOWCOLORHINTS='y'
+source /etc/bash_completion.d/git-prompt
+}
 
 alias lsx='find  -type f -executable -maxdepth 1'
 alias gdbbt='gdb -q -n -ex bt -batch'
