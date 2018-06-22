@@ -19,5 +19,6 @@ mount_dev;
 mount_pbxdev;
 mount_usr
 "
-echo "     $cmd"
-eval $cmd
+#echo "     $cmd"
+#for line in $(echo $cmd | tr ";" "\n"); eval "'$line'"; done
+eval "$cmd"

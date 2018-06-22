@@ -13,12 +13,13 @@ function log_me () {
     TMSTAMP=$(expr `date +%s` - 86400 '*' ${DBACK})
     DAY=$(date +%Y%m%d -d "1970-01-01 UTC ${TMSTAMP} sec")
 
-    log_name_pattern="$topic*.node*.log"
+    #log_name_pattern="$topic*.node*.log"
+    log_name_pattern=$topic
     #today=$( date +%Y%m%d)
     logserver_cmd="/usr/bin/ssh xcast@logserver3-la.siptalk.com "
     #for my_mserver in container1-la.xcastlabs.net container2-la.xcastlabs.net ; do
-    for my_topic in container*-la.xcastlabs.net ; do
-        log_name="ls -lSrh logs/servers/$my_topic/$DAY/*$log_name_pattern | grep -v 'job-'"
+    for my_topic in container*-la.xcastlabs.net pbxdata1n1-la.siptalk.com; do
+        log_name="ls -lSrh logs/servers/$my_topic/$DAY/* | grep $log_name_pattern | grep -v 'job-'"
         CMD="$logserver_cmd '$log_name'"
         #echo $CMD
         #echo
@@ -28,6 +29,11 @@ function log_me () {
 }
 
 function flog () {
+    CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog $*"
+    eval $CMD | grep --color ${topic}
+}
+
+function flog2 () {
     CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog2 $*"
     eval $CMD | grep --color ${topic}
 }
@@ -581,6 +587,7 @@ function stage_srv {
 function dev64 {
    echo 'xdev64'
 }
+export -f dev64
 
 function webdev {
    echo 'dev3n1'
@@ -627,6 +634,7 @@ function mount_dev {
     domain="xcastlabs.com"
     sshfs ndarmoni@$(dev64).$domain: $dev_mounting_point
 }
+export -f mount_dev
 
 function mount_usr {
 	usr_mounting_point="$HOME/Desktop/usr"
@@ -637,6 +645,7 @@ function mount_usr {
       export ACE_ROOT=$usr_mounting_point/local/ACE_wrappers
 	fi
 }
+export -f mount_usr
 
 function mount_pbxdev {
 	pbxdev_mounting_point="$HOME/Desktop/pbxdev"
@@ -644,6 +653,7 @@ function mount_pbxdev {
     domain="xcastlabs.com"
     sshfs ndarmoni@pbxdev.$domain: $pbxdev_mounting_point
 }
+export -f mount_pbxdev
 
 function show(){
 
