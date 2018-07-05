@@ -7,17 +7,35 @@ function me {
 export -f me
 
 function log_me () {
-    topic='*'
-    test -n "$1" && topic="$1"
-    log_name_pattern="$topic*.node*.log"
-    today=$( date +%Y%m%d)
+    #topic='server'
+    topic=${1:-*}
+    DBACK=${2:-0}
+    TMSTAMP=$(expr `date +%s` - 86400 '*' ${DBACK})
+    DAY=$(date +%Y%m%d -d "1970-01-01 UTC ${TMSTAMP} sec")
+
+    #log_name_pattern="$topic*.node*.log"
+    log_name_pattern=$topic
+    #today=$( date +%Y%m%d)
     logserver_cmd="/usr/bin/ssh xcast@logserver3-la.siptalk.com "
     #for my_mserver in container1-la.xcastlabs.net container2-la.xcastlabs.net ; do
-    for my_mserver in container*-la.xcastlabs.net ; do
-        log_name="ls -lSrh logs/servers/$my_mserver/$today/$log_name_pattern | grep -v 'job-'"
-        ls_log="$logserver_cmd '$log_name'"
-        echo $ls_log |$SHELL
+    for my_topic in container*-la.xcastlabs.net pbxdata1n1-la.siptalk.com; do
+        log_name="ls -lSrh logs/servers/$my_topic/$DAY/* | grep $log_name_pattern | grep -v 'job-'"
+        CMD="$logserver_cmd '$log_name'"
+        #echo $CMD
+        #echo
+        eval $CMD | grep --color ${topic}
+        #echo $ls_log |$SHELL
     done
+}
+
+function flog () {
+    CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog $*"
+    eval $CMD | grep --color ${topic}
+}
+
+function flog2 () {
+    CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog2 $*"
+    eval $CMD | grep --color ${topic}
 }
 
 function timestamp {
@@ -569,6 +587,7 @@ function stage_srv {
 function dev64 {
    echo 'xdev64'
 }
+export -f dev64
 
 function webdev {
    echo 'dev3n1'
@@ -615,6 +634,7 @@ function mount_dev {
     domain="xcastlabs.com"
     sshfs ndarmoni@$(dev64).$domain: $dev_mounting_point
 }
+export -f mount_dev
 
 function mount_usr {
 	usr_mounting_point="$HOME/Desktop/usr"
@@ -625,6 +645,7 @@ function mount_usr {
       export ACE_ROOT=$usr_mounting_point/local/ACE_wrappers
 	fi
 }
+export -f mount_usr
 
 function mount_pbxdev {
 	pbxdev_mounting_point="$HOME/Desktop/pbxdev"
@@ -632,6 +653,7 @@ function mount_pbxdev {
     domain="xcastlabs.com"
     sshfs ndarmoni@pbxdev.$domain: $pbxdev_mounting_point
 }
+export -f mount_pbxdev
 
 function show(){
 
@@ -1018,19 +1040,48 @@ export OMNIORBBASE=/home/nir/omniorb/omniORB-4.2.1
 GIT_PS1_SHOWDIRTYSTATE='y'
 GIT_PS1_SHOWSTASHSTATE='y'
 GIT_PS1_SHOWUNTRACKEDFILES='y'
+#GIT_PS1_DESCRIBE_STYLE='describe'
 GIT_PS1_DESCRIBE_STYLE='contains'
-GIT_PS1_DESCRIBE_STYLE='branch'
+#GIT_PS1_DESCRIBE_STYLE='branch'
 GIT_PS1_SHOWUPSTREAM='auto'
-GIT_PS1_SHOWUPSTREAM='y'
+#GIT_PS1_SHOWUPSTREAM='y'
+GIT_PS1_SHOWCOLORHINTS='y'
 
 source /etc/bash_completion.d/git-prompt
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(__git_ps1) \$ '
-fi
-unset color_prompt force_color_prompt
+#if [ "$color_prompt" = yes ]; then
+    PROMPT_COMMAND='__git_ps1 "\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a[${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\W\[\033[00m\] ]" " \$ "'
+#else
+#    PROMPT_COMMAND='__git_ps1 "\e]0;${debian_chroot:+($debian_chroot)}\u@\h \W\a[${debian_chroot:+($debian_chroot)}\u@\h: \W ]" " \$ "'
+#fi
+
+#PROMPT_COMMAND='__git_ps1 "\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \W\a[${debian_chroot:+($debian_chroot)}\u@\h: \W ]" " \$ "'
+
+# If this is an xterm set the title to user@host:dir
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#    ;;
+#*)
+#    ;;
+#esac
+
+
+
+function _these_are_set_in_bashrc {
+#setting -up git prompt
+# Git
+GIT_PS1_SHOWDIRTYSTATE='y'
+GIT_PS1_SHOWSTASHSTATE='y'
+GIT_PS1_SHOWUNTRACKEDFILES='y'
+#GIT_PS1_DESCRIBE_STYLE='describe'
+GIT_PS1_DESCRIBE_STYLE='contains'
+#GIT_PS1_DESCRIBE_STYLE='branch'
+GIT_PS1_SHOWUPSTREAM='auto'
+#GIT_PS1_SHOWUPSTREAM='y'
+GIT_PS1_SHOWCOLORHINTS='y'
+source /etc/bash_completion.d/git-prompt
+}
 
 alias lsx='find  -type f -executable -maxdepth 1'
 alias gdbbt='gdb -q -n -ex bt -batch'

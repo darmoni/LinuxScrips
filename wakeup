@@ -1,15 +1,16 @@
 #!/bin/bash
 
-#ident $Id$ $Date: Tue Oct 3 14:48:49 2017 -0500$
+#ident $Id$ $Date$
 
-echo "git you don't exist go away"
-unset GREENLIGHT
+goline="git you don't exist go away"
+echo "$goline"
 while read line
 do
-    test "$LOGNAME" == "$line" && GREENLIGHT=1;break
-    echo "$line"
-done < "${1:-/dev/stdin}"
-test -z $GREENLIGHT && exit 0
+    echo "$goline"
+    test "$LOGNAME" = "$line" && break
+done
+#done < "${1:-/dev/stdin}"
+
 cmd="
 gvfs-mount 'sftp://ndarmoni@xdev64.xcastlabs.com';
 gvfs-mount 'sftp://ndarmoni@pbxdev.xcastlabs.com';
@@ -18,5 +19,6 @@ mount_dev;
 mount_pbxdev;
 mount_usr
 "
-echo $cmd
-#$(cmd)
+#echo "     $cmd"
+#for line in $(echo $cmd | tr ";" "\n"); eval "'$line'"; done
+eval "$cmd"
