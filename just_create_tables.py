@@ -35,7 +35,7 @@ if __name__ == '__main__':
     file_config = configparser.ConfigParser()
     file_config.read(['setup.cfg'])
     log.configure(file_config.get('log', 'level'))
-    
+
     host = file_config.get('db', 'host')
     #port = file_config.getint('db', 'port') using default port
     database = file_config.get('db', 'database')

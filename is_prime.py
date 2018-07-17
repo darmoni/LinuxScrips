@@ -29,6 +29,8 @@ def atkin(nmax):
         if i in [0, 1, 4]: pass
         elif i in [2,3] or is_prime[i]: primes.append(i)
         else: pass
+    if nmax in primes:
+           primes.remove(nmax)
     return primes
 
 assert(atkin(30)==[2, 3, 5, 7, 11, 13, 17, 19, 23, 29])
@@ -44,10 +46,12 @@ while True:
     elif 1 == num:
         print ("1 is a primary number. Duh!!!")
     else:
-        print (atkin(num))
+        primes= (atkin(num))
         limit = int(math.sqrt(num)+1)
         print ("will try to find a divider smaller than {}, {}*{}={}".format(limit, limit, limit , limit* limit))
-        for i in range(2,limit,2):
+        #for i in range(2,limit,2):
+        for i in primes:
+            #print ("i=",i);
             if num % i == 0:
                 print ("Nope! {} divided by {} is {}".format(num,i,num//i))
                 break
