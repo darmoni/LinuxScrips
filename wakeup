@@ -6,8 +6,8 @@ goline="git you don't exist go away"
 echo "$goline"
 while read line
 do
-    echo "$goline"
     test "$LOGNAME" = "$line" && break
+    echo "$goline"
 done
 #done < "${1:-/dev/stdin}"
 
