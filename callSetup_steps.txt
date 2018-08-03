@@ -1,0 +1,121 @@
+ Call::decodeVersionedUriUser() uriUser=vm-voicemail-270-18477165129, decodedUriUser=vm-voicemail-270-18477165129, decodedVersion=
+ (Media Server is breaking the sip message and returns the parts)
+
+ find CDR from call_id:
+    select id, toAccountid, fromAccountid, fromUser, fromDomain from callrecords(_cache) where call_id='95888664c533e92782d904725d9a441f-534945311@38.102.250.165'
+    from this we get:
+        cdr=33455
+        masterAccount=270
+        sipToUser=8477165129
+        sipFromUser=2244563400
+        sipFromHost=38.102.250.60
+        sipFromDisplayName=WIRELESS CALLER
+        fromAccount=0               # caller is external (cellphone)
+        fromPhoneAccount=0          # caller is external (cellphone)
+Check if call has video
+        Leg::loadHasVideo()
+Find menuStack
+    Account::getOption() accountId=270 name='useGlobalMenuStack' result=''
+Looking for CallType for vm-voicemail-270-18477165129
+    CallType Voicemail
+
+    AccountCall::prepare account=270
+    AccountCall::prepare masterAccount=270
+
+Find the menuID for table menudata:
+    select mainMenuAccountId from account where id = 270; (15118)
+
+Starting a conversation (contains call parts line legs, etc.)
+Find first logic based on call type
+    Logic::init name=Logic_Menu leg:0 account:15118 (Chicago Office) m_player=0x1f296300, m_ensurePrivateMediaOnInit=1
+Answer the call (create SDP for Audio (and Video, if needed))
+Logic::setupLanguage English (We support English only in production)
+Menu Account is set:
+    account:15118 (Chicago Office), table menudata, id=533
+Find specific options related to the menu:
+    Account::getOption() accountId=15118 name='menuLoopsLimit' result='0'
+    Account::getOption() accountId=15118 name='customRecordingOnlyMenu' result=''
+    Account::getOption() accountId=270 name='acdAvailable' result='true'
+Menu::Menu() entry. acc=15118 (Chicago Office) userAcc=270 (XDev64 PBX) supportExtensions=1
+
+select * from menudata where accountId=15118;
++-----+-----------+------+---------+-------------------+----------------------------+---------------------------+------------------+-----------------+--------------------------+---------------------------------------+--------+----------------+-------------------+
+| id  | accountId | type | repeats | supportExtensions | supportVoicemailExtensions | voicemailExtensionsPrefix | supportDirectory | directoryPrefix | supportSpecialExtensions | promptDescription                     | isRoot | directDialCode | allowedExtensions |
++-----+-----------+------+---------+-------------------+----------------------------+---------------------------+------------------+-----------------+--------------------------+---------------------------------------+--------+----------------+-------------------+
+| 533 |     15118 |    1 |       3 |                 1 |                          1 | 00                        |                1 | 1               |                        1 | main_afterhours_greeting_12292011.mp3 |      0 | 1002           |                 0 |
++-----+-----------+------+---------+-------------------+----------------------------+---------------------------+------------------+-----------------+--------------------------+---------------------------------------+--------+----------------+-------------------+
+
+    supportExtensions = 1
+    directoryPrefix = 1
+    voicemailExtensionsPrefix = 00
+
+Loading the Menu items:
+    select * from menuitem where menuId=533 order by orderValue;
+
+From idl:
+    	enum MenuItemType
+	{
+		MITchoice, 0
+		MITtimeout 1
+	};
+
+	enum MenuActionType
+	{
+		MATnoAction,              0
+		MATgoBack,                1
+		MATgoHome,                2
+		MATcallToAccount,         3
+		MATcallToPhone,           4
+		MATleaveMessage,          5
+		MATcheckMessages,         6
+
+		MATcallToCalleeAccount,   7
+		MATleaveMessageForCallee, 8
+		MATcheckCalleeMessages    9
+	};
+
++------+--------+------+--------+------------+-----------------+-------------+-----------------------+------------+--------+-------------+
+| id   | menuId | type | digits | actionType | actionAccountId | actionPhone | actionCallerDetection | orderValue | isRoot | hasSchedule |
++------+--------+------+--------+------------+-----------------+-------------+-----------------------+------------+--------+-------------+
+| 1001 |    533 |    1 |        |          2 |               0 |             |                     0 |       1001 |      0 |           0 |
+| 1002 |    533 |    0 | 3      |          3 |           15114 |             |                     0 |       1002 |      0 |           0 |
+| 1018 |    533 |    0 | 5      |          3 |           15116 |             |                     0 |       1018 |      0 |           0 |
+| 1023 |    533 |    0 | 2      |          4 |               0 | 19128425900 |                     0 |       1023 |      0 |           0 |
+| 1068 |    533 |    0 | 9      |          3 |           25303 |             |                     0 |       1068 |      0 |           0 |
+| 1193 |    533 |    0 | 7      |          3 |            1565 |             |                     0 |       1193 |      0 |           0 |
+| 1198 |    533 |    0 | 8      |          3 |           15270 |             |                     0 |       1198 |      0 |           0 |
++------+--------+------+--------+------------+-----------------+-------------+-----------------------+------------+--------+-------------+
+
+    Menu::addItem MI(0x1f29d340) ForExtension
+    Menu::addItem MI(0x1f2a2260) digits=3 account=15114 Dial    (If '3' then MATcallToAccount(15114))
+    Menu::addItem MI(0x1f2a2c50) digits=5 account=15116 Dial    (If '5' then MATcallToAccount(15116))
+    MenuItem_DialNumber::getDialNumber(1F2A2C90) created with '19128425900'
+    Menu::addItem MI(0x1f2a2c90) digits=2 dial=19128425900      (If '2' then MATcallToPhone(19128425900))
+    Menu::addItem MI(0x1f2a3460) digits=9 account=25303 Dial    (If '9' then MATcallToAccount(25303))
+    Menu::addItem MI(0x1f2a4200) digits=7 account=1565 Dial     (If '7' then MATcallToAccount(1565))
+    Menu::addItem MI(0x1f2a4910) digits=8 account=15270 Dial    (If '8' then MATcallToAccount(15270))
+    Menu::addItem MI(0x1f2a4d00) prefix=1 Directory             (menudata.directoryPrefix = 1)
+    Menu::addItem MI(0x1f2a4d40) prefix=00 LeaveMessage         (menudata.voicemailExtensionsPrefix = 00)
+
+select value from accountoptions where optionId in (select id from options where name like 'acdAgentLoginPrefix') limit 2;
++-------+
+| value |
++-------+
+| 09    |
++-------+
+
+    Account::getOption() accountId=270 name='acdAgentLoginPrefix' result='09'
+    Menu::addItem MI(0x1f2a4e50) prefix=09 AcdLogin
+
+Generating the prompt
+    Account::getPromptContainer calling getPrompt for purpose=menu_prompt, language=1
+
+select personalGreeting from account where id=15118;
++-------------------+
+| personalGreeting  |
++-------------------+
+| greeting15118.wav |
++-------------------+
+
+    PlayList::extractFiles( 'personal/greeting15118.wav' )
+
