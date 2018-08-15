@@ -119,3 +119,15 @@ select personalGreeting from account where id=15118;
 
     PlayList::extractFiles( 'personal/greeting15118.wav' )
 
+select * from menuitemschedule where itemId in (1001, 1002, 1018, 1023, 1068, 1193, 1198) order by itemId, `option`
+********** Got no menuitemschedule for this account, using 1224 for debug **********
+MenuItem_i::getScheduleById(id_type schId)
+select * from menuitemschedule where itemId in (1001, 1002, 1018, 1023, 1068, 1193, 1198, 1224) order by itemId, `option`
+    id  itemId  type  option                                              data
+0  551    1224     0       0  000000000000000011111111111111111100001111110000
+1  552    1224     0       1  000000000000000011111111111111111100001111110000
+2  553    1224     0       2  000000000000000011111111111111111100001111110000
+3  554    1224     0       3  000000000000000011111111111111111100001111110000
+4  555    1224     0       4  000000000000000011111111111111111100001111110000
+5  556    1224     0       5  000000000000000011111111111111111100001111110000
+6  557    1224     0       6  000000000000000011111111111111111100001111110000

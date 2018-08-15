@@ -76,7 +76,6 @@ from mysql.connector import FieldType
 from sqlalchemy import create_engine
 import mysql.connector
 import pandas as pd
-
 resources=[]
 
 
@@ -213,14 +212,16 @@ def setupCall(callId,description=None):
     data=my_db_provider.startForCallId(callId,description)
     cdrId=data
     data=my_db_provider.select_this(('select * from callrecords where id={}'.format(cdrId)),None)
-
+    data.style
+    #print(data.to_html())
+    #exit(0)
     fieldNames=list(data.columns.values)
     for fname in fieldNames:
         if isinstance(data[fname][0], basestring):
             print("{}='{}'".format(fname,data[fname][0]))
         else:
             print("{}={}".format(fname,data[fname][0]))
-
+    #exit(0)
     toAccountid=data['toAccountid'][0]
     mainMenuAccountId=my_db_provider.getMainMenuAccountId(toAccountid)
     print(mainMenuAccountId)
@@ -237,7 +238,11 @@ def setupCall(callId,description=None):
         print("********** Got no menuitemschedule for this account, using 1224 for debug **********")
         ids.append(1224)
         data = my_db_provider.getMenuItemSchedule(tuple(ids))
+    #data.style.format("{:.2%}")
+    #print(data)
+    #data.style#.highlight_null()#.render()#.split('\n')
     print(data)
+    #print(data.to_html())
     #print (my_db_provider.select_this("select * from menuitemschedule where itemId in {} order by itemId, `option`".format(tuple(ids))))
     #exit(0)
     '''
