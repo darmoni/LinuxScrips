@@ -13,6 +13,7 @@ if (sys.version_info < (2, 7)):
         #print("check_output(args={0})".format(args))
         return subprocess.Popen(args, stdout=subprocess.PIPE).communicate()[0]
 elif (sys.version_info > (3, 0)):
+    from frameInfo import PrintFrame
     from subprocess import check_output
 elif (sys.version_info > (2, 6)):
     from subprocess import check_output
@@ -20,6 +21,13 @@ else:pass
 
 
 textfile='requirements.txt'
+textfile = __file__
+line = PrintFrame()#['lineno']
+print(line,textfile)
+line = PrintFrame(7)#['lineno']
+print(line,textfile)
+
+
 me = check_output(shlex.split('git config --global user.email')).decode().strip()
 you = me
 #print("'{}', '{}'".format(me, you))
@@ -41,7 +49,7 @@ print(msg)
 with open('outgoing.msg', 'wb') as f:
     f.write(bytes(msg))
 
-exit(0)
+#exit(0)
 # Send the message via our own SMTP server.
 s = smtplib.SMTP('localhost')
 s.send_message(msg)

@@ -32,18 +32,18 @@ def safe_exit():
             del r
             print("deleted {}".format(counter))
         except Exception as inst:
-            print type(inst)
-            print inst.args
-            print inst
-            print __file__, 'Oops'
+            print (type(inst))
+            print (inst.args)
+            print (inst)
+            print (__file__, 'Oops')
             continue
     try:
         Gtk.main_quit()
     except Exception as inst:
-        print type(inst)
-        print inst.args
-        print inst
-        print __file__, 'Oops'
+        print (type(inst))
+        print (inst.args)
+        print (inst)
+        print (__file__, 'Oops')
 
 
 def sig_handler(sig, frame):
