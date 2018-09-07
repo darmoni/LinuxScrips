@@ -19,9 +19,33 @@ elif (sys.version_info > (2, 6)):
     from subprocess import check_output
 else:pass
 
+# Send the message via our own SMTP server.
+try:
+    s = smtplib.SMTP(host='localhost',port=465)
+    s.set_debuglevel(1)
+except Exception as inst:
+    print(PrintFrame(7))
+    print (type(inst))
+    print (inst.args)
+    print (inst)
+    print (__file__, 'Oops')
+    try:
+        s = smtplib.SMTP(host='localhost')
+        s.set_debuglevel(1)
+        s.starttls()
+    except Exception as inst:
+        print(PrintFrame(7))
+        print (type(inst))
+        print (inst.args)
+        print (inst)
+        print (__file__, 'Oops')
+        exit(-1)
+    s = smtplib.SMTP(host='localhost')
+    s.set_debuglevel(1)
+
 
 textfile='requirements.txt'
-textfile = __file__
+#textfile = __file__
 line = PrintFrame()#['lineno']
 print(line,textfile)
 line = PrintFrame(7)#['lineno']
@@ -50,8 +74,8 @@ with open('outgoing.msg', 'wb') as f:
     f.write(bytes(msg))
 
 #exit(0)
-# Send the message via our own SMTP server.
-s = smtplib.SMTP('localhost')
+
+s.set_debuglevel(1)
 s.send_message(msg)
 s.quit()
 exit(0)
