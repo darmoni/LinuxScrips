@@ -42,43 +42,43 @@ except Exception as inst:
         exit(-1)
     s = smtplib.SMTP(host='localhost')
     s.set_debuglevel(1)
+else:
+
+    textfile='requirements.txt'
+    #textfile = __file__
+    line = PrintFrame()#['lineno']
+    print(line,textfile)
+    line = PrintFrame(7)#['lineno']
+    print(line,textfile)
 
 
-textfile='requirements.txt'
-#textfile = __file__
-line = PrintFrame()#['lineno']
-print(line,textfile)
-line = PrintFrame(7)#['lineno']
-print(line,textfile)
+    me = check_output(shlex.split('git config --global user.email')).decode().strip()
+    you = me
+    #print("'{}', '{}'".format(me, you))
 
+    # Open the plain text file whose name is in textfile for reading.
+    with open(textfile) as fp:
+        # Create a text/plain message
+        msg = EmailMessage()
+        msg.set_content(fp.read())
 
-me = check_output(shlex.split('git config --global user.email')).decode().strip()
-you = me
-#print("'{}', '{}'".format(me, you))
+    # me == the sender's email address
+    # you == the recipient's email address
+    msg['Subject'] = 'The contents of %s' % textfile
+    msg['From'] = me
+    msg['To'] = you
 
-# Open the plain text file whose name is in textfile for reading.
-with open(textfile) as fp:
-    # Create a text/plain message
-    msg = EmailMessage()
-    msg.set_content(fp.read())
+    print(msg)
+    # Make a local copy of what we are going to send.
+    with open('outgoing.msg', 'wb') as f:
+        f.write(bytes(msg))
 
-# me == the sender's email address
-# you == the recipient's email address
-msg['Subject'] = 'The contents of %s' % textfile
-msg['From'] = me
-msg['To'] = you
+    #exit(0)
 
-print(msg)
-# Make a local copy of what we are going to send.
-with open('outgoing.msg', 'wb') as f:
-    f.write(bytes(msg))
-
-#exit(0)
-
-s.set_debuglevel(1)
-s.send_message(msg)
-s.quit()
-exit(0)
+    s.set_debuglevel(1)
+    s.send_message(msg)
+    s.quit()
+    exit(0)
 '''
 import smtplib, os
 import mimetypes
