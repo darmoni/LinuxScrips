@@ -10,3 +10,4 @@ wakeup filter=dater
 *.py filter=dater
 *.php filter=dater
 date*.* filter=dater
+my_addressbook -text diff -text merge
