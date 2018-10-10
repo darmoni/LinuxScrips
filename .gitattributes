@@ -3,6 +3,7 @@ extand_date ident
 bash_functions filter=dater
 wakeup filter=dater
 *.c filter=dater
+*.proto filter=dater
 *.cpp filter=dater
 *.sh filter=dater
 *.h filter=dater
