@@ -5,7 +5,10 @@ import pandas as pd, xlrd, argparse, os.path
 
 def main(xls, csv):
     print("xls='{}', csv= '{}'".format(xls,csv))
-    data_xls = pd.read_excel(xls, 'Sheet1', index_col=None)
+    try:
+        data_xls = pd.read_excel(xls, 'Sheet1', index_col=None)
+    except:
+        data_xls = pd.read_excel(xls, index_col=None)
     data_xls.to_csv(csv, encoding='utf-8', index=False)
 
 
