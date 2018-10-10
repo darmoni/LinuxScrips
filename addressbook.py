@@ -1,7 +1,47 @@
 #!/usr/bin/env python
 
+# $Id$ $Date$
+
 import addressbook_pb2
-import sys
+import sys, os
+def ask_agent_status(id):
+    status_request=addressbook_pb2.RqstAgentStatus()
+    status_request.id=id
+    f = open('agent_id_request', "wb")
+    f.write(status_request.SerializeToString())
+    f.close()
+    exit(0)
+
+def GetAgentStatus(agent_id):
+    q="SELECT call_status FROM agent_data WHERE account_id = {};".format(agent_id)
+    return (q)
+
+def ReadCommandFromFile(command_filename = 'commands', answer_filename = 'response'):
+    try:
+        f = open(command_filename, "rb")
+        request = addressbook_pb2.RqstReadAddressBook()
+        request.ParseFromString(f.read())
+        f.close()
+        print("{}".format(request))
+        # Read the existing address book.
+
+        address_book = addressbook_pb2.AddressBook()
+
+        try:
+            f = open(request.filename, "rb")
+            address_book.ParseFromString(f.read())
+            f.close()
+        except IOError:
+            print (sys.argv[1] + ": Could not open file.  Creating a new one.")
+
+        f = open(answer_filename, "wb")
+        f.write(address_book.SerializeToString())
+        f.close()
+        #ListPeople(address_book)
+
+    except IOError:
+        print (sys.argv[1] + ": Could not open file.  Creating a new one.")
+    exit(0)
 
 # This function fills in a Person message based on user input.
 def PromptForAddress(person):
@@ -60,10 +100,20 @@ def ListPeople(address_book):
 # Main procedure:  Reads the entire address book from a file,
 #   adds one person based on user input, then writes it back out to the same
 #   file.
-if len(sys.argv) != 2:
-  print ("Usage:", sys.argv[0], "ADDRESS_BOOK_FILE")
-  sys.exit(-1)
+agent_id_request_fname='agent_id_request'
+if os.path.isfile(agent_id_request_fname):
+    status_request=addressbook_pb2.RqstAgentStatus()
+    f = open(agent_id_request_fname, "rb")
+    status_request.ParseFromString(f.read())
+    f.close()
+    print(GetAgentStatus(status_request.id))
 
+
+if len(sys.argv) != 2:
+    ask_agent_status(25529)
+    #GetAgentStatus(25529)
+    ReadCommandFromFile()
+    print ("Usage:", sys.argv[0], "ADDRESS_BOOK_FILE")
 
 person = addressbook_pb2.Person()
 person.id = 1234
@@ -96,6 +146,7 @@ except IOError:
     print (sys.argv[1] + ": Could not open file.  Creating a new one.")
 
 ListPeople(address_book)
+
 # Add an address.
 PromptForAddress(address_book.people.add())
 
