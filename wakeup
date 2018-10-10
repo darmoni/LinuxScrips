@@ -17,12 +17,12 @@ gio mount sftp://ndarmoni@xdev64.xcastlabs.com;
 #gvfs-mount 'sftp://ndarmoni@pbxdev.xcastlabs.com';
 gio mount sftp://ndarmoni@pbxdev.xcastlabs.com;
 #gvfs-mount 'sftp://ndarmoni@pps.siptalk.com';
-gio mount sftp://ndarmoni@pps.siptalk.com;
+#gio mount sftp://ndarmoni@pps.siptalk.com;
 mount_dev;
 mount_pbxdev;
 mount_usr
-#test $(pgrep -f /usr/bin/pidgin) || /usr/bin/pidgin -f & 2> /dev/null
+test \$(pgrep -f /usr/bin/pidgin) || /usr/bin/pidgin -f & 2> /dev/null
 "
-#echo "     $cmd"
+echo "     $cmd"
 #for line in $(echo $cmd | tr ";" "\n"); eval "'$line'"; done
 eval "$cmd"

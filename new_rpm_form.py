@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import shlex, sys
 
@@ -61,6 +61,41 @@ XCastProjectsCreatorResults = ''
 def saveRpmScript(commands):
     XCastProjectsCreatorResults = commands
     #print("Saving {}".format(XCastProjectsCreatorResults))
+
+
+class XCastProjectsCreatorResults(Gtk.Window):
+
+    def __init__(self, data):
+
+        Gtk.Window.__init__(self, title="Create rpm")
+        self.set_border_width(10)
+        self.execute = None
+        box_outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        self.add(box_outer)
+
+        row = Gtk.ListBoxRow()
+        box_outer.pack_start(row, True, True, 0)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        row.add(hbox)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        hbox.pack_start(vbox, True, True, 0)
+        rvbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        hbox.pack_start(rvbox, True, True, 0)
+
+        self.label = Gtk.Label("Results will show up here")
+        self.label.set_line_wrap(True)
+        self.label.set_selectable(True)
+        self.label.set_justify(Gtk.Justification.FILL)
+
+        rvbox.pack_start(self.label, True, True, 0)
+        if 0 == len(data):
+            data='''
+            This is a test
+            #This line is commented
+            This is the 3rd line
+            '''
+        self.label.set_text(data.replace('#',''))
+        print(data)
 
 class ListBoxRowWithData(Gtk.ListBoxRow):
     def __init__(self, data):
@@ -186,13 +221,16 @@ class XCastProjectsCreator(Gtk.Window):
         if None == process:
             return
         (out,err) = process.communicate()
-        self.label.set_text(out)
-        self.hide_when_done.destroy()
-        self.resize_me.queue_resize()
+        win = XCastProjectsCreatorResults(out)
+        self.entry.set_text("Select a project below")
+        #win.connect("destroy", Gtk.main_quit)
+        resources.append(win)
+        win.show_all()
+        return True
 
 #windows = [ ListBoxWindow(), LabelWindow()] #ButtonWindow(), StackWindow(), EntryWindow(), ToggleButtonWindow()]
 def main():
-    windows = [ XCastProjectsCreator(), ] #LabelWindow()] #ButtonWindow(), StackWindow(), EntryWindow(), ToggleButtonWindow()]
+    windows = [ XCastProjectsCreator(), ] #XCastProjectsCreatorResults(''), ] #LabelWindow()] #ButtonWindow(), StackWindow(), EntryWindow(), ToggleButtonWindow()]
 
     for win in windows:
         win.connect("destroy", Gtk.main_quit)
@@ -200,7 +238,7 @@ def main():
         win.show_all()
 
     Gtk.main()
-    print("Reading {}".format(XCastProjectsCreatorResults))
+    #print("Reading {}".format(XCastProjectsCreatorResults))
     safe_exit()
 
 if __name__ == "__main__":

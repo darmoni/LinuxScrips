@@ -12,3 +12,4 @@ char.pointers
 qman.log.sample
 nohup.out
 *.log.sample
+.directory

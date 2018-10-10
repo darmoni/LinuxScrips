@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 /* https://developers.google.com/protocol-buffers/docs/pythontutorial
-# $Id$ $Date:$
+# $Id$ $Date$
 */
 
 package tutorial;

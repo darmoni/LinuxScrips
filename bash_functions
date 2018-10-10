@@ -1021,6 +1021,22 @@ function which_staging_qman () {
     fi
 }
 
+function start_virtualenv () {
+    export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+    export WORKON_HOME=$HOME/Envs
+    export PROJECT_HOME=$HOME/VirtualProjects
+    export VIRTUALENVWRAPPER_LOG_FILE=hook.log
+    export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+    source $VIRTUALENVWRAPPER_SCRIPT
+    echo "#workon demosite
+    #mkvirtualenv <environment name>
+    #mkproject [-f|--force] [-t template] [virtualenv options] project_name
+    #mkvirtualenv [-a project_path] [-i package] [-r requirements_file] [virtualenv options] env_name
+    #setvirtualenvproject <env> <prj>
+"
+}
+
+
 function build_this_rpm () {
     for build in $* ; do 
     echo $build
