@@ -136,7 +136,8 @@ std::ostream & operator<< (std::ostream & os, const RTPBuffer &packet)
 }
 class OriginalDtmfSimulator: public DtmfSimulator
 {
-    public:OriginalDtmfSimulator():
+    public:
+        OriginalDtmfSimulator():
         DtmfSimulator(){}
     virtual void OnInboundPacket(RTPBuffer* packet)
     {
