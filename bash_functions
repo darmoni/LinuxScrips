@@ -1033,7 +1033,6 @@ function start_virtualenv () {
     #mkproject [-f|--force] [-t template] [virtualenv options] project_name
     #mkvirtualenv [-a project_path] [-i package] [-r requirements_file] [virtualenv options] env_name
     #setvirtualenvproject <env> <prj>
-"
 }
 
 
