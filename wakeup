@@ -3,13 +3,10 @@
 #ident $Id$ $Date$
 
 goline="git you don't exist go away"
-echo "$goline"
-while read line
-do
-    test "$LOGNAME" = "$line" && break
+until [ "$LOGNAME" = "$line"  ] ; do
     echo "$goline"
+    read line
 done
-#done < "${1:-/dev/stdin}"
 
 cmd="
 gio mount sftp://ndarmoni@xdev64.xcastlabs.com;
