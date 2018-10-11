@@ -1,11 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # $Id$ $Date$
 
-import addressbook_pb2
+#from addressbook3_pb2 import AddressBook, RqstAgentStatus, RqstReadAddressBook, Person
+from addressbook_pb2 import AddressBook, RqstAgentStatus, RqstReadAddressBook, Person
 import sys, os
 def ask_agent_status(id):
-    status_request=addressbook_pb2.RqstAgentStatus()
+    status_request=RqstAgentStatus()
     status_request.id=id
     f = open('agent_id_request', "wb")
     f.write(status_request.SerializeToString())
@@ -19,13 +20,13 @@ def GetAgentStatus(agent_id):
 def ReadCommandFromFile(command_filename = 'commands', answer_filename = 'response'):
     try:
         f = open(command_filename, "rb")
-        request = addressbook_pb2.RqstReadAddressBook()
+        request = RqstReadAddressBook()
         request.ParseFromString(f.read())
         f.close()
         print("{}".format(request))
         # Read the existing address book.
 
-        address_book = addressbook_pb2.AddressBook()
+        address_book = AddressBook()
 
         try:
             f = open(request.filename, "rb")
@@ -71,11 +72,11 @@ def PromptForAddress(person):
             print ("Is this a mobile, home, or work phone? ")
             type = sys.stdin.readline().strip()#raw_input("Is this a mobile, home, or work phone? ")
             if type == "mobile":
-                phone_number.type = addressbook_pb2.Person.MOBILE
+                phone_number.type = Person.MOBILE
             elif type == "home":
-                phone_number.type = addressbook_pb2.Person.HOME
+                phone_number.type = Person.HOME
             elif type == "work":
-                phone_number.type = addressbook_pb2.Person.WORK
+                phone_number.type = Person.WORK
             else:
                 print ("Unknown phone type; leaving as default value.")
     return person.id
@@ -89,11 +90,11 @@ def ListPeople(address_book):
             print ("  E-mail address:", person.email)
 
         for phone_number in person.phones:
-            if phone_number.type == addressbook_pb2.Person.MOBILE:
+            if phone_number.type == Person.MOBILE:
                 print ("  Mobile phone #: "),
-            elif phone_number.type == addressbook_pb2.Person.HOME:
+            elif phone_number.type == Person.HOME:
                 print ("  Home phone #: "),
-            elif phone_number.type == addressbook_pb2.Person.WORK:
+            elif phone_number.type == Person.WORK:
                 print ("  Work phone #: "),
             print (phone_number.number)
 
@@ -102,7 +103,7 @@ def ListPeople(address_book):
 #   file.
 agent_id_request_fname='agent_id_request'
 if os.path.isfile(agent_id_request_fname):
-    status_request=addressbook_pb2.RqstAgentStatus()
+    status_request=RqstAgentStatus()
     f = open(agent_id_request_fname, "rb")
     status_request.ParseFromString(f.read())
     f.close()
@@ -115,13 +116,13 @@ if len(sys.argv) != 2:
     ReadCommandFromFile()
     print ("Usage:", sys.argv[0], "ADDRESS_BOOK_FILE")
 
-person = addressbook_pb2.Person()
+person = Person()
 person.id = 1234
 person.name = "John Doe"
 person.email = "jdoe@example.com"
 phone = person.phones.add()
 phone.number = "555-4321"
-phone.type = addressbook_pb2.Person.HOME
+phone.type = Person.HOME
 try:
     person.no_such_field = 1  # raises AttributeError
 except Exception as E:
@@ -136,7 +137,7 @@ if person.IsInitialized():
 
 # Read the existing address book.
 
-address_book = addressbook_pb2.AddressBook()
+address_book = AddressBook()
 
 try:
     f = open(sys.argv[1], "rb")

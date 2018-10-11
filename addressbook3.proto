@@ -2,7 +2,11 @@ syntax = "proto3";
 
 /* https://developers.google.com/protocol-buffers/docs/pythontutorial
 # $Id$ $Date$
+
+Makefile command:
+make all -f protobufs.mak
 */
+
 
 package tutorial;
 
@@ -27,4 +31,30 @@ message Person {
 
 message AddressBook {
   repeated Person people = 1;
+}
+
+message RqstReadAddressBook {
+    string filename  = 1;
+}
+
+message RspReadAddressBook {
+    repeated Person people = 1;
+}
+
+message AccID {
+    uint32 id = 1;
+}
+
+message StringValue {
+    string value = 1;
+}
+
+                            // <- AccID
+message RqstAgentStatus {
+    uint32 id = 1;
+}
+
+                            // -> StringValue
+message RspAgentStatus {
+    string value = 1;
 }
