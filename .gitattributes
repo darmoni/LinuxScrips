@@ -1,5 +1,5 @@
 * ident
-extand_date ident
+expand_date ident
 bash_functions filter=dater
 wakeup filter=dater
 *.c filter=dater
