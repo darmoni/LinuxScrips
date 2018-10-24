@@ -109,7 +109,6 @@ if os.path.isfile(agent_id_request_fname):
     f.close()
     print(GetAgentStatus(status_request.id))
 
-
 if len(sys.argv) != 2:
     print ("Usage:", sys.argv[0], "ADDRESS_BOOK_FILE")
 
