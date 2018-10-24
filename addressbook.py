@@ -111,9 +111,6 @@ if os.path.isfile(agent_id_request_fname):
 
 
 if len(sys.argv) != 2:
-    ask_agent_status(25529)
-    #GetAgentStatus(25529)
-    ReadCommandFromFile()
     print ("Usage:", sys.argv[0], "ADDRESS_BOOK_FILE")
 
 person = Person()

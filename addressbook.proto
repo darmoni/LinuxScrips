@@ -47,14 +47,3 @@ message AccID {
 message StringValue {
     optional string value = 1;
 }
-
-                            // <- AccID
-message RqstAgentStatus {
-    required uint32 id = 1;
-}
-
-                            // -> StringValue
-message RspAgentStatus {
-    optional string value = 1;
-}
-
