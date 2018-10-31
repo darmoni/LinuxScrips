@@ -51,19 +51,46 @@ signal.signal(signal.SIGHUP,sig_handler)
 
 
 def main(db_config, table_name, StartuctName):
+    '''
+Table 11.1 Required Storage and Range for Integer Types Supported by MySQL
 
+Type	Storage (Bytes)	Minimum Value Signed	Minimum Value Unsigned	Maximum Value Signed	Maximum Value Unsigned
+TINYINT	1	-128	0	127	255
+SMALLINT	2	-32768	0	32767	65535
+MEDIUMINT	3	-8388608	0	8388607	16777215
+INT	4	-2147483648	0	2147483647	4294967295
+BIGINT	8	-2^63	0	2^63-1	2^64-1
+
+// testValue
+unsigned long long testValue     = 0xFFFFFFFFFFFFFFFF; // 18446744073709551615
+
+// 1 byte -> [0-255] or [0x00-0xFF]
+uint8_t         number8     = testValue; // 255
+unsigned char    numberChar    = testValue; // 255
+
+// 2 bytes -> [0-65535] or [0x0000-0xFFFF]
+uint16_t         number16     = testValue; // 65535
+unsigned short    numberShort    = testValue; // 65535
+
+// 4 bytes -> [0-4294967295] or [0x00000000-0xFFFFFFFF]
+uint32_t         number32     = testValue; // 4294967295
+unsigned int     numberInt    = testValue; // 4294967295
+
+ // 8 bytes -> [0-18446744073709551615] or [0x0000000000000000-0xFFFFFFFFFFFFFFFF]
+uint64_t             number64         = testValue; // 18446744073709551615
+unsigned long long     numberLongLong    = testValue; // 18446744073709551615
+
+'''
     table_filter = {
         "\n":None,
         "\|":'\t',
-        "(varchar(.+))": 'std::string',
-        "(char(.+))": 'std::string',
+        "(var)*char(\(.+\)*)": 'std::string',
+        "float":'float_t',
         "double":'double_t',
-        "(tinyint\(d+\))":'uint32_t',
-        "(int\(\d\))":'uint32_t',
-        "(int\(\d+\))":'int64_t',
-        "int64_t unsigned":'uint64_t',
-        "int32_t unsigned":'uint32_t',
-        "tinyuint32_t":'uint32_t'
+        "tinyint(\(.+\))*":'int8_t',
+        "tinyint(\(.+\))* unsigned":'uint8_t',
+        "int(\(\))* unsigned":'uint32_t',
+        "int(\(\))*":'int32_t',
         }
     transre = make_xlat_re(**table_filter)
     '''
@@ -85,7 +112,7 @@ def main(db_config, table_name, StartuctName):
         results = cursor.fetchall()
         for row in results:
             #print("{} {}".format(row[0], row[1]))
-            name_type[row[0]] = transre(row[1])
+            name_type[row[0]] = transre(row[1].lower())
             names.append(row[0])
         cursor.close()
         preloader = preload()
@@ -107,10 +134,10 @@ def parse_args():
     mydir=os.path.dirname(__file__)
     parser = argparse.ArgumentParser(
         description='Automatic c++ Code generator for a defined MYSQL table name')
-    parser.add_argument('--table_name', type=str, required=False,
+    parser.add_argument('-t', '--table_name', type=str, required=False,
                         default='queue_records',
                         help='MYSQL table name')
-    parser.add_argument('--conf', type=str, required=False,
+    parser.add_argument('-c', '--conf', type=str, required=False,
                         default=mydir+'/preload_sql.cfg',
                         help='Config File name')
     return parser.parse_args()
