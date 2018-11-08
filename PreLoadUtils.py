@@ -31,7 +31,7 @@ class preload:
             select_command
             int n = dbc->Query(os.str());
             if( n <= 0 ) {
-                Log(QMANS, QMANS_ERROR, "ERROR: Preload() Not live calls in 'queue_data'\n");
+                Log(QMANS, QMANS_ERROR, "ERROR: Preload() records in 'table_name'\n");
                 return false;
             }
         }

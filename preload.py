@@ -84,13 +84,16 @@ unsigned long long     numberLongLong    = testValue; // 18446744073709551615
     table_filter = {
         "\n":None,
         "\|":'\t',
-        "(var)*char(\(.+\)*)": 'std::string',
-        "float":'float_t',
-        "double":'double_t',
-        "tinyint(\(.+\))*":'int8_t',
-        "tinyint(\(.+\))* unsigned":'uint8_t',
-        "int(\(\))* unsigned":'uint32_t',
-        "int(\(\))*":'int32_t',
+        "(^(var)*char(\(.+\)*))": 'std::string',
+        "(^text)": 'std::string',
+        "(^float)":'float_t',
+        "(^double)":'double_t',
+        "(^tinyint(\(.*\))*)":'int8_t',
+        "(^tinyint(\(.*\))* unsigned)":'uint8_t',
+        "(^int(\(.*\))* unsigned)":'uint32_t',
+        "(^int(\(.*\))*)":'int32_t',
+        "(^bigint(\(.*\))*)":'int64_t',
+        "(^bigint(\(.*\))* unsigned)":'uint64_t'
         }
     transre = make_xlat_re(**table_filter)
     '''
