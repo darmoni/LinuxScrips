@@ -7,6 +7,7 @@
 #include <sstream>      // std::stringstream, std::stringbuf
 #include <typeinfo>     // typeid(T).name()
 #include <cxxabi.h>
+#include <ctime>
 
 using namespace std;
 
@@ -43,6 +44,11 @@ string event(string table_name, map<string,anyfield * > m);
 
 int main ()
 {
+    time_t test = -1;
+    int64_t utest = test;
+    cout << test << " Size of (time_t) " << sizeof(test) << "\n";
+    cout << 1+ utest << " Size of (int64_t) " << sizeof(utest) << "\n";
+
     map<string,anyfield * > m;
     //    m["INT"]=new field<int>("INT",3);
     m["INT"]=new int_history("INT",3);
