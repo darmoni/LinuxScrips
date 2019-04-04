@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 # RFC 7515 https://tools.ietf.org/pdf/rfc7515.pdf#section-4
 # file name PASSporT.py
@@ -35,7 +35,7 @@ def decode_header(text):
 def hmac(hmac_parts):
     headers=[]
     for h in hmac_parts:
-        headers.append(h.encode('utf-8'))
+        headers.append(h)
     print(headers)
     before = '.'.join(headers)
     return before
