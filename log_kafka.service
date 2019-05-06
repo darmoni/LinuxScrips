@@ -1,0 +1,15 @@
+#Manual
+[Unit]
+Description=Reads topics from kafka and logs them on syslog
+After=multi-user.target
+
+[Service]
+Type=idle
+User=nir
+Group=nir
+WorkingDirectory=/usr/local/nir/bin
+ExecStart=/usr/bin/python /usr/local/nir/bin/printing_middle_kafka_consumer.py -c /usr/local/nir/cfg/middle_producer_setup.cfg
+Restart=Always
+
+[Install]
+WantedBy=multi-user.target

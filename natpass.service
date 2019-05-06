@@ -1,0 +1,16 @@
+#Ansible managed
+[Unit]
+Description=Starts and stops a single Natpass Collector instance on this system
+After=multi-user.target
+Conflicts=middle_collector.service
+
+[Service]
+Type=idle
+User=nir
+Group=nir
+WorkingDirectory=/usr/local/nir/bin
+ExecStart=/usr/bin/python /usr/local/nir/bin/natpass_collector.py -c /usr/local/nir/cfg/natpass_collector.cfg
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import signal, time
+import signal, time, sys
 from socket import socket, AF_INET, SOCK_DGRAM
 from threading import Thread
 import os.path
@@ -59,17 +59,18 @@ ExtIP: 75.145.154.225:5260
 Self: 0.0.0.0:0607
 '''
 #msg = "ping"
-msg = dummy_invite_collector_record
-#msg = dummy_reg_collector_record
+#msg = dummy_invite_collector_record
+msg = dummy_reg_collector_record
 #msg = dummy_active_collector_record
-def pinger(port):
+def pinger(address = '', port = 32802, count = 30):
+    print("pinger(address '{}' ,port {})".format(address, port))
     try:
 
         PORT = port
         sock = socket(AF_INET,SOCK_DGRAM)
-        for counter in range(0,300000):
+        for counter in range(0, count):
             #print(msg)
-            sock.sendto(msg.encode('utf-8'),('', PORT))
+            sock.sendto(msg.encode('utf-8'),(address, PORT))
             #data, addr = sock.recvfrom(MAX_SIZE)
             #print("Received '{}' back after sending '{}'".format(data.decode(),msg))
             time.sleep(0.001)
@@ -79,7 +80,7 @@ def pinger(port):
             if counter % 5000 == 0:
                 #pass
                 print(counter)
-        return
+        print(counter)
 
     except Exception as inst:
             print (type(inst))
@@ -90,21 +91,32 @@ def pinger(port):
     safe_exit()
 
 if __name__ == '__main__':
-    pinger(32802)
+    argc = len(sys.argv)
+    port = 32802
+    address = ''
+    print(sys.argv)
+    if argc > 2:
+        port = int(sys.argv[2])
+        address = sys.argv[1]
+    elif argc > 1:
+        address = sys.argv[1]
+
+    pinger(address, port)
 
 def ponger(port):
     try:
         sock = socket(AF_INET,SOCK_DGRAM)
-        sock.bind(('',port))
+        sock.bind(('0.0.0.0',port))
         print ("port={}".format(port))
         while True:
             data, addr = sock.recvfrom(MAX_SIZE)
             print(data, addr)
-            if(data):
+            if data.lower() == 'ping':
                 print(data)
                 sock.send('pong')
             else:
-                time.sleep(0.1)
+                safe_exit()
+            time.sleep(0.1)
     except Exception as inst:
             print (type(inst))
             print (inst.args)
