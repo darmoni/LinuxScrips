@@ -1,0 +1,15 @@
+#Nir Manual
+[Unit]
+Description=Starts and stops django rpm services interface
+After=multi-user.target
+
+[Service]
+Type=idle
+User=nir
+Group=nir
+WorkingDirectory=/usr/local/nir/bin
+ExecStart=/usr/local/nir/bin/start_rpmbuilds.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
