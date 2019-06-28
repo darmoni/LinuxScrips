@@ -25,7 +25,7 @@ def make_calls (cmdline,count,agents,dial):
         call = "d"+who+"\n"
 #        print call
         cmdline.write(call)
-        sleep (0.1)
+        sleep (1)
         cmdline.write("T")
         sleep (0.2)
 
@@ -79,16 +79,16 @@ def testing(count, agents, dial):
             break
 
 #calls = 204
-calls = 95 #focus
+calls = 5 #focus
 print "dialing -", calls, "calls\n"
 #dials = ("55560", "3000", "3001", "70062", "4703","67892","4701","713300")
 #dials = ("4703",)  # focus on a single Queue
 dials = ("8600",)  # Dev
 #agents = 5;
-agents = 2;
+agents = 3;
 print dials
-port = '5565'
-#port = '5555'
+#port = '5565'
+port = '5555'
 args = shlex.split('/bin/netcat -u 127.0.0.1 ' + port)
 try:
     p = Popen(args, stdin=PIPE, stdout=PIPE,stderr=PIPE, shell=False)
