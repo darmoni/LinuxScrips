@@ -1,0 +1,15 @@
+#Nir Manual
+[Unit]
+Description=Starts and stops localhost basesip
+After=multi-user.target
+
+[Service]
+Type=idle
+User=nir
+Group=nir
+WorkingDirectory=/usr/local/nir/bin
+ExecStart=/usr/local/bin/baresip
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
