@@ -16,26 +16,48 @@ function log_me () {
     #log_name_pattern="$topic*.node*.log"
     log_name_pattern=$topic
     #today=$( date +%Y%m%d)
-    logserver_cmd="/usr/bin/ssh xcast@logserver3-la.siptalk.com "
+    logservers='logserver3-la.siptalk.com'
+    #logserver_cmd="/usr/bin/ssh xcast@logserver3-la.siptalk.com "
     #for my_mserver in container1-la.xcastlabs.net container2-la.xcastlabs.net ; do
     for my_topic in container*-la.xcastlabs.net pbxdata1n1-la.siptalk.com; do
-        log_name="ls -lSrh logs/servers/$my_topic/$DAY/* | grep $log_name_pattern | grep -v 'job-'"
-        CMD="$logserver_cmd '$log_name'"
-        #echo $CMD
-        #echo
-        eval $CMD | grep --color ${topic}
+        for logserver in $logservers ; do
+            logserver_cmd="/usr/bin/ssh xcast@$logserver "
+            log_name="ls -lSrh logs/servers/$my_topic/$DAY/* | grep $log_name_pattern | grep -v 'job-'"
+            CMD="$logserver_cmd '$log_name'"
+            #echo $CMD
+            #echo
+            eval $CMD | grep --color ${topic}
+        done
         #echo $ls_log |$SHELL
     done
+    echo
+    for my_topic in container*-chi.xcastlabs.net; do
+        for logserver in  logserver2-chi.siptalk.com; do
+            logserver_cmd="/usr/bin/ssh xcast@$logserver "
+            log_name="ls -lSrh logs/servers/$my_topic/$DAY/* | grep $log_name_pattern | grep -v 'job-'"
+            CMD="$logserver_cmd '$log_name'"
+            #echo $CMD
+            #echo
+            eval $CMD | grep --color ${topic}
+        done
+        #echo $ls_log |$SHELL
+    done
+
 }
 
 function flog () {
-    CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog $*"
-    eval $CMD | grep --color ${topic}
+    for logserver  in logserver3-la.siptalk.com logserver2-chi.siptalk.com; do
+        CMD="/usr/bin/ssh xcast@$logserver flog $*"
+        eval $CMD | grep --color ${topic}
+    done
 }
 
 function flog2 () {
-    CMD="/usr/bin/ssh xcast@logserver3-la.siptalk.com flog2 $*"
-    eval $CMD | grep --color ${topic}
+    for logserver  in logserver3-la.siptalk.com logserver2-chi.siptalk.com; do
+        CMD="/usr/bin/ssh xcast@$logserver flog2 $*"
+        eval $CMD | grep --color ${topic}
+        echo
+    done
 }
 
 function timestamp {
@@ -243,8 +265,7 @@ export -f wifi
 
 
 function echo_if_dir {
-  if [ -d $1 ] ; then echo $1
-  fi
+  [[ -d $1 ]] && echo $1
 }
 
 function ltr {
@@ -307,16 +328,15 @@ export -f fltrt
 
 function getvar () {
 
-for d in $(fb_devices) ; do
-  echo serialno: $d
-  if [ -n "$1" ] ; then
-    fastboot -s $d getvar $* 2>&1
-  else
-    fastboot -s $d getvar all 2>&1
-  fi
-  echo
-done
-
+    for d in $(fb_devices) ; do
+    echo serialno: $d
+    if [ -n "$1" ] ; then
+        fastboot -s $d getvar $* 2>&1
+    else
+        fastboot -s $d getvar all 2>&1
+    fi
+    echo
+    done
 }
 
 export -f getvar
@@ -575,7 +595,7 @@ fi
 export -f kill_procs
 
 function lsx(){
-   find  -maxdepth 1  -executable   -type f $1
+   find $1 -maxdepth 1  -executable   -type f
 }
 
 export -f lsx
@@ -1099,7 +1119,7 @@ GIT_PS1_SHOWCOLORHINTS='y'
 source /etc/bash_completion.d/git-prompt
 }
 
-alias lsx='find  -type f -executable -maxdepth 1'
+#alias lsx='find  -type f -executable -maxdepth 1'
 alias gdbbt='gdb -q -n -ex bt -batch'
 alias gdbbtfull='gdb -q -n -ex "bt full" -batch'
 alias rm='rm -i'
