@@ -2,7 +2,7 @@
 
 if [[ "Prepare" =~ "$*" ]] ; then
     #echo 'Prepare ing'
-    ssh ndarmoni@pbxdev.xcastlabs.com "cd git_rpm_scripts ; make clean"
+    ssh ndarmoni@pbxdev.xcastlabs.com "cd git_rpm_scripts ; make clean_clean"; # less verbose than 'make clean'
 elif [[ "Status" =~ "$*" ]] ; then
     #echo ' Status ing'
     ssh ndarmoni@pbxdev.xcastlabs.com "cd git_rpm_scripts/Registrator ; git sst"
