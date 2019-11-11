@@ -639,8 +639,9 @@ function xc {
 }
 
 function dev {
-   domain="xcastlabs.com"
-   ssh -X ndarmoni@$(dev64).$domain
+    pbxdev
+#   domain="xcastlabs.com"
+#  ssh -X ndarmoni@$(dev64).$domain
 }
 function mount_webdev {
 	dev_mounting_point="$HOME/Desktop/webdev"
@@ -1056,6 +1057,15 @@ function start_virtualenv () {
 "
 }
 
+function all_log ()
+{
+    sed -E 's/\-[[:xdigit:]]{8}\-/-*-/g' | sed -E 's/\.[[:digit:]]+\.log/.*log/'
+}
+
+function all_log_param ()
+{
+    echo $1 | sed -E 's/\-[[:xdigit:]]{8}\-/-*-/g' | sed -E 's/\.[[:digit:]]+\.log/.*log/'
+}
 
 function build_this_rpm () {
     for build in $* ; do 
@@ -1127,4 +1137,4 @@ alias wdiff='git difftool -y -x "diff -y -W $COLUMNS"'
 #usage  mserver]$ for core in `ls -1tr` ; do echo $core ; gdbbt /usr/local/registrator/lib/mserver/app/mapp $core; done > mapp.bt.txt 2>&1
 #10909090909909 * 979090909090909 +1
 
-# 1090909090909090909090909
+# 1090909090909090909090909 

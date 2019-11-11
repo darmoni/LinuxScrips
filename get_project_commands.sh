@@ -4,12 +4,17 @@ servers='pbxdev.xcastlabs.com pps.siptalk.com'
 if [[ "Prepare" =~ "$*" ]] ; then
     for build_server in ${servers} ; do
         #echo 'Prepare ing'
-        echo "Preparing ${build_server}"
-        ssh ndarmoni@${build_server} "cd git_rpm_scripts ; make clean_clean"; # less verbose than 'make clean'
+        echo "
+        Preparing ${build_server}
+        "
+        # less verbose than 'make clean'
+        ssh ndarmoni@${build_server} "cd git_rpm_scripts ; make clean_clean"
     done
 elif [[ "Status" =~ "$*" ]] ; then
     for build_server in ${servers} ; do
-        echo "Statusing ${build_server}"
+        echo "
+        Statusing ${build_server}
+        "
         ssh ndarmoni@${build_server} "cd git_rpm_scripts/Registrator ; git sst"
     done
 else
