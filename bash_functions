@@ -1059,7 +1059,7 @@ function start_virtualenv () {
 
 function all_log ()
 {
-    sed -E 's/\-[[:xdigit:]]{8}\-/-*-/g' | sed -E 's/\.[[:digit:]]+\.log/.*log/' | sed -E 's/container[1-9]+\-/container*\-/'
+    sed -E 's/\-[[:xdigit:]]{8}[\.|\-]/-*/g' | sed -E 's/\.[[:digit:]]+\.log/.*log/' | sed -E 's/container[1-9]+\-/container*\-/'
 }
 
 function all_log_param ()
