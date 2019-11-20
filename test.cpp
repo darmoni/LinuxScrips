@@ -45,9 +45,26 @@ std::string& trim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
 {
     return ltrim(rtrim(str, chars), chars);
 }
+void test_syntax_bool (bool val)
+{
+    string answer = (-1 == val)?"-1": "Other value (Not -1)";
+    string sval = (val)? "True" : "False";
+    cout << "test_syntax_bool (-1 == " << sval << ") returned " << answer << "\n";
+}
 
 int main(void)
 {
+    for( int val = -1; val < 2; ++val)
+    {
+        cout << "test_syntax_bool (" << val << ")\n";
+        test_syntax_bool(val);
+    }
+    cout << "\n";
+
+    test_syntax_bool (-1);
+    test_syntax_bool (false);
+    test_syntax_bool (true);
+
     string s(" \t \n This string has leading, \r\fand\vtrailing white-space charsending here\n");
     string replacing(" has ");
     cout << "Before trim \n'" << s << "'\n";

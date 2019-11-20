@@ -639,10 +639,10 @@ function xc {
 }
 
 function dev {
-    pbxdev
-#   domain="xcastlabs.com"
-#  ssh -X ndarmoni@$(dev64).$domain
+    domain="xcastlabs.com"
+    ssh -X ndarmoni@$(dev64).$domain
 }
+
 function mount_webdev {
 	dev_mounting_point="$HOME/Desktop/webdev"
     mkdir -p $dev_mounting_point
