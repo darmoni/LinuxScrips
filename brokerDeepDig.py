@@ -5,9 +5,10 @@ $Id$
 
 from https://dev.mysql.com/doc/connector-python/en/connector-python-tutorial-cursorbuffered.html
 '''
-
-import ConfigParser as configparser
-#import configparser
+try:
+    import ConfigParser as configparser
+except:
+    import configparser
 import log
 import signal
 from sqlalchemy import create_engine
@@ -42,52 +43,7 @@ signal.signal(signal.SIGINT, sig_handler)
 signal.signal(signal.SIGTERM, sig_handler)
 signal.signal(signal.SIGHUP, sig_handler)
 
-class MenuItemType:
-    MITchoice = 0
-    MITtimeout = 1
-
-class MenuActionType:
-    MATnoAction = 0
-    MATgoBack = 1
-    MATgoHome = 2
-    MATcallToAccount = 3
-    MATcallToPhone = 4
-    MATleaveMessage = 5
-    MATcheckMessages = 6
-
-    MATcallToCalleeAccount = 6
-    MATleaveMessageForCallee = 7
-    MATcheckCalleeMessages = 8
-
-class AccountType:
-
-    ATany = 0 #/// 0 Any type - used in requests
-    ATextension = 1 #           /// 1 Phone extension (can accept registrations of sip phones and serve as a transfer destination,
-                            #   ///  can not do much else
-    ATuser = 2  #     /// 2 User account
-    ATgroup = 3 #     /// 3 Group account - sales, CS and the like
-    ATpbx = 4   #   /// 4 PBX account (corporation) <future extension!>
-    ATroot = 5  #   /// 5 root account
-    ATqueue = 6 #   /// 6 ACD account=
-    ATmenu = 7  #   /// 7 menu account
-    ATcard = 8  #   /// 8 card account
-    ATintercom = 9  #   /// 9 intercom account
-    ATreseller = 10 #   /// 10 reseller account
-    ATcallGroup = 11    #   /// 11 call group account
-    ATconference = 12   #   /// 12 conference account
-    ATdialerDialog = 13 #   /// 13 dialer dialg
-    ATtrunkGroup = 12   #   /// 14 trunk group
-    ATvideo = 15    #    /// 15 video server
-    ATgateway = 16    #    /// 16 gateway enterance - dialing any number
-    ATdivision = 17    #    /// 17 division
-    ATsharedLine = 18    #    /// 18 shared line
-    ATxDialer = 19    #    /// 19 XDial service
-    ATpsapGroup = 20    #    /// 20 PSAP group
-
-
-
 class db_provider_client:
-
     def __init__(self, cnx):
         self.cnx=cnx
 
@@ -97,7 +53,7 @@ class db_provider_client:
             df=[]
             for q in queries:
                 if q:
-                    print(q+';')
+                    print(q + ';')
                     df.append(pd.read_sql(q, self.cnx))
             if 1 == len(df):
                 return df[0]
@@ -108,7 +64,6 @@ class db_provider_client:
             print(q+';')
             df = pd.read_sql(q, self.cnx)
         return df
-
 
 def print_table_data(data, included = []):
     #return
@@ -131,7 +86,7 @@ def print_table_data(data, included = []):
 
     #print('Done')
 tables = {}
-def set_table_params(name, max_number_of_fields = 945, max_discrete_values =15):
+def set_table_params(name, max_number_of_fields = 945, max_discrete_values =30):
     tables.update({
         name:{
             'number_of_fields':max_number_of_fields,
@@ -139,28 +94,65 @@ def set_table_params(name, max_number_of_fields = 945, max_discrete_values =15):
             }
         })
 
+fields = {}
+def set_table_fields(table, t_fields):
+    field_list = {}
+    raw_field_list = t_fields.split(',')
+    for raw_filed_name in raw_field_list:
+        filed_name=raw_filed_name.strip().replace('`',"")
+        field_list.update({filed_name:''})
+    fields.update({table:field_list.keys()})
+
+def get_distinct_values(field, table, limit):
+    field_q = "SELECT DISTINCT `{}` FROM `{}` ORDER BY `{}` LIMIT {}".format(field, table, field, limit)
+    try:
+        fields_data = db_connection.select_this(field_q)
+        if 0 == len(fields_data):
+            return
+        value_counter = 0
+        for row in fields_data.get_values():
+            value = row[0]
+            value_counter += 1
+            print("{:-4}: `{}`= {}".format(value_counter, field, value))
+        print(nl)
+    except:
+        pass
 
 if __name__ == '__main__':
     file_config = configparser.ConfigParser()
     file_config.read(['xcast_broker_sql.cfg'])
-    log.configure(file_config.get('log', 'level'))
+    config_sections=file_config.sections()
 
-    db_config = {
-    'user': file_config.get('db', 'user'),
-    'password': file_config.get('db', 'password'),
-    'host': file_config.get('db', 'host'),
-    'database': file_config.get('db', 'database'),
-    'raise_on_warnings': True,
-    }
+    #print(config_sections)
+    #exit(0)
+    if 'log' in config_sections:
+        log.configure(file_config.get('log', 'level'))
+    if 'db' in config_sections:
+        db_config = {
+        'user': file_config.get('db', 'user'),
+        'password': file_config.get('db', 'password'),
+        'host': file_config.get('db', 'host'),
+        'database': file_config.get('db', 'database'),
+        'raise_on_warnings': True,
+        }
     #print (db_config)
     #exit(0)
 
-    explore_db = {
-        'tables':file_config.get('db', 'tables').replace(',','\n'),
-    }
+    if 'fields' in config_sections:
+        for key in file_config.items('fields'):
+            t_name = key[0].strip()
+            table_fields = key[1].strip()
 
+            set_table_fields(t_name, table_fields)
+            #print("set_table_fields(`{}`,[{}]".format(t_name, table_fields))
+            #print(fields[t_name])
+        #print(fields.keys())
+
+    explore_db = {
+        #'tables':file_config.get('db', 'tables').replace(',','\n'),
+        'tables':fields.keys()
+    }
     #print(explore_db['tables'])
-    #exit(0)
 
     try:
         #print("main:")
@@ -188,7 +180,7 @@ if __name__ == '__main__':
         resources.append(engine)
         #print(engine)
         nl = "\n"
-        valid_tables = explore_db['tables'].split()
+        valid_tables = explore_db['tables']
 # set default settings
         for table_name in valid_tables:
             set_table_params(table_name)
@@ -197,40 +189,40 @@ if __name__ == '__main__':
         set_table_params('AccessClasses', 10, 15)
 
         db_connection=db_provider_client(engine)
+        #print(fields.keys())
+        #print('destinations' in fields.keys())
+        #exit(0)
         q = 'SHOW TABLES'
         try:
             data = db_connection.select_this(q)
             for row in data.get_values():
                 table = row[0]
-                if table not in valid_tables:
-                    #print("ohoh, `{}` not found in valid_tables".format(table))
-                    continue
-                table_q = "SHOW FIELDS FROM `{}`".format(table)
-                try:
-                    table_data = db_connection.select_this(table_q)
-                    field_counter = 0
-                    for row in table_data.get_values():
-                        if tables[table]['number_of_fields'] <= field_counter:
-                            break
-                        field_counter += 1
-                        field = row[0]
-                        #print("`{}`".format(field))
-                        field_q = "SELECT DISTINCT `{}` FROM `{}` ORDER BY `{}` LIMIT {}".format(field, table, field, tables[table]['discrete_values'])
-                        try:
-                            fields_data = db_connection.select_this(field_q)
-                            if 0 == len(fields_data):
-                                continue
-                            value_counter = 0
-                            for row in fields_data.get_values():
-                                value = row[0]
-                                value_counter += 1
-                                print("{:-4}: `{}`= {}".format(value_counter, field,value))
-                            print(nl)
-                        except:
-                            continue
-                    print(nl)
-                except:
-                    continue
+                if table in sorted(fields.keys()):
+                    use_fields=fields[table]
+                    for field in sorted(use_fields):
+                        get_distinct_values(field, table, tables[table]['discrete_values'])
+                else:
+                    if table not in valid_tables:
+                        #print("ohoh, `{}` not found in valid_tables".format(table))
+                        continue
+                '''
+                else:
+                    use_fields=[]
+                    table_q = "SHOW FIELDS FROM `{}`".format(table)
+                    try:
+                        table_data = db_connection.select_this(table_q)
+                        field_counter = 0
+                        for row in table_data.get_values():
+                            if tables[table]['number_of_fields'] <= field_counter:
+                                break
+                            field_counter += 1
+                            field = row[0]
+                            get_distinct_values(field, table, tables[table]['discrete_values'])
+                            #print("`{}`".format(field))
+                    except:
+                        continue
+                '''
+
         except:
             exit(0)
         safe_exit()

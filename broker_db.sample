@@ -1,1009 +1,4 @@
-SHOW TABLES;
-SHOW FIELDS FROM `AccessClasses`;
-SELECT DISTINCT `id` FROM `AccessClasses` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-   2: `id`= 2
-   3: `id`= 3
-   4: `id`= 4
-   5: `id`= 5
-   6: `id`= 6
-   7: `id`= 7
-   8: `id`= 8
-   9: `id`= 9
-  10: `id`= 10
-  11: `id`= 11
-  12: `id`= 12
-  13: `id`= 13
-  14: `id`= 14
-  15: `id`= 15
-
-
-SELECT DISTINCT `name` FROM `AccessClasses` ORDER BY `name` LIMIT 15;
-   1: `name`= AllowAll
-   2: `name`= AllowClass1
-   3: `name`= AllowClass108859
-   4: `name`= AllowClass122675
-   5: `name`= AllowClass123841
-   6: `name`= AllowClass2
-   7: `name`= AllowClass3
-   8: `name`= AllowClass4
-   9: `name`= AllowGoldKeySolutions
-  10: `name`= CMA1
-  11: `name`= DenyClass1
-  12: `name`= DenyClass103752
-  13: `name`= DenyClass103997
-  14: `name`= DenyClass106809
-  15: `name`= DenyClass107021
-
-
-SELECT DISTINCT `nanpaTerritoryAllowed` FROM `AccessClasses` ORDER BY `nanpaTerritoryAllowed` LIMIT 15;
-   1: `nanpaTerritoryAllowed`= -1
-   2: `nanpaTerritoryAllowed`= 1
-   3: `nanpaTerritoryAllowed`= 19
-   4: `nanpaTerritoryAllowed`= 211
-   5: `nanpaTerritoryAllowed`= 513
-   6: `nanpaTerritoryAllowed`= 531
-   7: `nanpaTerritoryAllowed`= 577
-   8: `nanpaTerritoryAllowed`= 593
-   9: `nanpaTerritoryAllowed`= 723
-  10: `nanpaTerritoryAllowed`= 262867
-
-
-SELECT DISTINCT `defaultPolicy` FROM `AccessClasses` ORDER BY `defaultPolicy` LIMIT 15;
-   1: `defaultPolicy`= 0
-   2: `defaultPolicy`= 1
-
-
-SELECT DISTINCT `active` FROM `AccessClasses` ORDER BY `active` LIMIT 15;
-   1: `active`= 1
-
-
-SELECT DISTINCT `accountId` FROM `AccessClasses` ORDER BY `accountId` LIMIT 15;
-   1: `accountId`= nan
-   2: `accountId`= 103752.0
-   3: `accountId`= 103997.0
-   4: `accountId`= 106809.0
-   5: `accountId`= 107021.0
-   6: `accountId`= 108859.0
-   7: `accountId`= 109865.0
-   8: `accountId`= 110628.0
-   9: `accountId`= 114445.0
-  10: `accountId`= 116192.0
-  11: `accountId`= 116667.0
-  12: `accountId`= 116956.0
-  13: `accountId`= 118289.0
-  14: `accountId`= 119013.0
-  15: `accountId`= 120711.0
-
-
-SELECT DISTINCT `description` FROM `AccessClasses` ORDER BY `description` LIMIT 15;
-   1: `description`= Access class for Merchant Auto Pay
-   2: `description`= All NANPA,International is Allowed
-   3: `description`= All NANPA,International is Allowed for GoldKeySolution PBX
-   4: `description`= All NANPA,International is Allowed, Denied fraudulent countries
-   5: `description`= All NANPA,International is Allowed, Denied fraudulent countries ViciDial
-   6: `description`= All NANPA,International is Allowed, Restricted 103752
-   7: `description`= All NANPA,International is Allowed, Restricted 103997
-   8: `description`= All NANPA,International is Allowed, Restricted 109865
-   9: `description`= All NANPA,International is Allowed, Restricted 114445 
-  10: `description`= All NANPA,International is Allowed, Restricted 116667
-  11: `description`= All NANPA,International is Allowed, Restricted 118289
-  12: `description`= All NANPA,International is Allowed, Restricted 119013
-  13: `description`= All NANPA,International is Allowed, Restricted 28546
-  14: `description`= Allow ALL NANPA Territory, International is Prohibited
-  15: `description`= Allow class for ACC 111991 (LAACO)
-
-
-
-
-SHOW FIELDS FROM `CarriersRoutesWeightsInternational`;
-SELECT DISTINCT `id` FROM `CarriersRoutesWeightsInternational` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `classId` FROM `CarriersRoutesWeightsInternational` ORDER BY `classId` LIMIT 15;
-SELECT DISTINCT `carrierId` FROM `CarriersRoutesWeightsInternational` ORDER BY `carrierId` LIMIT 15;
-SELECT DISTINCT `routeId` FROM `CarriersRoutesWeightsInternational` ORDER BY `routeId` LIMIT 15;
-SELECT DISTINCT `weight` FROM `CarriersRoutesWeightsInternational` ORDER BY `weight` LIMIT 15;
-SELECT DISTINCT `expirationDate` FROM `CarriersRoutesWeightsInternational` ORDER BY `expirationDate` LIMIT 15;
-
-
-SHOW FIELDS FROM `CarriersRoutesWeightsNANPA`;
-SELECT DISTINCT `id` FROM `CarriersRoutesWeightsNANPA` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `classId` FROM `CarriersRoutesWeightsNANPA` ORDER BY `classId` LIMIT 15;
-SELECT DISTINCT `npa` FROM `CarriersRoutesWeightsNANPA` ORDER BY `npa` LIMIT 15;
-SELECT DISTINCT `nxx` FROM `CarriersRoutesWeightsNANPA` ORDER BY `nxx` LIMIT 15;
-SELECT DISTINCT `carrierId` FROM `CarriersRoutesWeightsNANPA` ORDER BY `carrierId` LIMIT 15;
-SELECT DISTINCT `weight` FROM `CarriersRoutesWeightsNANPA` ORDER BY `weight` LIMIT 15;
-SELECT DISTINCT `expirationDate` FROM `CarriersRoutesWeightsNANPA` ORDER BY `expirationDate` LIMIT 15;
-
-
-SHOW FIELDS FROM `CostTermInternational`;
-SELECT DISTINCT `id` FROM `CostTermInternational` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `dialingDigits` FROM `CostTermInternational` ORDER BY `dialingDigits` LIMIT 15;
-SELECT DISTINCT `cost` FROM `CostTermInternational` ORDER BY `cost` LIMIT 15;
-SELECT DISTINCT `carrierId` FROM `CostTermInternational` ORDER BY `carrierId` LIMIT 15;
-SELECT DISTINCT `weight` FROM `CostTermInternational` ORDER BY `weight` LIMIT 15;
-SELECT DISTINCT `active` FROM `CostTermInternational` ORDER BY `active` LIMIT 15;
-SELECT DISTINCT `permanentlyDisabled` FROM `CostTermInternational` ORDER BY `permanentlyDisabled` LIMIT 15;
-SELECT DISTINCT `effectiveDate` FROM `CostTermInternational` ORDER BY `effectiveDate` LIMIT 15;
-SELECT DISTINCT `endDate` FROM `CostTermInternational` ORDER BY `endDate` LIMIT 15;
-
-
-SHOW FIELDS FROM `CostTermNANPA`;
-SELECT DISTINCT `id` FROM `CostTermNANPA` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `npa` FROM `CostTermNANPA` ORDER BY `npa` LIMIT 15;
-SELECT DISTINCT `nxx` FROM `CostTermNANPA` ORDER BY `nxx` LIMIT 15;
-SELECT DISTINCT `thousandBlock` FROM `CostTermNANPA` ORDER BY `thousandBlock` LIMIT 15;
-SELECT DISTINCT `carrierId` FROM `CostTermNANPA` ORDER BY `carrierId` LIMIT 15;
-SELECT DISTINCT `interstateCost` FROM `CostTermNANPA` ORDER BY `interstateCost` LIMIT 15;
-SELECT DISTINCT `intrastateCost` FROM `CostTermNANPA` ORDER BY `intrastateCost` LIMIT 15;
-SELECT DISTINCT `weight` FROM `CostTermNANPA` ORDER BY `weight` LIMIT 15;
-SELECT DISTINCT `active` FROM `CostTermNANPA` ORDER BY `active` LIMIT 15;
-SELECT DISTINCT `effectiveDate` FROM `CostTermNANPA` ORDER BY `effectiveDate` LIMIT 15;
-SELECT DISTINCT `endDate` FROM `CostTermNANPA` ORDER BY `endDate` LIMIT 15;
-
-
-SHOW FIELDS FROM `Destinations`;
-SELECT DISTINCT `id` FROM `Destinations` ORDER BY `id` LIMIT 15;
-   1: `id`= 4
-   2: `id`= 17
-   3: `id`= 18
-   4: `id`= 31
-   5: `id`= 32
-   6: `id`= 33
-   7: `id`= 34
-   8: `id`= 35
-   9: `id`= 36
-  10: `id`= 37
-  11: `id`= 38
-  12: `id`= 39
-  13: `id`= 40
-  14: `id`= 41
-  15: `id`= 42
-
-
-SELECT DISTINCT `peerId` FROM `Destinations` ORDER BY `peerId` LIMIT 15;
-   1: `peerId`= 1707
-   2: `peerId`= 1727
-   3: `peerId`= 1729
-   4: `peerId`= 1740
-   5: `peerId`= 1741
-   6: `peerId`= 1742
-   7: `peerId`= 1743
-   8: `peerId`= 1744
-   9: `peerId`= 1745
-  10: `peerId`= 1746
-  11: `peerId`= 1749
-  12: `peerId`= 1750
-  13: `peerId`= 1751
-  14: `peerId`= 1752
-  15: `peerId`= 1756
-
-
-SELECT DISTINCT `ipAddress` FROM `Destinations` ORDER BY `ipAddress` LIMIT 15;
-   1: `ipAddress`= 1.1.1.1
-   2: `ipAddress`= 1.1.1.2
-   3: `ipAddress`= 1.1.1.3
-   4: `ipAddress`= 1.1.1.6
-   5: `ipAddress`= 1.2.3.4
-   6: `ipAddress`= 1.2.3.5
-   7: `ipAddress`= 127.1.1.192
-   8: `ipAddress`= 127.1.1.6
-   9: `ipAddress`= 2.3.4.5
-  10: `ipAddress`= 33.22.33.22
-  11: `ipAddress`= 33.22.33.23
-
-
-SELECT DISTINCT `port` FROM `Destinations` ORDER BY `port` LIMIT 15;
-   1: `port`= 0
-   2: `port`= 1025
-   3: `port`= 1026
-   4: `port`= 1027
-   5: `port`= 1029
-   6: `port`= 1234
-   7: `port`= 3328
-   8: `port`= 5060
-   9: `port`= 5064
-
-
-SELECT DISTINCT `weight` FROM `Destinations` ORDER BY `weight` LIMIT 15;
-   1: `weight`= 50
-   2: `weight`= 100
-
-
-SELECT DISTINCT `comments` FROM `Destinations` ORDER BY `comments` LIMIT 15;
-   1: `comments`= abc
-   2: `comments`= bop
-   3: `comments`= bop2
-   4: `comments`= ggg
-   5: `comments`= hhh
-   6: `comments`= mda3
-   7: `comments`= mda4
-   8: `comments`= mda6
-   9: `comments`= Navy Peer
-  10: `comments`= peer 125035
-  11: `comments`= test22
-  12: `comments`= TestA
-
-
-
-
-SHOW FIELDS FROM `RatePlans`;
-SELECT DISTINCT `id` FROM `RatePlans` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-   2: `id`= 2
-   3: `id`= 3
-   4: `id`= 4
-   5: `id`= 5
-   6: `id`= 6
-   7: `id`= 7
-   8: `id`= 8
-   9: `id`= 9
-  10: `id`= 10
-  11: `id`= 11
-  12: `id`= 12
-  13: `id`= 13
-  14: `id`= 14
-  15: `id`= 15
-
-
-SELECT DISTINCT `ratePlanName` FROM `RatePlans` ORDER BY `ratePlanName` LIMIT 15;
-   1: `ratePlanName`= VI0000B
-   2: `ratePlanName`= VI0025B
-   3: `ratePlanName`= VI0030B
-   4: `ratePlanName`= VI0035B
-   5: `ratePlanName`= VI0040B
-   6: `ratePlanName`= VI0050B
-   7: `ratePlanName`= VI0060B
-   8: `ratePlanName`= VI0100B
-   9: `ratePlanName`= VI1010B
-  10: `ratePlanName`= VI1010R
-  11: `ratePlanName`= VI1030B
-  12: `ratePlanName`= VI1030R
-  13: `ratePlanName`= VI5000B
-  14: `ratePlanName`= VI5000R
-  15: `ratePlanName`= VI5011B
-
-
-SELECT DISTINCT `description` FROM `RatePlans` ORDER BY `description` LIMIT 15;
-   1: `description`= $.0025/min handoff
-   2: `description`= $.003/min handoff
-   3: `description`= $0.00 SIPTalk for XCast accts
-   4: `description`= For Asia
-   5: `description`= For Eastern Europe
-   6: `description`= For Vietnam
-   7: `description`= Inbound VI for ILI
-   8: `description`= Inbound VI for KNI
-   9: `description`= Inbound VI for Wholesale
-  10: `description`= Inbound VI for XCL
-  11: `description`= Inbound VI Plan for Resellers
-  12: `description`= Inbound VI Plan for Y-TEL
-  13: `description`= Inbound VI Plan retail XCL
-  14: `description`= Lowest rates
-  15: `description`= open
-
-
-SELECT DISTINCT `precision` FROM `RatePlans` ORDER BY `precision` LIMIT 15;
-   1: `precision`= 1
-   2: `precision`= 2
-   3: `precision`= 3
-   4: `precision`= 4
-
-
-SELECT DISTINCT `effectiveDate` FROM `RatePlans` ORDER BY `effectiveDate` LIMIT 15;
-   1: `effectiveDate`= 1095264595
-   2: `effectiveDate`= 1095264632
-   3: `effectiveDate`= 1102377600
-   4: `effectiveDate`= 1106784000
-   5: `effectiveDate`= 1107734400
-   6: `effectiveDate`= 1135036800
-   7: `effectiveDate`= 1142467200
-   8: `effectiveDate`= 1144972800
-   9: `effectiveDate`= 1149206400
-  10: `effectiveDate`= 1151884800
-  11: `effectiveDate`= 1153094400
-  12: `effectiveDate`= 1162425600
-  13: `effectiveDate`= 1163462400
-  14: `effectiveDate`= 1164499200
-  15: `effectiveDate`= 1166140800
-
-
-SELECT DISTINCT `endDate` FROM `RatePlans` ORDER BY `endDate` LIMIT 15;
-   1: `endDate`= nan
-   2: `endDate`= 1213714006.0
-   3: `endDate`= 1213714028.0
-   4: `endDate`= 1213714102.0
-   5: `endDate`= 1213714111.0
-   6: `endDate`= 1218123198.0
-   7: `endDate`= 1223653504.0
-   8: `endDate`= 1236253885.0
-   9: `endDate`= 1240405483.0
-  10: `endDate`= 1246281586.0
-  11: `endDate`= 1249070418.0
-  12: `endDate`= 1249070440.0
-  13: `endDate`= 1255966629.0
-  14: `endDate`= 1266328079.0
-  15: `endDate`= 1266521304.0
-
-
-SELECT DISTINCT `npaRoutes` FROM `RatePlans` ORDER BY `npaRoutes` LIMIT 15;
-   1: `npaRoutes`= 0
-   2: `npaRoutes`= 1
-
-
-SELECT DISTINCT `defaultBaseServiceClassId` FROM `RatePlans` ORDER BY `defaultBaseServiceClassId` LIMIT 15;
-   1: `defaultBaseServiceClassId`= None
-
-
-
-
-SHOW FIELDS FROM `Regions`;
-SELECT DISTINCT `id` FROM `Regions` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-   2: `id`= 2
-   3: `id`= 3
-   4: `id`= 4
-   5: `id`= 5
-   6: `id`= 6
-   7: `id`= 7
-   8: `id`= 8
-   9: `id`= 9
-  10: `id`= 10
-  11: `id`= 11
-  12: `id`= 12
-  13: `id`= 13
-  14: `id`= 14
-  15: `id`= 15
-
-
-SELECT DISTINCT `nanpaTerritoryId` FROM `Regions` ORDER BY `nanpaTerritoryId` LIMIT 15;
-   1: `nanpaTerritoryId`= 1
-   2: `nanpaTerritoryId`= 2
-   3: `nanpaTerritoryId`= 4
-   4: `nanpaTerritoryId`= 8
-   5: `nanpaTerritoryId`= 16
-   6: `nanpaTerritoryId`= 32
-   7: `nanpaTerritoryId`= 64
-   8: `nanpaTerritoryId`= 128
-   9: `nanpaTerritoryId`= 512
-  10: `nanpaTerritoryId`= 1024
-  11: `nanpaTerritoryId`= 2048
-  12: `nanpaTerritoryId`= 4096
-  13: `nanpaTerritoryId`= 8192
-  14: `nanpaTerritoryId`= 16384
-  15: `nanpaTerritoryId`= 32768
-
-
-SELECT DISTINCT `regionAbbreviation` FROM `Regions` ORDER BY `regionAbbreviation` LIMIT 15;
-   1: `regionAbbreviation`= AB
-   2: `regionAbbreviation`= AI
-   3: `regionAbbreviation`= AK
-   4: `regionAbbreviation`= AL
-   5: `regionAbbreviation`= AN
-   6: `regionAbbreviation`= AR
-   7: `regionAbbreviation`= AS
-   8: `regionAbbreviation`= AZ
-   9: `regionAbbreviation`= BA
-  10: `regionAbbreviation`= BC
-  11: `regionAbbreviation`= BD
-  12: `regionAbbreviation`= BM
-  13: `regionAbbreviation`= BV
-  14: `regionAbbreviation`= CA
-  15: `regionAbbreviation`= CO
-
-
-SELECT DISTINCT `regionName` FROM `Regions` ORDER BY `regionName` LIMIT 15;
-   1: `regionName`= 710 Service
-   2: `regionName`= Alabama
-   3: `regionName`= Alaska
-   4: `regionName`= Alberta
-   5: `regionName`= Anguilla
-   6: `regionName`= Antigua
-   7: `regionName`= Arizona
-   8: `regionName`= Arkansas
-   9: `regionName`= Bahamas
-  10: `regionName`= Barbados
-  11: `regionName`= Bermuda
-  12: `regionName`= British Columbia
-  13: `regionName`= California
-  14: `regionName`= Cayman Isl
-  15: `regionName`= Colorado
-
-
-SELECT DISTINCT `country` FROM `Regions` ORDER BY `country` LIMIT 15;
-   1: `country`= 
-   2: `country`= Canada
-   3: `country`= US
-
-
-
-
-SHOW FIELDS FROM `RouteDialingDigits`;
-SELECT DISTINCT `id` FROM `RouteDialingDigits` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-   2: `id`= 2
-   3: `id`= 3
-   4: `id`= 4
-   5: `id`= 5
-   6: `id`= 6
-   7: `id`= 7
-   8: `id`= 8
-   9: `id`= 9
-  10: `id`= 10
-  11: `id`= 11
-  12: `id`= 12
-  13: `id`= 13
-  14: `id`= 14
-  15: `id`= 15
-
-
-SELECT DISTINCT `routeId` FROM `RouteDialingDigits` ORDER BY `routeId` LIMIT 15;
-   1: `routeId`= 1000
-   2: `routeId`= 1001
-   3: `routeId`= 1002
-   4: `routeId`= 1003
-   5: `routeId`= 1004
-   6: `routeId`= 1005
-   7: `routeId`= 1006
-   8: `routeId`= 1007
-   9: `routeId`= 1009
-  10: `routeId`= 1010
-  11: `routeId`= 1011
-  12: `routeId`= 1012
-  13: `routeId`= 1013
-  14: `routeId`= 1014
-  15: `routeId`= 1015
-
-
-SELECT DISTINCT `dialingDigits` FROM `RouteDialingDigits` ORDER BY `dialingDigits` LIMIT 15;
-   1: `dialingDigits`= 
-   2: `dialingDigits`= 1
-   3: `dialingDigits`= 1204
-   4: `dialingDigits`= 1226
-   5: `dialingDigits`= 1242
-   6: `dialingDigits`= 1242357
-   7: `dialingDigits`= 1242359
-   8: `dialingDigits`= 1242427
-   9: `dialingDigits`= 1242457
-  10: `dialingDigits`= 1242477
-  11: `dialingDigits`= 1242557
-  12: `dialingDigits`= 1246
-  13: `dialingDigits`= 124623
-  14: `dialingDigits`= 124624
-  15: `dialingDigits`= 124625
-
-
-SELECT DISTINCT `countryCode` FROM `RouteDialingDigits` ORDER BY `countryCode` LIMIT 15;
-   1: `countryCode`= 
-   2: `countryCode`= 1
-   3: `countryCode`= 20
-   4: `countryCode`= 212
-   5: `countryCode`= 213
-   6: `countryCode`= 216
-   7: `countryCode`= 218
-   8: `countryCode`= 220
-   9: `countryCode`= 221
-  10: `countryCode`= 222
-  11: `countryCode`= 223
-  12: `countryCode`= 224
-  13: `countryCode`= 225
-  14: `countryCode`= 226
-  15: `countryCode`= 227
-
-
-SELECT DISTINCT `effectiveDate` FROM `RouteDialingDigits` ORDER BY `effectiveDate` LIMIT 15;
-   1: `effectiveDate`= 1262304000
-
-
-SELECT DISTINCT `endDate` FROM `RouteDialingDigits` ORDER BY `endDate` LIMIT 15;
-   1: `endDate`= None
-
-
-
-
-SHOW FIELDS FROM `Routes`;
-SELECT DISTINCT `id` FROM `Routes` ORDER BY `id` LIMIT 15;
-   1: `id`= 1000
-   2: `id`= 1001
-   3: `id`= 1002
-   4: `id`= 1003
-   5: `id`= 1004
-   6: `id`= 1005
-   7: `id`= 1006
-   8: `id`= 1007
-   9: `id`= 1009
-  10: `id`= 1010
-  11: `id`= 1011
-  12: `id`= 1012
-  13: `id`= 1013
-  14: `id`= 1014
-  15: `id`= 1015
-
-
-SELECT DISTINCT `minLength` FROM `Routes` ORDER BY `minLength` LIMIT 15;
-   1: `minLength`= 0
-   2: `minLength`= 8
-   3: `minLength`= 9
-   4: `minLength`= 10
-   5: `minLength`= 11
-   6: `minLength`= 12
-
-
-SELECT DISTINCT `maxLength` FROM `Routes` ORDER BY `maxLength` LIMIT 15;
-   1: `maxLength`= 0
-   2: `maxLength`= 9
-   3: `maxLength`= 10
-   4: `maxLength`= 11
-   5: `maxLength`= 12
-   6: `maxLength`= 13
-   7: `maxLength`= 14
-
-
-SELECT DISTINCT `routeCode` FROM `Routes` ORDER BY `routeCode` LIMIT 15;
-   1: `routeCode`= 1000
-   2: `routeCode`= 1001
-   3: `routeCode`= 1002
-   4: `routeCode`= 1003
-   5: `routeCode`= 1004
-   6: `routeCode`= 1005
-   7: `routeCode`= 1006
-   8: `routeCode`= 1007
-   9: `routeCode`= 1009
-  10: `routeCode`= 1010
-  11: `routeCode`= 1011
-  12: `routeCode`= 1012
-  13: `routeCode`= 1013
-  14: `routeCode`= 1014
-  15: `routeCode`= 1015
-
-
-SELECT DISTINCT `routeName` FROM `Routes` ORDER BY `routeName` LIMIT 15;
-   1: `routeName`= Afghanistan
-   2: `routeName`= Afghanistan-Mobile
-   3: `routeName`= Albania
-   4: `routeName`= Albania OLO
-   5: `routeName`= Albania Tirana
-   6: `routeName`= Albania-Mobile
-   7: `routeName`= Albania-Mobile AMC
-   8: `routeName`= Albania-Mobile Vodafone
-   9: `routeName`= Algeria
-  10: `routeName`= Algeria Algiers
-  11: `routeName`= Algeria-Mobile
-  12: `routeName`= American Samoa (USA)
-  13: `routeName`= Andorra
-  14: `routeName`= Andorra-Mobile
-  15: `routeName`= Angola
-
-
-
-
-SHOW FIELDS FROM `ServiceClasses`;
-SELECT DISTINCT `id` FROM `ServiceClasses` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-   2: `id`= 2
-   3: `id`= 3
-   4: `id`= 4
-   5: `id`= 5
-   6: `id`= 6
-   7: `id`= 7
-   8: `id`= 8
-   9: `id`= 9
-  10: `id`= 10
-  11: `id`= 11
-  12: `id`= 12
-  13: `id`= 13
-  14: `id`= 14
-  15: `id`= 15
-
-
-SELECT DISTINCT `name` FROM `ServiceClasses` ORDER BY `name` LIMIT 15;
-   1: `name`= business-101576
-   2: `name`= business-102637
-   3: `name`= business-103616
-   4: `name`= business-103752
-   5: `name`= business-103997
-   6: `name`= business-105954
-   7: `name`= business-107021
-   8: `name`= business-109145
-   9: `name`= business-109865
-  10: `name`= business-111286
-  11: `name`= business-111399
-  12: `name`= business-111991
-  13: `name`= business-113658
-  14: `name`= business-114127
-  15: `name`= business-114445
-
-
-SELECT DISTINCT `description` FROM `ServiceClasses` ORDER BY `description` LIMIT 15;
-   1: `description`= Business Address Trunking 109145 MediaTraks
-   2: `description`= Business Address Trunking 111399
-   3: `description`= Business Address Trunking 124274 
-   4: `description`= Business Address Trunking 125321
-   5: `description`= Business Address Trunking 125604
-   6: `description`= Business Address Trunking blocking level3 international
-   7: `description`= Business Forwarding 120276
-   8: `description`= business-130729; TestCo
-   9: `description`= business-140219; TestCo
-  10: `description`= business-140431; TestCo
-  11: `description`= business-140500; TestCo
-  12: `description`= business-140504; TestCo
-  13: `description`= business-142367; 'Riverview Camp for G
-  14: `description`= business-146460; TestCo Industries
-  15: `description`= business-146478; TestCo Industries
-
-
-SELECT DISTINCT `baseServiceClassId` FROM `ServiceClasses` ORDER BY `baseServiceClassId` LIMIT 15;
-   1: `baseServiceClassId`= 0
-   2: `baseServiceClassId`= 3
-   3: `baseServiceClassId`= 4
-
-
-
-
-SHOW FIELDS FROM `ServiceClassesBaseWeights`;
-SELECT DISTINCT `id` FROM `ServiceClassesBaseWeights` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `classId` FROM `ServiceClassesBaseWeights` ORDER BY `classId` LIMIT 15;
-SELECT DISTINCT `carrierId` FROM `ServiceClassesBaseWeights` ORDER BY `carrierId` LIMIT 15;
-SELECT DISTINCT `weight` FROM `ServiceClassesBaseWeights` ORDER BY `weight` LIMIT 15;
-
-
-SHOW FIELDS FROM `ServiceClassesWeights`;
-SELECT DISTINCT `id` FROM `ServiceClassesWeights` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `classId` FROM `ServiceClassesWeights` ORDER BY `classId` LIMIT 15;
-SELECT DISTINCT `carrierId` FROM `ServiceClassesWeights` ORDER BY `carrierId` LIMIT 15;
-SELECT DISTINCT `weight` FROM `ServiceClassesWeights` ORDER BY `weight` LIMIT 15;
-
-
-SHOW FIELDS FROM `SwitchCustomerRatePlans`;
-SELECT DISTINCT `id` FROM `SwitchCustomerRatePlans` ORDER BY `id` LIMIT 15;
-   1: `id`= 2
-   2: `id`= 3
-   3: `id`= 4
-   4: `id`= 5
-   5: `id`= 6
-   6: `id`= 7
-   7: `id`= 8
-   8: `id`= 11
-   9: `id`= 12
-  10: `id`= 13
-  11: `id`= 14
-  12: `id`= 15
-  13: `id`= 16
-  14: `id`= 17
-  15: `id`= 18
-
-
-SELECT DISTINCT `switchCustomerInformationId` FROM `SwitchCustomerRatePlans` ORDER BY `switchCustomerInformationId` LIMIT 15;
-   1: `switchCustomerInformationId`= 12761
-   2: `switchCustomerInformationId`= 15332
-   3: `switchCustomerInformationId`= 25145
-   4: `switchCustomerInformationId`= 28248
-   5: `switchCustomerInformationId`= 28546
-   6: `switchCustomerInformationId`= 33634
-   7: `switchCustomerInformationId`= 33857
-   8: `switchCustomerInformationId`= 34377
-   9: `switchCustomerInformationId`= 39921
-  10: `switchCustomerInformationId`= 40207
-  11: `switchCustomerInformationId`= 51729
-  12: `switchCustomerInformationId`= 55488
-  13: `switchCustomerInformationId`= 58421
-  14: `switchCustomerInformationId`= 64751
-  15: `switchCustomerInformationId`= 70588
-
-
-SELECT DISTINCT `ratePlanId` FROM `SwitchCustomerRatePlans` ORDER BY `ratePlanId` LIMIT 15;
-   1: `ratePlanId`= 1
-   2: `ratePlanId`= 2
-   3: `ratePlanId`= 3
-   4: `ratePlanId`= 4
-   5: `ratePlanId`= 5
-   6: `ratePlanId`= 6
-   7: `ratePlanId`= 7
-   8: `ratePlanId`= 8
-   9: `ratePlanId`= 9
-  10: `ratePlanId`= 10
-  11: `ratePlanId`= 11
-  12: `ratePlanId`= 12
-  13: `ratePlanId`= 13
-  14: `ratePlanId`= 14
-  15: `ratePlanId`= 15
-
-
-SELECT DISTINCT `ratePlanTypeId` FROM `SwitchCustomerRatePlans` ORDER BY `ratePlanTypeId` LIMIT 15;
-   1: `ratePlanTypeId`= 1
-   2: `ratePlanTypeId`= 2
-   3: `ratePlanTypeId`= 4
-
-
-SELECT DISTINCT `effectiveDate` FROM `SwitchCustomerRatePlans` ORDER BY `effectiveDate` LIMIT 15;
-   1: `effectiveDate`= 0
-   2: `effectiveDate`= 31536000
-   3: `effectiveDate`= 1262304000
-   4: `effectiveDate`= 1282608000
-   5: `effectiveDate`= 1283472000
-   6: `effectiveDate`= 1283644800
-   7: `effectiveDate`= 1283817600
-   8: `effectiveDate`= 1284076800
-   9: `effectiveDate`= 1284422400
-  10: `effectiveDate`= 1284595200
-  11: `effectiveDate`= 1284940800
-  12: `effectiveDate`= 1285200000
-  13: `effectiveDate`= 1285286400
-  14: `effectiveDate`= 1285632000
-  15: `effectiveDate`= 1285891200
-
-
-SELECT DISTINCT `endDate` FROM `SwitchCustomerRatePlans` ORDER BY `endDate` LIMIT 15;
-   1: `endDate`= nan
-   2: `endDate`= 31536000.0
-   3: `endDate`= 1284422400.0
-   4: `endDate`= 1286755200.0
-   5: `endDate`= 1289779200.0
-   6: `endDate`= 1295136000.0
-   7: `endDate`= 1297900800.0
-   8: `endDate`= 1298505600.0
-   9: `endDate`= 1300406400.0
-  10: `endDate`= 1300752000.0
-  11: `endDate`= 1301270400.0
-  12: `endDate`= 1301875200.0
-  13: `endDate`= 1301961600.0
-  14: `endDate`= 1302134400.0
-  15: `endDate`= 1303948800.0
-
-
-
-
-SHOW FIELDS FROM `TPMData`;
-SELECT DISTINCT `id` FROM `TPMData` ORDER BY `id` LIMIT 15;
-   1: `id`= 422
-   2: `id`= 423
-   3: `id`= 424
-   4: `id`= 425
-   5: `id`= 426
-   6: `id`= 427
-   7: `id`= 428
-   8: `id`= 429
-   9: `id`= 430
-  10: `id`= 431
-  11: `id`= 432
-  12: `id`= 433
-  13: `id`= 434
-  14: `id`= 435
-  15: `id`= 436
-
-
-SELECT DISTINCT `npa` FROM `TPMData` ORDER BY `npa` LIMIT 15;
-   1: `npa`= 201
-   2: `npa`= 202
-   3: `npa`= 203
-   4: `npa`= 204
-   5: `npa`= 205
-   6: `npa`= 206
-   7: `npa`= 207
-   8: `npa`= 208
-   9: `npa`= 209
-  10: `npa`= 210
-  11: `npa`= 212
-  12: `npa`= 213
-  13: `npa`= 214
-  14: `npa`= 215
-  15: `npa`= 216
-
-
-SELECT DISTINCT `nxx` FROM `TPMData` ORDER BY `nxx` LIMIT 15;
-   1: `nxx`= 111
-   2: `nxx`= 200
-   3: `nxx`= 201
-   4: `nxx`= 202
-   5: `nxx`= 203
-   6: `nxx`= 204
-   7: `nxx`= 205
-   8: `nxx`= 206
-   9: `nxx`= 207
-  10: `nxx`= 208
-  11: `nxx`= 209
-  12: `nxx`= 210
-  13: `nxx`= 211
-  14: `nxx`= 212
-  15: `nxx`= 213
-
-
-SELECT DISTINCT `thousandBlock` FROM `TPMData` ORDER BY `thousandBlock` LIMIT 15;
-   1: `thousandBlock`= 0
-   2: `thousandBlock`= 1
-   3: `thousandBlock`= 2
-   4: `thousandBlock`= 3
-   5: `thousandBlock`= 4
-   6: `thousandBlock`= 5
-   7: `thousandBlock`= 6
-   8: `thousandBlock`= 7
-   9: `thousandBlock`= 8
-  10: `thousandBlock`= 9
-  11: `thousandBlock`= A
-
-
-SELECT DISTINCT `lata` FROM `TPMData` ORDER BY `lata` LIMIT 15;
-   1: `lata`= 120
-   2: `lata`= 122
-   3: `lata`= 124
-   4: `lata`= 126
-   5: `lata`= 128
-   6: `lata`= 130
-   7: `lata`= 132
-   8: `lata`= 133
-   9: `lata`= 134
-  10: `lata`= 136
-  11: `lata`= 138
-  12: `lata`= 140
-  13: `lata`= 220
-  14: `lata`= 222
-  15: `lata`= 224
-
-
-SELECT DISTINCT `ocn` FROM `TPMData` ORDER BY `ocn` LIMIT 15;
-   1: `ocn`= 0001
-   2: `ocn`= 0003
-   3: `ocn`= 0004
-   4: `ocn`= 0005
-   5: `ocn`= 0007
-   6: `ocn`= 0008
-   7: `ocn`= 0010
-   8: `ocn`= 0011
-   9: `ocn`= 0015
-  10: `ocn`= 0019
-  11: `ocn`= 001A
-  12: `ocn`= 001F
-  13: `ocn`= 0020
-  14: `ocn`= 0021
-  15: `ocn`= 0022
-
-
-SELECT DISTINCT `regionId` FROM `TPMData` ORDER BY `regionId` LIMIT 15;
-   1: `regionId`= 1
-   2: `regionId`= 2
-   3: `regionId`= 3
-   4: `regionId`= 4
-   5: `regionId`= 5
-   6: `regionId`= 6
-   7: `regionId`= 7
-   8: `regionId`= 8
-   9: `regionId`= 9
-  10: `regionId`= 10
-  11: `regionId`= 11
-  12: `regionId`= 12
-  13: `regionId`= 13
-  14: `regionId`= 14
-  15: `regionId`= 15
-
-
-SELECT DISTINCT `tier` FROM `TPMData` ORDER BY `tier` LIMIT 15;
-   1: `tier`= nan
-   2: `tier`= 1.0
-   3: `tier`= 2.0
-   4: `tier`= 3.0
-   5: `tier`= 4.0
-   6: `tier`= 5.0
-   7: `tier`= 6.0
-   8: `tier`= 7.0
-
-
-SELECT DISTINCT `rateCenterId` FROM `TPMData` ORDER BY `rateCenterId` LIMIT 15;
-   1: `rateCenterId`= 0
-
-
-
-
-SHOW FIELDS FROM `Updates`;
-SELECT DISTINCT `id` FROM `Updates` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-
-
-SELECT DISTINCT `ratesUpdateTimestamp` FROM `Updates` ORDER BY `ratesUpdateTimestamp` LIMIT 15;
-   1: `ratesUpdateTimestamp`= 1412723866
-
-
-SELECT DISTINCT `serviceClassTimestamp` FROM `Updates` ORDER BY `serviceClassTimestamp` LIMIT 15;
-   1: `serviceClassTimestamp`= 1575330713
-
-
-SELECT DISTINCT `extenTimestamp` FROM `Updates` ORDER BY `extenTimestamp` LIMIT 15;
-   1: `extenTimestamp`= 1383936036
-
-
-SELECT DISTINCT `destTimestamp` FROM `Updates` ORDER BY `destTimestamp` LIMIT 15;
-   1: `destTimestamp`= 1412702935
-
-
-SELECT DISTINCT `peersTimestamp` FROM `Updates` ORDER BY `peersTimestamp` LIMIT 15;
-   1: `peersTimestamp`= 1412800924
-
-
-SELECT DISTINCT `routesTimestamp` FROM `Updates` ORDER BY `routesTimestamp` LIMIT 15;
-   1: `routesTimestamp`= 1411594644
-
-
-SELECT DISTINCT `usersTimestamp` FROM `Updates` ORDER BY `usersTimestamp` LIMIT 15;
-   1: `usersTimestamp`= 1575332534
-
-
-
-
-SHOW FIELDS FROM `didtest_inbounds`;
-SELECT DISTINCT `id` FROM `didtest_inbounds` ORDER BY `id` LIMIT 15;
-SELECT DISTINCT `did` FROM `didtest_inbounds` ORDER BY `did` LIMIT 15;
-SELECT DISTINCT `dialtime` FROM `didtest_inbounds` ORDER BY `dialtime` LIMIT 15;
-SELECT DISTINCT `hittime` FROM `didtest_inbounds` ORDER BY `hittime` LIMIT 15;
-
-
-SHOW FIELDS FROM `extensions_table`;
-SELECT DISTINCT `id` FROM `extensions_table` ORDER BY `id` LIMIT 15;
-   1: `id`= 0
-   2: `id`= 7462
-   3: `id`= 7465
-   4: `id`= 7466
-   5: `id`= 9933
-   6: `id`= 12416
-   7: `id`= 12418
-   8: `id`= 12419
-   9: `id`= 12431
-  10: `id`= 12434
-  11: `id`= 12435
-  12: `id`= 12437
-  13: `id`= 12439
-  14: `id`= 12440
-  15: `id`= 12448
-
-
-SELECT DISTINCT `context` FROM `extensions_table` ORDER BY `context` LIMIT 15;
-   1: `context`= 
-   2: `context`= 411
-   3: `context`= 800
-   4: `context`= 911
-   5: `context`= aeris
-   6: `context`= altercom
-   7: `context`= callcenter
-   8: `context`= cantata_test
-   9: `context`= commp_out
-  10: `context`= dci
-  11: `context`= faxtest
-  12: `context`= glcros_in
-  13: `context`= handback_test
-  14: `context`= inbound
-  15: `context`= level3
-
-
-SELECT DISTINCT `exten` FROM `extensions_table` ORDER BY `exten` LIMIT 15;
-   1: `exten`= 01138762276833
-   2: `exten`= 011524616110460
-   3: `exten`= 011886424726831
-   4: `exten`= 12062033720
-   5: `exten`= 12246169458
-   6: `exten`= 13018015997
-   7: `exten`= 15857331200
-   8: `exten`= 17036654441
-   9: `exten`= 17171717171
-  10: `exten`= 17171717173
-  11: `exten`= 17171717174
-  12: `exten`= 17171717175
-  13: `exten`= 17171717176
-  14: `exten`= 17171717177
-  15: `exten`= 17171717179
-
-
-SELECT DISTINCT `priority` FROM `extensions_table` ORDER BY `priority` LIMIT 15;
-   1: `priority`= 1
-   2: `priority`= 2
-   3: `priority`= 3
-   4: `priority`= 4
-   5: `priority`= 7
-   6: `priority`= 102
-   7: `priority`= 103
-   8: `priority`= 104
-   9: `priority`= 105
-  10: `priority`= 127
-  11: `priority`= 202
-  12: `priority`= 203
-
-
-SELECT DISTINCT `app` FROM `extensions_table` ORDER BY `app` LIMIT 15;
+SELECT DISTINCT `app` FROM `extensions_table` ORDER BY `app` LIMIT 30;
    1: `app`= AppendCDR
    2: `app`= Busy
    3: `app`= Congestion
@@ -1020,7 +15,7 @@ SELECT DISTINCT `app` FROM `extensions_table` ORDER BY `app` LIMIT 15;
   14: `app`= xinbound
 
 
-SELECT DISTINCT `appdata` FROM `extensions_table` ORDER BY `appdata` LIMIT 15;
+SELECT DISTINCT `appdata` FROM `extensions_table` ORDER BY `appdata` LIMIT 30;
    1: `appdata`= 
    2: `appdata`= $DA$
    3: `appdata`= $EM$
@@ -1036,96 +31,105 @@ SELECT DISTINCT `appdata` FROM `extensions_table` ORDER BY `appdata` LIMIT 15;
   13: `appdata`= 011527444841060
   14: `appdata`= 0115625994310
   15: `appdata`= 011886232345599
+  16: `appdata`= 1${EXTEN}|1
+  17: `appdata`= 13841
+  18: `appdata`= 33613
+  19: `appdata`= 411|${EXTEN}|1
+  20: `appdata`= 4|n
+  21: `appdata`= 800|${EXTEN}|1
+  22: `appdata`= 911|${EXTEN:3}|1
+  23: `appdata`= exceloutbound|${EXTEN}|1
+  24: `appdata`= inbound|${EXTEN:1}|1
+  25: `appdata`= inbound|${EXTEN:6}|1
+  26: `appdata`= paetec|5400${EXTEN}|1
+  27: `appdata`= primary|${EXTEN:3}|1
+  28: `appdata`= primary|${EXTEN:4}|1
+  29: `appdata`= primary|${EXTEN:6}|1
+  30: `appdata`= primary|${EXTEN}|1
 
 
-SELECT DISTINCT `name` FROM `extensions_table` ORDER BY `name` LIMIT 15;
-   1: `name`= 
-   2: `name`= 011 international
-   3: `name`= 310 Network
-   4: `name`= 411 Service
-   5: `name`= 5LX Qwest Fax Test
-   6: `name`= 911 Do Not Ever Touch
-   7: `name`= aeris
-   8: `name`= AFC PBX
-   9: `name`= Afghanistan
-  10: `name`= Albania
-  11: `name`= Albania Mobile
-  12: `name`= Albania Tirana
-  13: `name`= Alex Fax Test
-  14: `name`= Algeria Algiers
-  15: `name`= Algeria Mobile
+SELECT DISTINCT `context` FROM `extensions_table` ORDER BY `context` LIMIT 30;
+   1: `context`= 
+   2: `context`= 411
+   3: `context`= 800
+   4: `context`= 911
+   5: `context`= aeris
+   6: `context`= altercom
+   7: `context`= callcenter
+   8: `context`= cantata_test
+   9: `context`= commp_out
+  10: `context`= dci
+  11: `context`= faxtest
+  12: `context`= glcros_in
+  13: `context`= handback_test
+  14: `context`= inbound
+  15: `context`= level3
+  16: `context`= mark7
+  17: `context`= matrix
+  18: `context`= nanp
+  19: `context`= pacwest
+  20: `context`= paetec_sip
+  21: `context`= powercom
+  22: `context`= primary
+  23: `context`= proceed_primary
+  24: `context`= progress_primary
+  25: `context`= provitel
+  26: `context`= qwest800
+  27: `context`= removed
+  28: `context`= ringing_primary
+  29: `context`= ringing_us48
+  30: `context`= secondary
 
 
-SELECT DISTINCT `route_pk` FROM `extensions_table` ORDER BY `route_pk` LIMIT 15;
-   1: `route_pk`= 0
+SELECT DISTINCT `exten` FROM `extensions_table` ORDER BY `exten` LIMIT 30;
+   1: `exten`= 01138762276833
+   2: `exten`= 011524616110460
+   3: `exten`= 011886424726831
+   4: `exten`= 12062033720
+   5: `exten`= 12246169458
+   6: `exten`= 13018015997
+   7: `exten`= 15857331200
+   8: `exten`= 17036654441
+   9: `exten`= 17171717171
+  10: `exten`= 17171717173
+  11: `exten`= 17171717174
+  12: `exten`= 17171717175
+  13: `exten`= 17171717176
+  14: `exten`= 17171717177
+  15: `exten`= 17171717179
+  16: `exten`= 17171717180
+  17: `exten`= 17854257078
+  18: `exten`= 18004232651
+  19: `exten`= 19126325703
+  20: `exten`= 2062033720
+  21: `exten`= 2137991803
+  22: `exten`= 2137991804
+  23: `exten`= 2189982040
+  24: `exten`= 3103177600
+  25: `exten`= 3103617119
+  26: `exten`= 3106515034
+  27: `exten`= 3108064706
+  28: `exten`= 3108614791
+  29: `exten`= 3108614792
+  30: `exten`= 3108614899
 
 
-SELECT DISTINCT `number_cut` FROM `extensions_table` ORDER BY `number_cut` LIMIT 15;
-   1: `number_cut`= 0
-   2: `number_cut`= 1
-   3: `number_cut`= 2
-   4: `number_cut`= 3
-   5: `number_cut`= 4
-   6: `number_cut`= 5
-   7: `number_cut`= 6
+SELECT DISTINCT `priority` FROM `extensions_table` ORDER BY `priority` LIMIT 30;
+   1: `priority`= 1
+   2: `priority`= 2
+   3: `priority`= 3
+   4: `priority`= 4
+   5: `priority`= 7
+   6: `priority`= 102
+   7: `priority`= 103
+   8: `priority`= 104
+   9: `priority`= 105
+  10: `priority`= 127
+  11: `priority`= 202
+  12: `priority`= 203
 
 
-SELECT DISTINCT `prefix_add` FROM `extensions_table` ORDER BY `prefix_add` LIMIT 15;
-   1: `prefix_add`= 
-   2: `prefix_add`= 0
-   3: `prefix_add`= 011
-   4: `prefix_add`= 1
-
-
-SELECT DISTINCT `d_number_cut` FROM `extensions_table` ORDER BY `d_number_cut` LIMIT 15;
-   1: `d_number_cut`= 0
-   2: `d_number_cut`= 3
-   3: `d_number_cut`= 4
-   4: `d_number_cut`= 5
-
-
-SELECT DISTINCT `d_prefix_add` FROM `extensions_table` ORDER BY `d_prefix_add` LIMIT 15;
-   1: `d_prefix_add`= 
-   2: `d_prefix_add`= 0
-   3: `d_prefix_add`= 011
-   4: `d_prefix_add`= 1
-
-
-SELECT DISTINCT `accountcode` FROM `extensions_table` ORDER BY `accountcode` LIMIT 15;
-   1: `accountcode`= 
-   2: `accountcode`= 14300,FI
-   3: `accountcode`= 15332,TF
-   4: `accountcode`= 33857,TF
-   5: `accountcode`= 34377,TF
-   6: `accountcode`= 36044,DD
-   7: `accountcode`= 37319,TF
-   8: `accountcode`= 39921,FI
-   9: `accountcode`= 58960,TF
-  10: `accountcode`= 61774,FI
-
-
-
-
-SHOW FIELDS FROM `inbounds`;
-SELECT DISTINCT `id` FROM `inbounds` ORDER BY `id` LIMIT 15;
-   1: `id`= 0
-   2: `id`= 50915
-   3: `id`= 73778
-   4: `id`= 86683
-   5: `id`= 86685
-   6: `id`= 86687
-   7: `id`= 86690
-   8: `id`= 86692
-   9: `id`= 86698
-  10: `id`= 86699
-  11: `id`= 86700
-  12: `id`= 86702
-  13: `id`= 86722
-  14: `id`= 86724
-  15: `id`= 86846
-
-
-SELECT DISTINCT `did` FROM `inbounds` ORDER BY `did` LIMIT 15;
+SELECT DISTINCT `did` FROM `inbounds` ORDER BY `did` LIMIT 30;
    1: `did`=  
    2: `did`= 01127105001901
    3: `did`= 01127105001910
@@ -1141,617 +145,24 @@ SELECT DISTINCT `did` FROM `inbounds` ORDER BY `did` LIMIT 15;
   13: `did`= 01131207084199
   14: `did`= 01131207084200
   15: `did`= 01131207084201
-
-
-SELECT DISTINCT `forward_number` FROM `inbounds` ORDER BY `forward_number` LIMIT 15;
-   1: `forward_number`= None
-   2: `forward_number`=  
-   3: `forward_number`=  0113227924794
-   4: `forward_number`= 0113227924793
-   5: `forward_number`= 0113227924796
-   6: `forward_number`= 0113227924797
-   7: `forward_number`= 01134917911997
-   8: `forward_number`= 01134917911998
-   9: `forward_number`= 0114312530082156
-  10: `forward_number`= 0114312530083222
-  11: `forward_number`= 0114312530083223
-  12: `forward_number`= 011442070999455
-  13: `forward_number`= 0114969667775197
-  14: `forward_number`= 0114969667775198
-  15: `forward_number`= 011525553709048
-
-
-SELECT DISTINCT `forward_context` FROM `inbounds` ORDER BY `forward_context` LIMIT 15;
-   1: `forward_context`= None
-   2: `forward_context`= 800
-   3: `forward_context`= vtest
-
-
-SELECT DISTINCT `peer_id` FROM `inbounds` ORDER BY `peer_id` LIMIT 15;
-   1: `peer_id`= nan
-   2: `peer_id`= 0.0
-   3: `peer_id`= 10.0
-   4: `peer_id`= 14.0
-   5: `peer_id`= 38.0
-   6: `peer_id`= 39.0
-   7: `peer_id`= 63.0
-   8: `peer_id`= 68.0
-   9: `peer_id`= 72.0
-  10: `peer_id`= 73.0
-  11: `peer_id`= 87.0
-  12: `peer_id`= 89.0
-  13: `peer_id`= 92.0
-  14: `peer_id`= 117.0
-  15: `peer_id`= 132.0
-
-
-SELECT DISTINCT `failover_number` FROM `inbounds` ORDER BY `failover_number` LIMIT 15;
-   1: `failover_number`= None
-   2: `failover_number`= 
-   3: `failover_number`= 011
-   4: `failover_number`= 2062609047
-   5: `failover_number`= 2177694223
-   6: `failover_number`= 2223335555
-   7: `failover_number`= 4695852197
-   8: `failover_number`= 5404637273
-   9: `failover_number`= 8044455125
-  10: `failover_number`= 8472248888
-  11: `failover_number`= 9164525000
-
-
-SELECT DISTINCT `accountcode` FROM `inbounds` ORDER BY `accountcode` LIMIT 15;
-   1: `accountcode`= None
-   2: `accountcode`= 
-   3: `accountcode`= 0,KI
-   4: `accountcode`= 0,VI
-   5: `accountcode`= 0,VO
-   6: `accountcode`= 100268,DD
-   7: `accountcode`= 100268,DP
-   8: `accountcode`= 100268,FD
-   9: `accountcode`= 100396,DD
-  10: `accountcode`= 100396,FD
-  11: `accountcode`= 100492,DD
-  12: `accountcode`= 100492,FD
-  13: `accountcode`= 100610,DD
-  14: `accountcode`= 100610,TF
-  15: `accountcode`= 101576,DD
-
-
-SELECT DISTINCT `manually_added` FROM `inbounds` ORDER BY `manually_added` LIMIT 15;
-   1: `manually_added`= 0
-   2: `manually_added`= 1
-
-
-SELECT DISTINCT `usplan` FROM `inbounds` ORDER BY `usplan` LIMIT 15;
-   1: `usplan`= None
-
-
-SELECT DISTINCT `interplan` FROM `inbounds` ORDER BY `interplan` LIMIT 15;
-   1: `interplan`= None
-
-
-SELECT DISTINCT `point_ident` FROM `inbounds` ORDER BY `point_ident` LIMIT 15;
-   1: `point_ident`= None
-   2: `point_ident`= 
-   3: `point_ident`= 0
-   4: `point_ident`= I
-
-
-SELECT DISTINCT `toll_free` FROM `inbounds` ORDER BY `toll_free` LIMIT 15;
-   1: `toll_free`= 0
-   2: `toll_free`= 1
-
-
-SELECT DISTINCT `rci` FROM `inbounds` ORDER BY `rci` LIMIT 15;
-   1: `rci`= nan
-   2: `rci`= 0.0
-   3: `rci`= 1019.0
-   4: `rci`= 1027.0
-   5: `rci`= 1029.0
-   6: `rci`= 1032.0
-   7: `rci`= 1050.0
-   8: `rci`= 1072.0
-   9: `rci`= 1073.0
-  10: `rci`= 1089.0
-  11: `rci`= 1090.0
-  12: `rci`= 1091.0
-  13: `rci`= 1093.0
-  14: `rci`= 1094.0
-  15: `rci`= 1098.0
-
-
-SELECT DISTINCT `fax` FROM `inbounds` ORDER BY `fax` LIMIT 15;
-   1: `fax`= 0
-   2: `fax`= 1
-
-
-SELECT DISTINCT `serviceClassId` FROM `inbounds` ORDER BY `serviceClassId` LIMIT 15;
-   1: `serviceClassId`= nan
-   2: `serviceClassId`= 25.0
-   3: `serviceClassId`= 41.0
-
-
-SELECT DISTINCT `activated` FROM `inbounds` ORDER BY `activated` LIMIT 15;
-   1: `activated`= 0
-   2: `activated`= 1
-
-
-SELECT DISTINCT `callDurationLimit` FROM `inbounds` ORDER BY `callDurationLimit` LIMIT 15;
-   1: `callDurationLimit`= None
-
-
-SELECT DISTINCT `endpoint` FROM `inbounds` ORDER BY `endpoint` LIMIT 15;
-   1: `endpoint`= 0
-   2: `endpoint`= 1
-
-
-
-
-SHOW FIELDS FROM `iptrunking`;
-SELECT DISTINCT `id` FROM `iptrunking` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-   2: `id`= 2
-   3: `id`= 3
-   4: `id`= 4
-   5: `id`= 6
-   6: `id`= 7
-   7: `id`= 12
-   8: `id`= 17
-   9: `id`= 20
-  10: `id`= 21
-  11: `id`= 23
-  12: `id`= 26
-  13: `id`= 30
-  14: `id`= 31
-  15: `id`= 32
-
-
-SELECT DISTINCT `accountcode` FROM `iptrunking` ORDER BY `accountcode` LIMIT 15;
-   1: `accountcode`= 100268,TM
-   2: `accountcode`= 100396,TM
-   3: `accountcode`= 101576,TM
-   4: `accountcode`= 101645,TM
-   5: `accountcode`= 101927,TM
-   6: `accountcode`= 102155,TM
-   7: `accountcode`= 102298,TM
-   8: `accountcode`= 102637,TM
-   9: `accountcode`= 102660,TM
-  10: `accountcode`= 102806,TM
-  11: `accountcode`= 102969,TM
-  12: `accountcode`= 103051,TM
-  13: `accountcode`= 103056,TM
-  14: `accountcode`= 103136,TM
-  15: `accountcode`= 103261,TM
-
-
-SELECT DISTINCT `account` FROM `iptrunking` ORDER BY `account` LIMIT 15;
-   1: `account`= 100268
-   2: `account`= 100396
-   3: `account`= 101576
-   4: `account`= 101645
-   5: `account`= 101927
-   6: `account`= 102155
-   7: `account`= 102298
-   8: `account`= 102637
-   9: `account`= 102660
-  10: `account`= 102806
-  11: `account`= 102969
-  12: `account`= 103051
-  13: `account`= 103056
-  14: `account`= 103136
-  15: `account`= 103261
-
-
-SELECT DISTINCT `limit` FROM `iptrunking` ORDER BY `limit` LIMIT 15;
-   1: `limit`= 2
-   2: `limit`= 3
-   3: `limit`= 4
-   4: `limit`= 5
-   5: `limit`= 6
-   6: `limit`= 7
-   7: `limit`= 8
-   8: `limit`= 10
-   9: `limit`= 11
-  10: `limit`= 12
-  11: `limit`= 13
-  12: `limit`= 15
-  13: `limit`= 16
-  14: `limit`= 18
-  15: `limit`= 20
-
-
-SELECT DISTINCT `actual` FROM `iptrunking` ORDER BY `actual` LIMIT 15;
-   1: `actual`= 0
-   2: `actual`= 1
-   3: `actual`= 2
-   4: `actual`= 3
-   5: `actual`= 4
-   6: `actual`= 5
-   7: `actual`= 6
-   8: `actual`= 7
-   9: `actual`= 8
-  10: `actual`= 9
-  11: `actual`= 11
-  12: `actual`= 13
-  13: `actual`= 14
-  14: `actual`= 15
-  15: `actual`= 16
-
-
-SELECT DISTINCT `cps_limit` FROM `iptrunking` ORDER BY `cps_limit` LIMIT 15;
-   1: `cps_limit`= 0
-   2: `cps_limit`= 1
-   3: `cps_limit`= 3
-   4: `cps_limit`= 10
-   5: `cps_limit`= 19
-   6: `cps_limit`= 800
-   7: `cps_limit`= 1000
-
-
-SELECT DISTINCT `credit` FROM `iptrunking` ORDER BY `credit` LIMIT 15;
-   1: `credit`= -16670.8965
-   2: `credit`= -14778.166
-   3: `credit`= -13884.4775
-   4: `credit`= -8094.9209
-   5: `credit`= -7281.7246
-   6: `credit`= -6953.9941
-   7: `credit`= -6684.6021
-   8: `credit`= -6552.9409
-   9: `credit`= -4879.4497
-  10: `credit`= -3965.957
-  11: `credit`= -3369.8308
-  12: `credit`= -3151.0496
-  13: `credit`= -3144.593
-  14: `credit`= -2810.6042
-  15: `credit`= -2784.689
-
-
-SELECT DISTINCT `us_plan_id` FROM `iptrunking` ORDER BY `us_plan_id` LIMIT 15;
-   1: `us_plan_id`= 0
-   2: `us_plan_id`= 1
-   3: `us_plan_id`= 2
-   4: `us_plan_id`= 3
-   5: `us_plan_id`= 13
-   6: `us_plan_id`= 14
-   7: `us_plan_id`= 15
-   8: `us_plan_id`= 16
-   9: `us_plan_id`= 17
-  10: `us_plan_id`= 20
-  11: `us_plan_id`= 21
-  12: `us_plan_id`= 22
-  13: `us_plan_id`= 23
-  14: `us_plan_id`= 24
-
-
-SELECT DISTINCT `i_plan_id` FROM `iptrunking` ORDER BY `i_plan_id` LIMIT 15;
-   1: `i_plan_id`= 0
-   2: `i_plan_id`= 1
-   3: `i_plan_id`= 2
-   4: `i_plan_id`= 3
-   5: `i_plan_id`= 6
-   6: `i_plan_id`= 7
-   7: `i_plan_id`= 8
-   8: `i_plan_id`= 10
-   9: `i_plan_id`= 11
-  10: `i_plan_id`= 12
-  11: `i_plan_id`= 15
-  12: `i_plan_id`= 17
-  13: `i_plan_id`= 18
-
-
-SELECT DISTINCT `credit_limit` FROM `iptrunking` ORDER BY `credit_limit` LIMIT 15;
-   1: `credit_limit`= -1000000.0
-   2: `credit_limit`= -100000.0
-   3: `credit_limit`= -50000.0
-   4: `credit_limit`= -45000.0
-   5: `credit_limit`= -30000.0
-   6: `credit_limit`= -22000.0
-   7: `credit_limit`= -20001.0
-   8: `credit_limit`= -20000.0
-   9: `credit_limit`= -15000.0
-  10: `credit_limit`= -10000.0
-  11: `credit_limit`= -9999.0
-  12: `credit_limit`= -9000.0
-  13: `credit_limit`= -8000.0
-  14: `credit_limit`= -5000.0
-  15: `credit_limit`= -4000.0
-
-
-SELECT DISTINCT `credit_check` FROM `iptrunking` ORDER BY `credit_check` LIMIT 15;
-   1: `credit_check`= 0
-   2: `credit_check`= 1
-
-
-SELECT DISTINCT `credit_update` FROM `iptrunking` ORDER BY `credit_update` LIMIT 15;
-   1: `credit_update`= 1
-
-
-SELECT DISTINCT ` 	forceTerminate` FROM `iptrunking` ORDER BY ` 	forceTerminate` LIMIT 15;
-   1: ` 	forceTerminate`= 0
-
-
-SELECT DISTINCT `billing_mode` FROM `iptrunking` ORDER BY `billing_mode` LIMIT 15;
-   1: `billing_mode`= 
-   2: `billing_mode`= R
-   3: `billing_mode`= XR
-   4: `billing_mode`= XW
-
-
-SELECT DISTINCT `balanceNotificationThreshold` FROM `iptrunking` ORDER BY `balanceNotificationThreshold` LIMIT 15;
-   1: `balanceNotificationThreshold`= 0
-   2: `balanceNotificationThreshold`= 1
-   3: `balanceNotificationThreshold`= 5
-   4: `balanceNotificationThreshold`= 10
-   5: `balanceNotificationThreshold`= 15
-   6: `balanceNotificationThreshold`= 20
-   7: `balanceNotificationThreshold`= 25
-   8: `balanceNotificationThreshold`= 30
-   9: `balanceNotificationThreshold`= 40
-  10: `balanceNotificationThreshold`= 50
-  11: `balanceNotificationThreshold`= 100
-  12: `balanceNotificationThreshold`= 250
-  13: `balanceNotificationThreshold`= 500
-  14: `balanceNotificationThreshold`= 1000
-
-
-SELECT DISTINCT `cutOffNotificationSent` FROM `iptrunking` ORDER BY `cutOffNotificationSent` LIMIT 15;
-   1: `cutOffNotificationSent`= 0
-   2: `cutOffNotificationSent`= 1
-
-
-SELECT DISTINCT `active` FROM `iptrunking` ORDER BY `active` LIMIT 15;
-   1: `active`= 0
-   2: `active`= 1
-
-
-SELECT DISTINCT `retail` FROM `iptrunking` ORDER BY `retail` LIMIT 15;
-   1: `retail`= 0
-   2: `retail`= 1
-
-
-SELECT DISTINCT `allow_da` FROM `iptrunking` ORDER BY `allow_da` LIMIT 15;
-   1: `allow_da`= 0
-   2: `allow_da`= 1
-
-
-SELECT DISTINCT `traffic_type` FROM `iptrunking` ORDER BY `traffic_type` LIMIT 15;
-   1: `traffic_type`= 
-   2: `traffic_type`= 1
-   3: `traffic_type`= 2
-   4: `traffic_type`= 3
-   5: `traffic_type`= 4
-   6: `traffic_type`= 6
-
-
-SELECT DISTINCT `in_plan_id` FROM `iptrunking` ORDER BY `in_plan_id` LIMIT 15;
-   1: `in_plan_id`= 0
-   2: `in_plan_id`= 1
-   3: `in_plan_id`= 2
-   4: `in_plan_id`= 5
-   5: `in_plan_id`= 6
-   6: `in_plan_id`= 7
-   7: `in_plan_id`= 8
-   8: `in_plan_id`= 9
-   9: `in_plan_id`= 10
-  10: `in_plan_id`= 12
-  11: `in_plan_id`= 14
-  12: `in_plan_id`= 15
-  13: `in_plan_id`= 17
-  14: `in_plan_id`= 20
-  15: `in_plan_id`= 21
-
-
-SELECT DISTINCT `out_plan_id` FROM `iptrunking` ORDER BY `out_plan_id` LIMIT 15;
-   1: `out_plan_id`= 0
-   2: `out_plan_id`= 1
-   3: `out_plan_id`= 4
-   4: `out_plan_id`= 5
-   5: `out_plan_id`= 6
-   6: `out_plan_id`= 7
-   7: `out_plan_id`= 9
-   8: `out_plan_id`= 11
-   9: `out_plan_id`= 13
-  10: `out_plan_id`= 14
-  11: `out_plan_id`= 16
-  12: `out_plan_id`= 19
-  13: `out_plan_id`= 22
-  14: `out_plan_id`= 43
-  15: `out_plan_id`= 45
-
-
-SELECT DISTINCT `prev_credit` FROM `iptrunking` ORDER BY `prev_credit` LIMIT 15;
-   1: `prev_credit`= 0.0
-   2: `prev_credit`= 11.6807
-   3: `prev_credit`= 502.0633
-   4: `prev_credit`= 2337.2236
-   5: `prev_credit`= 2833.834
-   6: `prev_credit`= 5616.9971
-   7: `prev_credit`= 13188.4102
-   8: `prev_credit`= 17517.3574
-
-
-SELECT DISTINCT `max_peers` FROM `iptrunking` ORDER BY `max_peers` LIMIT 15;
-   1: `max_peers`= 0
-   2: `max_peers`= 4
-   3: `max_peers`= 6
-
-
-SELECT DISTINCT `cost_inc_limit` FROM `iptrunking` ORDER BY `cost_inc_limit` LIMIT 15;
-   1: `cost_inc_limit`= -1.0
-   2: `cost_inc_limit`= 1.0
-   3: `cost_inc_limit`= 1.3
-   4: `cost_inc_limit`= 3.0
-
-
-SELECT DISTINCT `maxCostUS48` FROM `iptrunking` ORDER BY `maxCostUS48` LIMIT 15;
-   1: `maxCostUS48`= -1.0
-   2: `maxCostUS48`= 0.0
-
-
-SELECT DISTINCT `dailyBalanceNotificationSubscribed` FROM `iptrunking` ORDER BY `dailyBalanceNotificationSubscribed` LIMIT 15;
-   1: `dailyBalanceNotificationSubscribed`= 0
-   2: `dailyBalanceNotificationSubscribed`= 1
-
-
-SELECT DISTINCT `cutOffNotificationSubscribed` FROM `iptrunking` ORDER BY `cutOffNotificationSubscribed` LIMIT 15;
-   1: `cutOffNotificationSubscribed`= 0
-   2: `cutOffNotificationSubscribed`= 1
-
-
-SELECT DISTINCT `us48Only` FROM `iptrunking` ORDER BY `us48Only` LIMIT 15;
-   1: `us48Only`= 0
-
-
-SELECT DISTINCT `email` FROM `iptrunking` ORDER BY `email` LIMIT 15;
-   1: `email`= 
-   2: `email`= Aaron.Valance@onassignment.com;AccountsPayable@onassignment.com
-   3: `email`= accofell@stcloudlegal.org
-   4: `email`= accounting@digitalcompass.biz;pj@digitalcompass.biz
-   5: `email`= accounting@directcorp.com
-   6: `email`= accounting@jmadvertising.com;melissa@jmadvertising.com
-   7: `email`= accounting@tapatioautoandtruckwrecking.com
-   8: `email`= accountspayable@rpmsacmetro.com
-   9: `email`= acefg1@aol.com;heidi@premiermetals.net;info@wsscommunications.com
-  10: `email`= addis_sison@yahoo.com;addis.telegroup@gmail.com;telegroup.bpo@gmail.com
-  11: `email`= admin@ebcallcenter.com;lindee.toribio@ebcallcenter.com;info@wsscommunications.com
-  12: `email`= administration@keycomponentsllc.com
-  13: `email`= ahmed@chasedatacorp.com;info@wsscommunications.com
-  14: `email`= akmalcomm@aol.com;info@wsscommunications.com
-  15: `email`= Alan.Rich@ipinternational.net;support@squiretechsolutions.com
-
-
-SELECT DISTINCT `service_da` FROM `iptrunking` ORDER BY `service_da` LIMIT 15;
-   1: `service_da`= 0
-   2: `service_da`= 1
-
-
-SELECT DISTINCT `service_911` FROM `iptrunking` ORDER BY `service_911` LIMIT 15;
-   1: `service_911`= 0
-   2: `service_911`= 1
-
-
-SELECT DISTINCT `service_teleblock` FROM `iptrunking` ORDER BY `service_teleblock` LIMIT 15;
-   1: `service_teleblock`= 0
-
-
-SELECT DISTINCT `service_enhancedCID` FROM `iptrunking` ORDER BY `service_enhancedCID` LIMIT 15;
-   1: `service_enhancedCID`= 0
-   2: `service_enhancedCID`= 1
-
-
-SELECT DISTINCT `autoASR` FROM `iptrunking` ORDER BY `autoASR` LIMIT 15;
-   1: `autoASR`= 0
-
-
-SELECT DISTINCT `lrnBilling` FROM `iptrunking` ORDER BY `lrnBilling` LIMIT 15;
-   1: `lrnBilling`= 0
-   2: `lrnBilling`= 1
-
-
-SELECT DISTINCT `lrnTrusted` FROM `iptrunking` ORDER BY `lrnTrusted` LIMIT 15;
-   1: `lrnTrusted`= 1
-
-
-SELECT DISTINCT `checkSetAccount` FROM `iptrunking` ORDER BY `checkSetAccount` LIMIT 15;
-   1: `checkSetAccount`= 0
-
-
-SELECT DISTINCT `loopPrevention` FROM `iptrunking` ORDER BY `loopPrevention` LIMIT 15;
-   1: `loopPrevention`= 0
-
-
-SELECT DISTINCT `trafficShaper` FROM `iptrunking` ORDER BY `trafficShaper` LIMIT 15;
-   1: `trafficShaper`= 0
-
-
-SELECT DISTINCT `forceTerminate` FROM `iptrunking` ORDER BY `forceTerminate` LIMIT 15;
-   1: `forceTerminate`= 0
-
-
-
-
-SHOW FIELDS FROM `outbound_limit`;
-SELECT DISTINCT `id` FROM `outbound_limit` ORDER BY `id` LIMIT 15;
-   1: `id`= 0
-   2: `id`= 1
-   3: `id`= 3
-   4: `id`= 8
-   5: `id`= 9
-   6: `id`= 10
-   7: `id`= 11
-   8: `id`= 12
-   9: `id`= 13
-  10: `id`= 14
-  11: `id`= 15
-  12: `id`= 16
-  13: `id`= 18
-  14: `id`= 19
-  15: `id`= 20
-
-
-SELECT DISTINCT `peer` FROM `outbound_limit` ORDER BY `peer` LIMIT 15;
-   1: `peer`= 2talk
-   2: `peer`= 360Network
-   3: `peer`= 800ss
-   4: `peer`= accela
-   5: `peer`= all_access
-   6: `peer`= ani-networks
-   7: `peer`= arbinet
-   8: `peer`= avid_dialers
-   9: `peer`= bandwidth
-  10: `peer`= bandwidth-prem
-  11: `peer`= basic_solutions_dialers
-  12: `peer`= bbcom_canada
-  13: `peer`= bbcom_dialers
-  14: `peer`= broadvox
-  15: `peer`= broadvox_international
-
-
-SELECT DISTINCT `peerId` FROM `outbound_limit` ORDER BY `peerId` LIMIT 15;
-   1: `peerId`= 0
-   2: `peerId`= 18
-   3: `peerId`= 45
-   4: `peerId`= 70
-   5: `peerId`= 81
-   6: `peerId`= 116
-   7: `peerId`= 177
-   8: `peerId`= 230
-   9: `peerId`= 257
-  10: `peerId`= 275
-  11: `peerId`= 282
-  12: `peerId`= 321
-  13: `peerId`= 324
-  14: `peerId`= 330
-  15: `peerId`= 331
-
-
-SELECT DISTINCT `limit` FROM `outbound_limit` ORDER BY `limit` LIMIT 15;
-   1: `limit`= -1
-   2: `limit`= 0
-   3: `limit`= 10
-   4: `limit`= 20
-   5: `limit`= 24
-   6: `limit`= 25
-   7: `limit`= 30
-   8: `limit`= 96
-   9: `limit`= 100
-  10: `limit`= 135
-  11: `limit`= 150
-  12: `limit`= 180
-  13: `limit`= 192
-  14: `limit`= 200
-  15: `limit`= 220
-
-
-SELECT DISTINCT `actual` FROM `outbound_limit` ORDER BY `actual` LIMIT 15;
-   1: `actual`= 0
-   2: `actual`= 1
-   3: `actual`= 3
-   4: `actual`= 4
-   5: `actual`= 11
-
-
-SELECT DISTINCT `cps_limit` FROM `outbound_limit` ORDER BY `cps_limit` LIMIT 15;
+  16: `did`= 01131208910386
+  17: `did`= 0113227924793
+  18: `did`= 0113227924794
+  19: `did`= 0113227924795
+  20: `did`= 0113227924796
+  21: `did`= 0113227924797
+  22: `did`= 0113227924798
+  23: `did`= 01133174180280
+  24: `did`= 01133174180281
+  25: `did`= 01133174180282
+  26: `did`= 01133174180283
+  27: `did`= 01133178401538
+  28: `did`= 01133178416963
+  29: `did`= 01133178416964
+  30: `did`= 01133178416965
+
+
+SELECT DISTINCT `cps_limit` FROM `outbound_limit` ORDER BY `cps_limit` LIMIT 30;
    1: `cps_limit`= 0
    2: `cps_limit`= 3
    3: `cps_limit`= 5
@@ -1767,48 +178,279 @@ SELECT DISTINCT `cps_limit` FROM `outbound_limit` ORDER BY `cps_limit` LIMIT 15;
   13: `cps_limit`= 40
   14: `cps_limit`= 45
   15: `cps_limit`= 50
+  16: `cps_limit`= 55
+  17: `cps_limit`= 80
+  18: `cps_limit`= 85
+  19: `cps_limit`= 100
+  20: `cps_limit`= 150
+  21: `cps_limit`= 250
+  22: `cps_limit`= 380
+  23: `cps_limit`= 500
 
 
+SELECT DISTINCT `globalCounterAddress` FROM `outbound_limit` ORDER BY `globalCounterAddress` LIMIT 30;
+SELECT DISTINCT `limit` FROM `outbound_limit` ORDER BY `limit` LIMIT 30;
+   1: `limit`= -1
+   2: `limit`= 0
+   3: `limit`= 10
+   4: `limit`= 20
+   5: `limit`= 24
+   6: `limit`= 25
+   7: `limit`= 30
+   8: `limit`= 96
+   9: `limit`= 100
+  10: `limit`= 135
+  11: `limit`= 150
+  12: `limit`= 180
+  13: `limit`= 192
+  14: `limit`= 200
+  15: `limit`= 220
+  16: `limit`= 250
+  17: `limit`= 288
+  18: `limit`= 300
+  19: `limit`= 312
+  20: `limit`= 375
+  21: `limit`= 400
+  22: `limit`= 475
+  23: `limit`= 500
+  24: `limit`= 672
+  25: `limit`= 800
+  26: `limit`= 872
+  27: `limit`= 900
+  28: `limit`= 1000
+  29: `limit`= 1150
+  30: `limit`= 1200
 
 
-SHOW FIELDS FROM `sippeers`;
-SELECT DISTINCT `uniqueid` FROM `sippeers` ORDER BY `uniqueid` LIMIT 15;
-   1: `uniqueid`= 1
-   2: `uniqueid`= 10
-   3: `uniqueid`= 11
-   4: `uniqueid`= 12
-   5: `uniqueid`= 14
-   6: `uniqueid`= 18
-   7: `uniqueid`= 19
-   8: `uniqueid`= 20
-   9: `uniqueid`= 21
-  10: `uniqueid`= 22
-  11: `uniqueid`= 32
-  12: `uniqueid`= 34
-  13: `uniqueid`= 35
-  14: `uniqueid`= 36
-  15: `uniqueid`= 37
+SELECT DISTINCT `peerId` FROM `outbound_limit` ORDER BY `peerId` LIMIT 30;
+   1: `peerId`= 0
+   2: `peerId`= 18
+   3: `peerId`= 45
+   4: `peerId`= 70
+   5: `peerId`= 81
+   6: `peerId`= 116
+   7: `peerId`= 177
+   8: `peerId`= 230
+   9: `peerId`= 257
+  10: `peerId`= 275
+  11: `peerId`= 282
+  12: `peerId`= 321
+  13: `peerId`= 324
+  14: `peerId`= 330
+  15: `peerId`= 331
+  16: `peerId`= 368
+  17: `peerId`= 429
+  18: `peerId`= 449
+  19: `peerId`= 450
+  20: `peerId`= 483
+  21: `peerId`= 512
+  22: `peerId`= 553
+  23: `peerId`= 578
+  24: `peerId`= 584
+  25: `peerId`= 638
+  26: `peerId`= 655
+  27: `peerId`= 656
+  28: `peerId`= 667
+  29: `peerId`= 717
+  30: `peerId`= 735
 
 
-SELECT DISTINCT `name` FROM `sippeers` ORDER BY `name` LIMIT 15;
-   1: `name`= 0
-   2: `name`= 1
-   3: `name`= 131bd IP Communicati0
-   4: `name`= 310network1
-   5: `name`= 310network2
-   6: `name`= 310network3
-   7: `name`= 310network4
-   8: `name`= 310network5
-   9: `name`= 360Network
-  10: `name`= 3CLogic0
-  11: `name`= 3CLogic1
-  12: `name`= 3CLogic2
-  13: `name`= 411 Localscom0
-  14: `name`= AAA0
-  15: `name`= AAA1
+SELECT DISTINCT `id` FROM `regions` ORDER BY `id` LIMIT 30;
+   1: `id`= 1
+   2: `id`= 2
+   3: `id`= 3
+   4: `id`= 4
+   5: `id`= 5
+   6: `id`= 6
+   7: `id`= 7
+   8: `id`= 8
+   9: `id`= 9
+  10: `id`= 10
+  11: `id`= 11
+  12: `id`= 12
+  13: `id`= 13
+  14: `id`= 14
+  15: `id`= 15
+  16: `id`= 16
+  17: `id`= 17
+  18: `id`= 18
+  19: `id`= 19
+  20: `id`= 20
+  21: `id`= 21
+  22: `id`= 22
+  23: `id`= 23
+  24: `id`= 24
+  25: `id`= 25
+  26: `id`= 26
+  27: `id`= 27
+  28: `id`= 28
+  29: `id`= 29
+  30: `id`= 30
 
 
-SELECT DISTINCT `accountcode` FROM `sippeers` ORDER BY `accountcode` LIMIT 15;
+SELECT DISTINCT `nanpaTerritoryId` FROM `regions` ORDER BY `nanpaTerritoryId` LIMIT 30;
+   1: `nanpaTerritoryId`= 1
+   2: `nanpaTerritoryId`= 2
+   3: `nanpaTerritoryId`= 4
+   4: `nanpaTerritoryId`= 8
+   5: `nanpaTerritoryId`= 16
+   6: `nanpaTerritoryId`= 32
+   7: `nanpaTerritoryId`= 64
+   8: `nanpaTerritoryId`= 128
+   9: `nanpaTerritoryId`= 512
+  10: `nanpaTerritoryId`= 1024
+  11: `nanpaTerritoryId`= 2048
+  12: `nanpaTerritoryId`= 4096
+  13: `nanpaTerritoryId`= 8192
+  14: `nanpaTerritoryId`= 16384
+  15: `nanpaTerritoryId`= 32768
+  16: `nanpaTerritoryId`= 65536
+  17: `nanpaTerritoryId`= 131072
+  18: `nanpaTerritoryId`= 262144
+  19: `nanpaTerritoryId`= 524288
+  20: `nanpaTerritoryId`= 1048576
+  21: `nanpaTerritoryId`= 2097152
+  22: `nanpaTerritoryId`= 4194304
+  23: `nanpaTerritoryId`= 8388608
+  24: `nanpaTerritoryId`= 16777216
+  25: `nanpaTerritoryId`= 33554432
+  26: `nanpaTerritoryId`= 67108864
+  27: `nanpaTerritoryId`= 134217728
+  28: `nanpaTerritoryId`= 536870912
+
+
+SELECT DISTINCT `npanxxBilling` FROM `regions` ORDER BY `npanxxBilling` LIMIT 30;
+SELECT DISTINCT `dialingDigits` FROM `routedialingdigits` ORDER BY `dialingDigits` LIMIT 30;
+   1: `dialingDigits`= 
+   2: `dialingDigits`= 1
+   3: `dialingDigits`= 1204
+   4: `dialingDigits`= 1226
+   5: `dialingDigits`= 1242
+   6: `dialingDigits`= 1242357
+   7: `dialingDigits`= 1242359
+   8: `dialingDigits`= 1242427
+   9: `dialingDigits`= 1242457
+  10: `dialingDigits`= 1242477
+  11: `dialingDigits`= 1242557
+  12: `dialingDigits`= 1246
+  13: `dialingDigits`= 124623
+  14: `dialingDigits`= 124624
+  15: `dialingDigits`= 124625
+  16: `dialingDigits`= 124626
+  17: `dialingDigits`= 1246446
+  18: `dialingDigits`= 1246447
+  19: `dialingDigits`= 1246448
+  20: `dialingDigits`= 1246449
+  21: `dialingDigits`= 124645
+  22: `dialingDigits`= 124652
+  23: `dialingDigits`= 124653
+  24: `dialingDigits`= 124682
+  25: `dialingDigits`= 1250
+  26: `dialingDigits`= 1264
+  27: `dialingDigits`= 1264235
+  28: `dialingDigits`= 1264469
+  29: `dialingDigits`= 1264476
+  30: `dialingDigits`= 1264536
+
+
+SELECT DISTINCT `effectiveDate` FROM `routedialingdigits` ORDER BY `effectiveDate` LIMIT 30;
+   1: `effectiveDate`= 1262304000
+
+
+SELECT DISTINCT `endDate` FROM `routedialingdigits` ORDER BY `endDate` LIMIT 30;
+   1: `endDate`= None
+
+
+SELECT DISTINCT `routeId` FROM `routedialingdigits` ORDER BY `routeId` LIMIT 30;
+   1: `routeId`= 1000
+   2: `routeId`= 1001
+   3: `routeId`= 1002
+   4: `routeId`= 1003
+   5: `routeId`= 1004
+   6: `routeId`= 1005
+   7: `routeId`= 1006
+   8: `routeId`= 1007
+   9: `routeId`= 1009
+  10: `routeId`= 1010
+  11: `routeId`= 1011
+  12: `routeId`= 1012
+  13: `routeId`= 1013
+  14: `routeId`= 1014
+  15: `routeId`= 1015
+  16: `routeId`= 1016
+  17: `routeId`= 1017
+  18: `routeId`= 1018
+  19: `routeId`= 1019
+  20: `routeId`= 1020
+  21: `routeId`= 1021
+  22: `routeId`= 1022
+  23: `routeId`= 1023
+  24: `routeId`= 1024
+  25: `routeId`= 1025
+  26: `routeId`= 1026
+  27: `routeId`= 1027
+  28: `routeId`= 1028
+  29: `routeId`= 1029
+  30: `routeId`= 1030
+
+
+SELECT DISTINCT `id` FROM `routes` ORDER BY `id` LIMIT 30;
+   1: `id`= 1000
+   2: `id`= 1001
+   3: `id`= 1002
+   4: `id`= 1003
+   5: `id`= 1004
+   6: `id`= 1005
+   7: `id`= 1006
+   8: `id`= 1007
+   9: `id`= 1009
+  10: `id`= 1010
+  11: `id`= 1011
+  12: `id`= 1012
+  13: `id`= 1013
+  14: `id`= 1014
+  15: `id`= 1015
+  16: `id`= 1016
+  17: `id`= 1017
+  18: `id`= 1018
+  19: `id`= 1019
+  20: `id`= 1020
+  21: `id`= 1021
+  22: `id`= 1022
+  23: `id`= 1023
+  24: `id`= 1024
+  25: `id`= 1025
+  26: `id`= 1026
+  27: `id`= 1027
+  28: `id`= 1028
+  29: `id`= 1029
+  30: `id`= 1030
+
+
+SELECT DISTINCT `maxLength` FROM `routes` ORDER BY `maxLength` LIMIT 30;
+   1: `maxLength`= 0
+   2: `maxLength`= 9
+   3: `maxLength`= 10
+   4: `maxLength`= 11
+   5: `maxLength`= 12
+   6: `maxLength`= 13
+   7: `maxLength`= 14
+
+
+SELECT DISTINCT `minLength` FROM `routes` ORDER BY `minLength` LIMIT 30;
+   1: `minLength`= 0
+   2: `minLength`= 8
+   3: `minLength`= 9
+   4: `minLength`= 10
+   5: `minLength`= 11
+   6: `minLength`= 12
+
+
+SELECT DISTINCT `CNAMTrusted` FROM `sippeers` ORDER BY `CNAMTrusted` LIMIT 30;
+SELECT DISTINCT `PAITrusted` FROM `sippeers` ORDER BY `PAITrusted` LIMIT 30;
+SELECT DISTINCT `SETimerFriendly` FROM `sippeers` ORDER BY `SETimerFriendly` LIMIT 30;
+SELECT DISTINCT `accessClassId` FROM `sippeers` ORDER BY `accessClassId` LIMIT 30;
+SELECT DISTINCT `accountcode` FROM `sippeers` ORDER BY `accountcode` LIMIT 30;
    1: `accountcode`= 
    2: `accountcode`= 131bd IP Communicati
    3: `accountcode`= 310network
@@ -1824,49 +466,54 @@ SELECT DISTINCT `accountcode` FROM `sippeers` ORDER BY `accountcode` LIMIT 15;
   13: `accountcode`= acs
   14: `accountcode`= Action Alliance
   15: `accountcode`= ADV Telecom PTY Limi
+  16: `accountcode`= Advanced Pharmacy
+  17: `accountcode`= Advanced Recovery Se
+  18: `accountcode`= Advantix Systems Inc
+  19: `accountcode`= Aero Computers
+  20: `accountcode`= Aethercomm, Inc
+  21: `accountcode`= afc
+  22: `accountcode`= AFC Inc.
+  23: `accountcode`= affinity
+  24: `accountcode`= affinity_dialers
+  25: `accountcode`= Agoura Paints LLC
+  26: `accountcode`= AGS Footwear Group
+  27: `accountcode`= Aiatek
+  28: `accountcode`= airspring
+  29: `accountcode`= Akins Consulting
+  30: `accountcode`= Alaska Department of
 
 
-SELECT DISTINCT `amaflags` FROM `sippeers` ORDER BY `amaflags` LIMIT 15;
-   1: `amaflags`= None
-   2: `amaflags`= 
-   3: `amaflags`= documentation
+SELECT DISTINCT `allowedCodecs` FROM `sippeers` ORDER BY `allowedCodecs` LIMIT 30;
+SELECT DISTINCT `bareSDPIn` FROM `sippeers` ORDER BY `bareSDPIn` LIMIT 30;
+SELECT DISTINCT `bareSDPOut` FROM `sippeers` ORDER BY `bareSDPOut` LIMIT 30;
+SELECT DISTINCT `brokenT38` FROM `sippeers` ORDER BY `brokenT38` LIMIT 30;
+SELECT DISTINCT `call_duration_limit` FROM `sippeers` ORDER BY `call_duration_limit` LIMIT 30;
+   1: `call_duration_limit`= 5400
+   2: `call_duration_limit`= 28800
+   3: `call_duration_limit`= 128800
 
 
-SELECT DISTINCT `callgroup` FROM `sippeers` ORDER BY `callgroup` LIMIT 15;
-   1: `callgroup`= None
-
-
-SELECT DISTINCT `callerid` FROM `sippeers` ORDER BY `callerid` LIMIT 15;
+SELECT DISTINCT `callerid` FROM `sippeers` ORDER BY `callerid` LIMIT 30;
    1: `callerid`= None
 
 
-SELECT DISTINCT `canreinvite` FROM `sippeers` ORDER BY `canreinvite` LIMIT 15;
-   1: `canreinvite`= None
+SELECT DISTINCT `codecRestriction` FROM `sippeers` ORDER BY `codecRestriction` LIMIT 30;
+   1: `codecRestriction`= 0
+   2: `codecRestriction`= 1
 
 
-SELECT DISTINCT `context` FROM `sippeers` ORDER BY `context` LIMIT 15;
+SELECT DISTINCT `context` FROM `sippeers` ORDER BY `context` LIMIT 30;
    1: `context`= None
 
 
-SELECT DISTINCT `defaultip` FROM `sippeers` ORDER BY `defaultip` LIMIT 15;
-   1: `defaultip`= None
+SELECT DISTINCT `continueOnBusy` FROM `sippeers` ORDER BY `continueOnBusy` LIMIT 30;
+SELECT DISTINCT `e164` FROM `sippeers` ORDER BY `e164` LIMIT 30;
+   1: `e164`= 0
+   2: `e164`= 1
 
 
-SELECT DISTINCT `dtmfmode` FROM `sippeers` ORDER BY `dtmfmode` LIMIT 15;
-   1: `dtmfmode`= None
-   2: `dtmfmode`= inband
-
-
-SELECT DISTINCT `fromuser` FROM `sippeers` ORDER BY `fromuser` LIMIT 15;
-   1: `fromuser`= None
-   2: `fromuser`= 200.42.228.52
-
-
-SELECT DISTINCT `fromdomain` FROM `sippeers` ORDER BY `fromdomain` LIMIT 15;
-   1: `fromdomain`= None
-
-
-SELECT DISTINCT `host` FROM `sippeers` ORDER BY `host` LIMIT 15;
+SELECT DISTINCT `earlyDialogEnabled` FROM `sippeers` ORDER BY `earlyDialogEnabled` LIMIT 30;
+SELECT DISTINCT `host` FROM `sippeers` ORDER BY `host` LIMIT 30;
    1: `host`= 
    2: `host`= 0.0.0.0
    3: `host`= 000.00.1.0
@@ -1882,9 +529,64 @@ SELECT DISTINCT `host` FROM `sippeers` ORDER BY `host` LIMIT 15;
   13: `host`= 108.23.87.3
   14: `host`= 108.23.87.4
   15: `host`= 108.23.87.5
+  16: `host`= 108.23.87.6
+  17: `host`= 108.38.10.216
+  18: `host`= 108.38.136.60
+  19: `host`= 108.4.62.156
+  20: `host`= 108.9.29.58
+  21: `host`= 109.122.96.109
+  22: `host`= 110.44.102.227
+  23: `host`= 110.44.102.229
+  24: `host`= 110.5.71.188
+  25: `host`= 111.111.111.111
+  26: `host`= 111.111.111.222
+  27: `host`= 111.111.222.2
+  28: `host`= 112.206.195.47
+  29: `host`= 113.34.235.80
+  30: `host`= 114.198.131.20
 
 
-SELECT DISTINCT `outbound_proxy` FROM `sippeers` ORDER BY `outbound_proxy` LIMIT 15;
+SELECT DISTINCT `isCarrier` FROM `sippeers` ORDER BY `isCarrier` LIMIT 30;
+   1: `isCarrier`= 0
+
+
+SELECT DISTINCT `isPBX` FROM `sippeers` ORDER BY `isPBX` LIMIT 30;
+SELECT DISTINCT `label` FROM `sippeers` ORDER BY `label` LIMIT 30;
+SELECT DISTINCT `name` FROM `sippeers` ORDER BY `name` LIMIT 30;
+   1: `name`= 0
+   2: `name`= 1
+   3: `name`= 131bd IP Communicati0
+   4: `name`= 310network1
+   5: `name`= 310network2
+   6: `name`= 310network3
+   7: `name`= 310network4
+   8: `name`= 310network5
+   9: `name`= 360Network
+  10: `name`= 3CLogic0
+  11: `name`= 3CLogic1
+  12: `name`= 3CLogic2
+  13: `name`= 411 Localscom0
+  14: `name`= AAA0
+  15: `name`= AAA1
+  16: `name`= abc
+  17: `name`= ABP International0
+  18: `name`= ABP International1
+  19: `name`= ABP International2
+  20: `name`= abptech1
+  21: `name`= abptech2
+  22: `name`= accela
+  23: `name`= ACCELERATED TECHNOLO0
+  24: `name`= Acme Services Compan0
+  25: `name`= Acme Services Compan1
+  26: `name`= Acme Services Compan2
+  27: `name`= acs
+  28: `name`= Action Alliance0
+  29: `name`= Action Alliance1
+  30: `name`= Action Alliance2
+
+
+SELECT DISTINCT `oddsandends` FROM `sippeers` ORDER BY `oddsandends` LIMIT 30;
+SELECT DISTINCT `outbound_proxy` FROM `sippeers` ORDER BY `outbound_proxy` LIMIT 30;
    1: `outbound_proxy`= None
    2: `outbound_proxy`= 
    3: `outbound_proxy`= 38.102.250.50
@@ -1894,822 +596,232 @@ SELECT DISTINCT `outbound_proxy` FROM `sippeers` ORDER BY `outbound_proxy` LIMIT
    7: `outbound_proxy`= siptalk.xcastlabs.com:8060
 
 
-SELECT DISTINCT `incominglimit` FROM `sippeers` ORDER BY `incominglimit` LIMIT 15;
-   1: `incominglimit`= None
-
-
-SELECT DISTINCT `outgoinglimit` FROM `sippeers` ORDER BY `outgoinglimit` LIMIT 15;
-   1: `outgoinglimit`= None
-   2: `outgoinglimit`= 120
-   3: `outgoinglimit`= 15
-   4: `outgoinglimit`= 186
-   5: `outgoinglimit`= 204
-   6: `outgoinglimit`= 240
-   7: `outgoinglimit`= 250
-   8: `outgoinglimit`= 282
-   9: `outgoinglimit`= 6
-
-
-SELECT DISTINCT `insecure` FROM `sippeers` ORDER BY `insecure` LIMIT 15;
-   1: `insecure`= None
-
-
-SELECT DISTINCT `language` FROM `sippeers` ORDER BY `language` LIMIT 15;
-   1: `language`= None
-
-
-SELECT DISTINCT `mailbox` FROM `sippeers` ORDER BY `mailbox` LIMIT 15;
-   1: `mailbox`= None
-
-
-SELECT DISTINCT `md5secret` FROM `sippeers` ORDER BY `md5secret` LIMIT 15;
-   1: `md5secret`= None
-
-
-SELECT DISTINCT `nat` FROM `sippeers` ORDER BY `nat` LIMIT 15;
-   1: `nat`= None
-
-
-SELECT DISTINCT `permit` FROM `sippeers` ORDER BY `permit` LIMIT 15;
-   1: `permit`= None
-
-
-SELECT DISTINCT `deny` FROM `sippeers` ORDER BY `deny` LIMIT 15;
-   1: `deny`= None
-
-
-SELECT DISTINCT `pickupgroup` FROM `sippeers` ORDER BY `pickupgroup` LIMIT 15;
-   1: `pickupgroup`= None
-
-
-SELECT DISTINCT `port` FROM `sippeers` ORDER BY `port` LIMIT 15;
-   1: `port`= 
-   2: `port`= 1
-   3: `port`= 5061
-
-
-SELECT DISTINCT `qualify` FROM `sippeers` ORDER BY `qualify` LIMIT 15;
-   1: `qualify`= None
-
-
-SELECT DISTINCT `restrictcid` FROM `sippeers` ORDER BY `restrictcid` LIMIT 15;
-   1: `restrictcid`= None
-
-
-SELECT DISTINCT `rtptimeout` FROM `sippeers` ORDER BY `rtptimeout` LIMIT 15;
-   1: `rtptimeout`= None
-
-
-SELECT DISTINCT `rtpholdtimeout` FROM `sippeers` ORDER BY `rtpholdtimeout` LIMIT 15;
-   1: `rtpholdtimeout`= None
-
-
-SELECT DISTINCT `secret` FROM `sippeers` ORDER BY `secret` LIMIT 15;
-   1: `secret`= None
-   2: `secret`= 
-
-
-SELECT DISTINCT `type` FROM `sippeers` ORDER BY `type` LIMIT 15;
-   1: `type`= 
-
-
-SELECT DISTINCT `username` FROM `sippeers` ORDER BY `username` LIMIT 15;
-   1: `username`= 
-
-
-SELECT DISTINCT `allow` FROM `sippeers` ORDER BY `allow` LIMIT 15;
-   1: `allow`= None
-   2: `allow`= g729
-   3: `allow`= g729,g723
-   4: `allow`= g729,g723,ulaw,alaw
-   5: `allow`= g729,ulaw,alaw
-   6: `allow`= ilbc,gsm,ulaw,alaw,g729,g723
-   7: `allow`= ulaw,alaw
-   8: `allow`= ulaw,alaw,g723,g729
-   9: `allow`= ulaw,alaw,g723,g729,t38
-  10: `allow`= ulaw,alaw,g729
-  11: `allow`= ulaw,alaw,g729,g723
-  12: `allow`= ulaw,alaw,g729,g723,T38
-  13: `allow`= ulaw,alaw,g729,t38
-  14: `allow`= ulaw,alaw,gsm
-
-
-SELECT DISTINCT `disallow` FROM `sippeers` ORDER BY `disallow` LIMIT 15;
-   1: `disallow`= None
-
-
-SELECT DISTINCT `regseconds` FROM `sippeers` ORDER BY `regseconds` LIMIT 15;
-   1: `regseconds`= 0
-
-
-SELECT DISTINCT `ipaddr` FROM `sippeers` ORDER BY `ipaddr` LIMIT 15;
-   1: `ipaddr`= 
-   2: `ipaddr`= 12.5.10.246
-   3: `ipaddr`= 199.37.112.68
-   4: `ipaddr`= 200.26.171.131
-   5: `ipaddr`= 200.26.171.132
-   6: `ipaddr`= 200.26.171.133
-   7: `ipaddr`= 206.57.80.227
-   8: `ipaddr`= 207.242.225.200
-   9: `ipaddr`= 24.227.12.206
-  10: `ipaddr`= 38.102.250.55
-  11: `ipaddr`= 38.102.250.76
-  12: `ipaddr`= 38.108.120.100
-  13: `ipaddr`= 64.197.253.9
-  14: `ipaddr`= 64.254.82.202
-  15: `ipaddr`= 66.181.69.234
-
-
-SELECT DISTINCT `call_duration_limit` FROM `sippeers` ORDER BY `call_duration_limit` LIMIT 15;
-   1: `call_duration_limit`= 5400
-   2: `call_duration_limit`= 28800
-   3: `call_duration_limit`= 128800
-
-
-SELECT DISTINCT `monitor` FROM `sippeers` ORDER BY `monitor` LIMIT 15;
-   1: `monitor`= 1
-
-
-SELECT DISTINCT `call_limit` FROM `sippeers` ORDER BY `call_limit` LIMIT 15;
-   1: `call_limit`= 10
-
-
-SELECT DISTINCT `minor_asr_limit` FROM `sippeers` ORDER BY `minor_asr_limit` LIMIT 15;
-   1: `minor_asr_limit`= 45
-
-
-SELECT DISTINCT `major_asr_limit` FROM `sippeers` ORDER BY `major_asr_limit` LIMIT 15;
-   1: `major_asr_limit`= 35
-
-
-SELECT DISTINCT `minor_acd_limit` FROM `sippeers` ORDER BY `minor_acd_limit` LIMIT 15;
-   1: `minor_acd_limit`= 3
-
-
-SELECT DISTINCT `major_acd_limit` FROM `sippeers` ORDER BY `major_acd_limit` LIMIT 15;
-   1: `major_acd_limit`= 2
-
-
-SELECT DISTINCT `major_cps_limit` FROM `sippeers` ORDER BY `major_cps_limit` LIMIT 15;
-   1: `major_cps_limit`= 2
-   2: `major_cps_limit`= 3
-
-
-SELECT DISTINCT `brokenvideo` FROM `sippeers` ORDER BY `brokenvideo` LIMIT 15;
-   1: `brokenvideo`= nan
-   2: `brokenvideo`= 0.0
-   3: `brokenvideo`= 1.0
-
-
-SELECT DISTINCT `codecRestriction` FROM `sippeers` ORDER BY `codecRestriction` LIMIT 15;
-   1: `codecRestriction`= 0
-   2: `codecRestriction`= 1
-
-
-SELECT DISTINCT `rtp_relay` FROM `sippeers` ORDER BY `rtp_relay` LIMIT 15;
+SELECT DISTINCT `pdd` FROM `sippeers` ORDER BY `pdd` LIMIT 30;
+SELECT DISTINCT `prefNegativeResponse` FROM `sippeers` ORDER BY `prefNegativeResponse` LIMIT 30;
+SELECT DISTINCT `preferredCodecOnly` FROM `sippeers` ORDER BY `preferredCodecOnly` LIMIT 30;
+SELECT DISTINCT `prefix` FROM `sippeers` ORDER BY `prefix` LIMIT 30;
+SELECT DISTINCT `ringingToProgress` FROM `sippeers` ORDER BY `ringingToProgress` LIMIT 30;
+SELECT DISTINCT `rtp_relay` FROM `sippeers` ORDER BY `rtp_relay` LIMIT 30;
    1: `rtp_relay`= nan
    2: `rtp_relay`= 0.0
    3: `rtp_relay`= 1.0
 
 
-SELECT DISTINCT `e164` FROM `sippeers` ORDER BY `e164` LIMIT 15;
-   1: `e164`= 0
-   2: `e164`= 1
-
-
-SELECT DISTINCT `active` FROM `sippeers` ORDER BY `active` LIMIT 15;
-   1: `active`= 0
-   2: `active`= 1
-
-
-SELECT DISTINCT `account` FROM `sippeers` ORDER BY `account` LIMIT 15;
-   1: `account`= None
-   2: `account`= 
-   3: `account`= 101576
-   4: `account`= 102155
-   5: `account`= 103136
-   6: `account`= 103393
-   7: `account`= 103495
-   8: `account`= 103576
-   9: `account`= 103752
-  10: `account`= 103844
-  11: `account`= 103997
-  12: `account`= 105287
-  13: `account`= 105954
-  14: `account`= 106306
-  15: `account`= 106809
-
-
-SELECT DISTINCT `setRequestURI` FROM `sippeers` ORDER BY `setRequestURI` LIMIT 15;
+SELECT DISTINCT `service_class` FROM `sippeers` ORDER BY `service_class` LIMIT 30;
+SELECT DISTINCT `setRequestURI` FROM `sippeers` ORDER BY `setRequestURI` LIMIT 30;
    1: `setRequestURI`= 0
    2: `setRequestURI`= 1
 
 
-SELECT DISTINCT `isCarrier` FROM `sippeers` ORDER BY `isCarrier` LIMIT 15;
-   1: `isCarrier`= 0
-
-
-
-
-SHOW FIELDS FROM `sipusers`;
-SELECT DISTINCT `uniqueid` FROM `sipusers` ORDER BY `uniqueid` LIMIT 15;
-   1: `uniqueid`= 2
-   2: `uniqueid`= 3
-   3: `uniqueid`= 8
-   4: `uniqueid`= 9
-   5: `uniqueid`= 10
-   6: `uniqueid`= 11
-   7: `uniqueid`= 12
-   8: `uniqueid`= 17
-   9: `uniqueid`= 18
-  10: `uniqueid`= 19
-  11: `uniqueid`= 20
-  12: `uniqueid`= 38
-  13: `uniqueid`= 141
-  14: `uniqueid`= 142
-  15: `uniqueid`= 147
-
-
-SELECT DISTINCT `name` FROM `sipusers` ORDER BY `name` LIMIT 15;
-   1: `name`= 0.0.0.0
-   2: `name`= 1.1.1.102
-   3: `name`= 1.1.1.109
-   4: `name`= 1.1.1.110
-   5: `name`= 1.1.1.111
-   6: `name`= 1.1.1.112
-   7: `name`= 1.1.1.113
-   8: `name`= 1.1.1.114
-   9: `name`= 1.1.1.115
-  10: `name`= 1.1.1.116
-  11: `name`= 1.1.1.117
-  12: `name`= 1.1.1.118
-  13: `name`= 1.1.1.119
-  14: `name`= 1.1.1.120
-  15: `name`= 1.1.1.121
-
-
-SELECT DISTINCT `prefix` FROM `sipusers` ORDER BY `prefix` LIMIT 15;
-   1: `prefix`= 
-   2: `prefix`= 123#
-   3: `prefix`= 300
-   4: `prefix`= 305
-   5: `prefix`= 666
-   6: `prefix`= 671
-   7: `prefix`= 700
-   8: `prefix`= 800
-   9: `prefix`= 801
-  10: `prefix`= 802
-  11: `prefix`= 803
-
-
-SELECT DISTINCT `active` FROM `sipusers` ORDER BY `active` LIMIT 15;
-   1: `active`= 0
-   2: `active`= 1
-
-
-SELECT DISTINCT `accountcode` FROM `sipusers` ORDER BY `accountcode` LIMIT 15;
-   1: `accountcode`= 100268,TM
-   2: `accountcode`= 100396,TM
-   3: `accountcode`= 100731,TM
-   4: `accountcode`= 101576,TM
-   5: `accountcode`= 101645,TM
-   6: `accountcode`= 101927,TM
-   7: `accountcode`= 102155,TM
-   8: `accountcode`= 102298,TM
-   9: `accountcode`= 102637,TM
-  10: `accountcode`= 102660,TM
-  11: `accountcode`= 102806,TM
-  12: `accountcode`= 102969,TM
-  13: `accountcode`= 103051,TM
-  14: `accountcode`= 103056,TM
-  15: `accountcode`= 103136,TM
-
-
-SELECT DISTINCT `amaflags` FROM `sipusers` ORDER BY `amaflags` LIMIT 15;
-   1: `amaflags`= None
-   2: `amaflags`= billing
-
-
-SELECT DISTINCT `callgroup` FROM `sipusers` ORDER BY `callgroup` LIMIT 15;
-   1: `callgroup`= None
-   2: `callgroup`= 
-   3: `callgroup`= 13841
-
-
-SELECT DISTINCT `callerid` FROM `sipusers` ORDER BY `callerid` LIMIT 15;
-   1: `callerid`= None
-   2: `callerid`= 
-   3: `callerid`= 2532468555
-   4: `callerid`= 5035630268
-   5: `callerid`= 5035630273
-   6: `callerid`= 5035630681
-   7: `callerid`= 5035630697
-   8: `callerid`= 5035630712
-   9: `callerid`= 5035630734
-  10: `callerid`= 8004824459
-  11: `callerid`= 9712201927
-
-
-SELECT DISTINCT `canreinvite` FROM `sipusers` ORDER BY `canreinvite` LIMIT 15;
-   1: `canreinvite`= None
-   2: `canreinvite`= 
-   3: `canreinvite`= 0
-   4: `canreinvite`= n
-
-
-SELECT DISTINCT `context` FROM `sipusers` ORDER BY `context` LIMIT 15;
-   1: `context`= 
-   2: `context`= back
-   3: `context`= bbcom
-   4: `context`= cntx-106128
-   5: `context`= cntx-107021
-   6: `context`= cntx-108311
-   7: `context`= glcros_in
-   8: `context`= inbound
-   9: `context`= inbound_only
-  10: `context`= matrix
-  11: `context`= merchantautopay
-  12: `context`= nearshore
-  13: `context`= no_da_primary
-  14: `context`= powercom
-  15: `context`= primary
-
-
-SELECT DISTINCT `defaultip` FROM `sipusers` ORDER BY `defaultip` LIMIT 15;
-   1: `defaultip`= None
-   2: `defaultip`= 
-
-
-SELECT DISTINCT `dtmfmode` FROM `sipusers` ORDER BY `dtmfmode` LIMIT 15;
-   1: `dtmfmode`= None
-   2: `dtmfmode`= 
-
-
-SELECT DISTINCT `fromuser` FROM `sipusers` ORDER BY `fromuser` LIMIT 15;
-   1: `fromuser`= None
-   2: `fromuser`= 
-   3: `fromuser`= == restricted_country ==
-
-
-SELECT DISTINCT `fromdomain` FROM `sipusers` ORDER BY `fromdomain` LIMIT 15;
-   1: `fromdomain`= None
-   2: `fromdomain`= 
-
-
-SELECT DISTINCT `host` FROM `sipusers` ORDER BY `host` LIMIT 15;
-   1: `host`= 
-
-
-SELECT DISTINCT `incominglimit` FROM `sipusers` ORDER BY `incominglimit` LIMIT 15;
-   1: `incominglimit`= None
-   2: `incominglimit`= 10
-   3: `incominglimit`= 100
-   4: `incominglimit`= 2
-   5: `incominglimit`= 200
-   6: `incominglimit`= 24
-   7: `incominglimit`= 240
-   8: `incominglimit`= 34
-   9: `incominglimit`= 36
-  10: `incominglimit`= 384
-  11: `incominglimit`= 48
-  12: `incominglimit`= 6
-
-
-SELECT DISTINCT `outgoinglimit` FROM `sipusers` ORDER BY `outgoinglimit` LIMIT 15;
-   1: `outgoinglimit`= None
-   2: `outgoinglimit`= 
-
-
-SELECT DISTINCT `insecure` FROM `sipusers` ORDER BY `insecure` LIMIT 15;
-   1: `insecure`= None
-   2: `insecure`= 
-
-
-SELECT DISTINCT `language` FROM `sipusers` ORDER BY `language` LIMIT 15;
-   1: `language`= None
-   2: `language`= 
-
-
-SELECT DISTINCT `mailbox` FROM `sipusers` ORDER BY `mailbox` LIMIT 15;
-   1: `mailbox`= None
-   2: `mailbox`= 
-
-
-SELECT DISTINCT `md5secret` FROM `sipusers` ORDER BY `md5secret` LIMIT 15;
-   1: `md5secret`= None
-   2: `md5secret`= 
-
-
-SELECT DISTINCT `nat` FROM `sipusers` ORDER BY `nat` LIMIT 15;
-   1: `nat`= None
-   2: `nat`= 
-
-
-SELECT DISTINCT `deny` FROM `sipusers` ORDER BY `deny` LIMIT 15;
-   1: `deny`= 
-   2: `deny`= 0.0.0.0/0.0.0.0
-
-
-SELECT DISTINCT `permit` FROM `sipusers` ORDER BY `permit` LIMIT 15;
-   1: `permit`= None
-   2: `permit`= 
-   3: `permit`= 208.71.34.48/255.255.255.255
-   4: `permit`= 38.102.250.48/255.255.255.240
-   5: `permit`= 38.102.250.50/255.255.255.255
-   6: `permit`= 63.251.216.48/255.255.255.240
-   7: `permit`= 63.251.216.50/255.255.255.255
-   8: `permit`= 63.251.216.60/255.255.255.255
-   9: `permit`= 63.251.216.65/255.255.255.255
-
-
-SELECT DISTINCT `pickupgroup` FROM `sipusers` ORDER BY `pickupgroup` LIMIT 15;
-   1: `pickupgroup`= None
-   2: `pickupgroup`= 
-
-
-SELECT DISTINCT `port` FROM `sipusers` ORDER BY `port` LIMIT 15;
-   1: `port`= 
-
-
-SELECT DISTINCT `qualify` FROM `sipusers` ORDER BY `qualify` LIMIT 15;
-   1: `qualify`= None
-   2: `qualify`= 
-
-
-SELECT DISTINCT `restrictcid` FROM `sipusers` ORDER BY `restrictcid` LIMIT 15;
-   1: `restrictcid`= None
-   2: `restrictcid`= 
-
-
-SELECT DISTINCT `rtptimeout` FROM `sipusers` ORDER BY `rtptimeout` LIMIT 15;
-   1: `rtptimeout`= None
-   2: `rtptimeout`= 0
-
-
-SELECT DISTINCT `rtpholdtimeout` FROM `sipusers` ORDER BY `rtpholdtimeout` LIMIT 15;
-   1: `rtpholdtimeout`= None
-   2: `rtpholdtimeout`= 0
-
-
-SELECT DISTINCT `secret` FROM `sipusers` ORDER BY `secret` LIMIT 15;
-   1: `secret`= None
-   2: `secret`= 
-
-
-SELECT DISTINCT `type` FROM `sipusers` ORDER BY `type` LIMIT 15;
-   1: `type`= 
-
-
-SELECT DISTINCT `username` FROM `sipusers` ORDER BY `username` LIMIT 15;
-   1: `username`= 
-
-
-SELECT DISTINCT `allow` FROM `sipusers` ORDER BY `allow` LIMIT 15;
-   1: `allow`= None
-   2: `allow`= 
-   3: `allow`= g711
-   4: `allow`= g729
-   5: `allow`= ulaw,alaw
-   6: `allow`= ulaw,alaw,g723,g729
-   7: `allow`= ulaw,alaw,g729
-   8: `allow`= ulaw,alaw,g729,g723
-   9: `allow`= ulaw,alaw,g729,g723,ilbc
-  10: `allow`= ulaw,g729
-
-
-SELECT DISTINCT `disallow` FROM `sipusers` ORDER BY `disallow` LIMIT 15;
-   1: `disallow`= None
-   2: `disallow`= 
-
-
-SELECT DISTINCT `regseconds` FROM `sipusers` ORDER BY `regseconds` LIMIT 15;
-   1: `regseconds`= 0
-
-
-SELECT DISTINCT `ipaddr` FROM `sipusers` ORDER BY `ipaddr` LIMIT 15;
-   1: `ipaddr`= 
-   2: `ipaddr`= 1.1.1.109
-   3: `ipaddr`= 1.1.1.110
-   4: `ipaddr`= 1.1.1.111
-   5: `ipaddr`= 1.1.1.112
-   6: `ipaddr`= 107.22.199.94
-   7: `ipaddr`= 108.12.28.59
-   8: `ipaddr`= 108.12.28.82
-   9: `ipaddr`= 108.23.87.3
-  10: `ipaddr`= 108.23.87.5
-  11: `ipaddr`= 108.23.87.6
-  12: `ipaddr`= 108.9.29.58
-  13: `ipaddr`= 110.55.118.115
-  14: `ipaddr`= 113.34.235.80
-  15: `ipaddr`= 113.34.235.82
-
-
-SELECT DISTINCT `call_duration_limit` FROM `sipusers` ORDER BY `call_duration_limit` LIMIT 15;
-   1: `call_duration_limit`= 5400
-   2: `call_duration_limit`= 14400
-   3: `call_duration_limit`= 17200
-   4: `call_duration_limit`= 28800
-   5: `call_duration_limit`= 43200
-
-
-SELECT DISTINCT `label` FROM `sipusers` ORDER BY `label` LIMIT 15;
-   1: `label`= 'Riverview Camp for 
-   2: `label`= 131bd IP Communicati
-   3: `label`= 360net
-   4: `label`= 3CLogic
-   5: `label`= 765433 Inc
-   6: `label`= AAA
-   7: `label`= ABP International
-   8: `label`= Acme Services Compan
-   9: `label`= Action Alliance
-  10: `label`= ADV Telecom PTY Limi
-  11: `label`= Advantix Systems Inc
-  12: `label`= Aeris
-  13: `label`= Aero Computers
-  14: `label`= AFC Inc.
-  15: `label`= Agents 1st LLC
-
-
-SELECT DISTINCT `monitor` FROM `sipusers` ORDER BY `monitor` LIMIT 15;
-   1: `monitor`= 0
-   2: `monitor`= 1
-
-
-SELECT DISTINCT `call_limit` FROM `sipusers` ORDER BY `call_limit` LIMIT 15;
-   1: `call_limit`= 2
-   2: `call_limit`= 5
-   3: `call_limit`= 10
-
-
-SELECT DISTINCT `minor_asr_limit` FROM `sipusers` ORDER BY `minor_asr_limit` LIMIT 15;
-   1: `minor_asr_limit`= 8
-   2: `minor_asr_limit`= 30
-   3: `minor_asr_limit`= 40
-   4: `minor_asr_limit`= 45
-   5: `minor_asr_limit`= 50
-   6: `minor_asr_limit`= 70
-
-
-SELECT DISTINCT `major_asr_limit` FROM `sipusers` ORDER BY `major_asr_limit` LIMIT 15;
-   1: `major_asr_limit`= 5
-   2: `major_asr_limit`= 20
-   3: `major_asr_limit`= 30
-   4: `major_asr_limit`= 35
-   5: `major_asr_limit`= 50
-
-
-SELECT DISTINCT `minor_acd_limit` FROM `sipusers` ORDER BY `minor_acd_limit` LIMIT 15;
-   1: `minor_acd_limit`= 0
-   2: `minor_acd_limit`= 1
-   3: `minor_acd_limit`= 2
-   4: `minor_acd_limit`= 3
-
-
-SELECT DISTINCT `major_acd_limit` FROM `sipusers` ORDER BY `major_acd_limit` LIMIT 15;
-   1: `major_acd_limit`= 0
-   2: `major_acd_limit`= 1
-   3: `major_acd_limit`= 2
-
-
-SELECT DISTINCT `major_cps_limit` FROM `sipusers` ORDER BY `major_cps_limit` LIMIT 15;
-   1: `major_cps_limit`= 3
-
-
-SELECT DISTINCT `t38required` FROM `sipusers` ORDER BY `t38required` LIMIT 15;
-   1: `t38required`= 0
-   2: `t38required`= 1
-
-
-SELECT DISTINCT `service_level` FROM `sipusers` ORDER BY `service_level` LIMIT 15;
-   1: `service_level`= 0
-   2: `service_level`= 2
-   3: `service_level`= 4
-   4: `service_level`= 6
-   5: `service_level`= 9
-   6: `service_level`= 100
-
-
-SELECT DISTINCT `internationalAllowed` FROM `sipusers` ORDER BY `internationalAllowed` LIMIT 15;
-   1: `internationalAllowed`= 0
-   2: `internationalAllowed`= 1
-
-
-SELECT DISTINCT `nanpaTerritoryAllowed` FROM `sipusers` ORDER BY `nanpaTerritoryAllowed` LIMIT 15;
-   1: `nanpaTerritoryAllowed`= -1
-   2: `nanpaTerritoryAllowed`= 0
-   3: `nanpaTerritoryAllowed`= 1
-   4: `nanpaTerritoryAllowed`= 513
-   5: `nanpaTerritoryAllowed`= 531
-   6: `nanpaTerritoryAllowed`= 723
-   7: `nanpaTerritoryAllowed`= 134218451
-
-
-SELECT DISTINCT `service_quality` FROM `sipusers` ORDER BY `service_quality` LIMIT 15;
-   1: `service_quality`= 1
-
-
-SELECT DISTINCT `service_class` FROM `sipusers` ORDER BY `service_class` LIMIT 15;
-   1: `service_class`= nan
-   2: `service_class`= 1.0
-   3: `service_class`= 3.0
-   4: `service_class`= 4.0
-   5: `service_class`= 5.0
-   6: `service_class`= 6.0
-   7: `service_class`= 7.0
-   8: `service_class`= 8.0
-   9: `service_class`= 12.0
-  10: `service_class`= 13.0
-  11: `service_class`= 14.0
-  12: `service_class`= 15.0
-  13: `service_class`= 16.0
-  14: `service_class`= 18.0
-  15: `service_class`= 19.0
-
-
-SELECT DISTINCT `accessClassId` FROM `sipusers` ORDER BY `accessClassId` LIMIT 15;
-   1: `accessClassId`= 0
-   2: `accessClassId`= 1
-   3: `accessClassId`= 2
-   4: `accessClassId`= 3
-   5: `accessClassId`= 5
-   6: `accessClassId`= 7
-   7: `accessClassId`= 8
-   8: `accessClassId`= 9
-   9: `accessClassId`= 10
-  10: `accessClassId`= 11
-  11: `accessClassId`= 12
-  12: `accessClassId`= 13
-  13: `accessClassId`= 14
-  14: `accessClassId`= 15
-  15: `accessClassId`= 19
-
-
-SELECT DISTINCT `oddsandends` FROM `sipusers` ORDER BY `oddsandends` LIMIT 15;
-   1: `oddsandends`= 
-   2: `oddsandends`= aeris,no_level3_011,no_avid
-   3: `oddsandends`= callcenter
-   4: `oddsandends`= callcenter,no_accela
-   5: `oddsandends`= callcenter,no_level3_011
-   6: `oddsandends`= callcenter,no_level3_011,no_pacwest_dialers011
-   7: `oddsandends`= callcenter,no_level3_011,no_pacwest_dialers011,no_accela
-   8: `oddsandends`= callcenter,no_telaris,no_level3_011
-   9: `oddsandends`= callid,no_avid
-  10: `oddsandends`= callid,no_level3_011,no_avid
-  11: `oddsandends`= callid,powercom,no_level3_011,no_avid
-  12: `oddsandends`= cisco,callid,no_avid
-  13: `oddsandends`= cisco,callid,no_level3_011,no_avid
-  14: `oddsandends`= cmall,no_level3_011,no_avid
-  15: `oddsandends`= no_avid
-
-
-SELECT DISTINCT `brokenvideo` FROM `sipusers` ORDER BY `brokenvideo` LIMIT 15;
-   1: `brokenvideo`= 0
-   2: `brokenvideo`= 1
-
-
-SELECT DISTINCT `codecRestriction` FROM `sipusers` ORDER BY `codecRestriction` LIMIT 15;
-   1: `codecRestriction`= 0
-
-
-SELECT DISTINCT `tag_preserve` FROM `sipusers` ORDER BY `tag_preserve` LIMIT 15;
-   1: `tag_preserve`= 0
-   2: `tag_preserve`= 1
-
-
-SELECT DISTINCT `rtp_relay` FROM `sipusers` ORDER BY `rtp_relay` LIMIT 15;
-   1: `rtp_relay`= 0
-   2: `rtp_relay`= 1
-
-
-SELECT DISTINCT `CNAMTrusted` FROM `sipusers` ORDER BY `CNAMTrusted` LIMIT 15;
-   1: `CNAMTrusted`= 1
-
-
-SELECT DISTINCT `prefNegativeResponse` FROM `sipusers` ORDER BY `prefNegativeResponse` LIMIT 15;
-   1: `prefNegativeResponse`= None
-
-
-SELECT DISTINCT `isCarrier` FROM `sipusers` ORDER BY `isCarrier` LIMIT 15;
-   1: `isCarrier`= 0
-   2: `isCarrier`= 1
-
-
-SELECT DISTINCT `isCallCenter` FROM `sipusers` ORDER BY `isCallCenter` LIMIT 15;
-   1: `isCallCenter`= 0
-   2: `isCallCenter`= 1
-
-
-
-
-SHOW FIELDS FROM `vendors`;
-SELECT DISTINCT `id` FROM `vendors` ORDER BY `id` LIMIT 15;
-   1: `id`= 1
-
-
-SELECT DISTINCT `rateVendorId` FROM `vendors` ORDER BY `rateVendorId` LIMIT 15;
-   1: `rateVendorId`= 1
-
-
-SELECT DISTINCT `name` FROM `vendors` ORDER BY `name` LIMIT 15;
-   1: `name`= commpartners
-
-
-SELECT DISTINCT `e164` FROM `vendors` ORDER BY `e164` LIMIT 15;
-   1: `e164`= 0
-
-
-SELECT DISTINCT `prefix` FROM `vendors` ORDER BY `prefix` LIMIT 15;
-   1: `prefix`= 1
-
-
-SELECT DISTINCT `cut` FROM `vendors` ORDER BY `cut` LIMIT 15;
-   1: `cut`= 0
-
-
-SELECT DISTINCT `technology` FROM `vendors` ORDER BY `technology` LIMIT 15;
-   1: `technology`= SIP
-
-
-SELECT DISTINCT `codecs` FROM `vendors` ORDER BY `codecs` LIMIT 15;
-   1: `codecs`= g711,g729,g723
-
-
-SELECT DISTINCT `address` FROM `vendors` ORDER BY `address` LIMIT 15;
-   1: `address`= 
-
-
-SELECT DISTINCT `pimary_contact` FROM `vendors` ORDER BY `pimary_contact` LIMIT 15;
-   1: `pimary_contact`= 
-
-
-SELECT DISTINCT `secondary_contact` FROM `vendors` ORDER BY `secondary_contact` LIMIT 15;
-   1: `secondary_contact`= 
-
-
-SELECT DISTINCT `def` FROM `vendors` ORDER BY `def` LIMIT 15;
-   1: `def`= 0
-
-
-SELECT DISTINCT `oddsandends` FROM `vendors` ORDER BY `oddsandends` LIMIT 15;
-   1: `oddsandends`= cisco,callid
-
-
-SELECT DISTINCT `prohibited` FROM `vendors` ORDER BY `prohibited` LIMIT 15;
-   1: `prohibited`=  no_commpartners
-
-
-SELECT DISTINCT `cutOffTimeout` FROM `vendors` ORDER BY `cutOffTimeout` LIMIT 15;
-   1: `cutOffTimeout`= 0
-
-
-SELECT DISTINCT `extended_call_duration` FROM `vendors` ORDER BY `extended_call_duration` LIMIT 15;
-   1: `extended_call_duration`= 0
-
-
-SELECT DISTINCT `peer` FROM `vendors` ORDER BY `peer` LIMIT 15;
-   1: `peer`= commpartners
-
-
-SELECT DISTINCT `peerId` FROM `vendors` ORDER BY `peerId` LIMIT 15;
-   1: `peerId`= 321
-
-
-SELECT DISTINCT `TrustedReason` FROM `vendors` ORDER BY `TrustedReason` LIMIT 15;
-   1: `TrustedReason`= 1
-
-
-SELECT DISTINCT `brokenNegotiation` FROM `vendors` ORDER BY `brokenNegotiation` LIMIT 15;
-   1: `brokenNegotiation`= 0
-
-
-SELECT DISTINCT `T38` FROM `vendors` ORDER BY `T38` LIMIT 15;
-   1: `T38`= 0
-
-
-SELECT DISTINCT `RPID` FROM `vendors` ORDER BY `RPID` LIMIT 15;
-   1: `RPID`= 0
-
-
-SELECT DISTINCT `LRN` FROM `vendors` ORDER BY `LRN` LIMIT 15;
-   1: `LRN`= 0
-
-
-SELECT DISTINCT `US_LRN` FROM `vendors` ORDER BY `US_LRN` LIMIT 15;
-   1: `US_LRN`= 0
-
-
-SELECT DISTINCT `CA_LRN` FROM `vendors` ORDER BY `CA_LRN` LIMIT 15;
-   1: `CA_LRN`= 0
-
-
-SELECT DISTINCT `maxPosition` FROM `vendors` ORDER BY `maxPosition` LIMIT 15;
-   1: `maxPosition`= 0
-
-
-SELECT DISTINCT `active` FROM `vendors` ORDER BY `active` LIMIT 15;
-   1: `active`= 1
-
-
-
-
-deleted 1 Engine(mysql+mysqlconnector://guest:***@xdev64.xcastlabs.com:3306/broker)
+SELECT DISTINCT `t38required` FROM `sippeers` ORDER BY `t38required` LIMIT 30;
+SELECT DISTINCT `tag_preserve` FROM `sippeers` ORDER BY `tag_preserve` LIMIT 30;
+SELECT DISTINCT `uniqueid` FROM `sippeers` ORDER BY `uniqueid` LIMIT 30;
+   1: `uniqueid`= 1
+   2: `uniqueid`= 10
+   3: `uniqueid`= 11
+   4: `uniqueid`= 12
+   5: `uniqueid`= 14
+   6: `uniqueid`= 18
+   7: `uniqueid`= 19
+   8: `uniqueid`= 20
+   9: `uniqueid`= 21
+  10: `uniqueid`= 22
+  11: `uniqueid`= 32
+  12: `uniqueid`= 34
+  13: `uniqueid`= 35
+  14: `uniqueid`= 36
+  15: `uniqueid`= 37
+  16: `uniqueid`= 38
+  17: `uniqueid`= 39
+  18: `uniqueid`= 40
+  19: `uniqueid`= 41
+  20: `uniqueid`= 42
+  21: `uniqueid`= 43
+  22: `uniqueid`= 45
+  23: `uniqueid`= 47
+  24: `uniqueid`= 48
+  25: `uniqueid`= 49
+  26: `uniqueid`= 50
+  27: `uniqueid`= 53
+  28: `uniqueid`= 54
+  29: `uniqueid`= 56
+  30: `uniqueid`= 63
+
+
+SELECT DISTINCT `lata` FROM `tpmdata` ORDER BY `lata` LIMIT 30;
+   1: `lata`= 120
+   2: `lata`= 122
+   3: `lata`= 124
+   4: `lata`= 126
+   5: `lata`= 128
+   6: `lata`= 130
+   7: `lata`= 132
+   8: `lata`= 133
+   9: `lata`= 134
+  10: `lata`= 136
+  11: `lata`= 138
+  12: `lata`= 140
+  13: `lata`= 220
+  14: `lata`= 222
+  15: `lata`= 224
+  16: `lata`= 226
+  17: `lata`= 228
+  18: `lata`= 230
+  19: `lata`= 232
+  20: `lata`= 234
+  21: `lata`= 236
+  22: `lata`= 238
+  23: `lata`= 240
+  24: `lata`= 242
+  25: `lata`= 244
+  26: `lata`= 246
+  27: `lata`= 248
+  28: `lata`= 250
+  29: `lata`= 252
+  30: `lata`= 254
+
+
+SELECT DISTINCT `npa` FROM `tpmdata` ORDER BY `npa` LIMIT 30;
+   1: `npa`= 201
+   2: `npa`= 202
+   3: `npa`= 203
+   4: `npa`= 204
+   5: `npa`= 205
+   6: `npa`= 206
+   7: `npa`= 207
+   8: `npa`= 208
+   9: `npa`= 209
+  10: `npa`= 210
+  11: `npa`= 212
+  12: `npa`= 213
+  13: `npa`= 214
+  14: `npa`= 215
+  15: `npa`= 216
+  16: `npa`= 217
+  17: `npa`= 218
+  18: `npa`= 219
+  19: `npa`= 224
+  20: `npa`= 225
+  21: `npa`= 226
+  22: `npa`= 228
+  23: `npa`= 229
+  24: `npa`= 231
+  25: `npa`= 234
+  26: `npa`= 239
+  27: `npa`= 240
+  28: `npa`= 242
+  29: `npa`= 246
+  30: `npa`= 248
+
+
+SELECT DISTINCT `nxx` FROM `tpmdata` ORDER BY `nxx` LIMIT 30;
+   1: `nxx`= 111
+   2: `nxx`= 200
+   3: `nxx`= 201
+   4: `nxx`= 202
+   5: `nxx`= 203
+   6: `nxx`= 204
+   7: `nxx`= 205
+   8: `nxx`= 206
+   9: `nxx`= 207
+  10: `nxx`= 208
+  11: `nxx`= 209
+  12: `nxx`= 210
+  13: `nxx`= 211
+  14: `nxx`= 212
+  15: `nxx`= 213
+  16: `nxx`= 214
+  17: `nxx`= 215
+  18: `nxx`= 216
+  19: `nxx`= 217
+  20: `nxx`= 218
+  21: `nxx`= 219
+  22: `nxx`= 220
+  23: `nxx`= 221
+  24: `nxx`= 222
+  25: `nxx`= 223
+  26: `nxx`= 224
+  27: `nxx`= 225
+  28: `nxx`= 226
+  29: `nxx`= 227
+  30: `nxx`= 228
+
+
+SELECT DISTINCT `ocn` FROM `tpmdata` ORDER BY `ocn` LIMIT 30;
+   1: `ocn`= 0001
+   2: `ocn`= 0003
+   3: `ocn`= 0004
+   4: `ocn`= 0005
+   5: `ocn`= 0007
+   6: `ocn`= 0008
+   7: `ocn`= 0010
+   8: `ocn`= 0011
+   9: `ocn`= 0015
+  10: `ocn`= 0019
+  11: `ocn`= 001A
+  12: `ocn`= 001F
+  13: `ocn`= 0020
+  14: `ocn`= 0021
+  15: `ocn`= 0022
+  16: `ocn`= 0024
+  17: `ocn`= 0025
+  18: `ocn`= 0027
+  19: `ocn`= 0029
+  20: `ocn`= 002A
+  21: `ocn`= 002C
+  22: `ocn`= 002F
+  23: `ocn`= 0030
+  24: `ocn`= 0031
+  25: `ocn`= 0034
+  26: `ocn`= 0035
+  27: `ocn`= 0036
+  28: `ocn`= 0037
+  29: `ocn`= 0038
+  30: `ocn`= 0039
+
+
+SELECT DISTINCT `regionId` FROM `tpmdata` ORDER BY `regionId` LIMIT 30;
+   1: `regionId`= 1
+   2: `regionId`= 2
+   3: `regionId`= 3
+   4: `regionId`= 4
+   5: `regionId`= 5
+   6: `regionId`= 6
+   7: `regionId`= 7
+   8: `regionId`= 8
+   9: `regionId`= 9
+  10: `regionId`= 10
+  11: `regionId`= 11
+  12: `regionId`= 12
+  13: `regionId`= 13
+  14: `regionId`= 14
+  15: `regionId`= 15
+  16: `regionId`= 16
+  17: `regionId`= 17
+  18: `regionId`= 18
+  19: `regionId`= 19
+  20: `regionId`= 20
+  21: `regionId`= 21
+  22: `regionId`= 22
+  23: `regionId`= 23
+  24: `regionId`= 24
+  25: `regionId`= 25
+  26: `regionId`= 26
+  27: `regionId`= 27
+  28: `regionId`= 28
+  29: `regionId`= 29
+  30: `regionId`= 30
+
+
+SELECT DISTINCT `thousandBlock` FROM `tpmdata` ORDER BY `thousandBlock` LIMIT 30;
+   1: `thousandBlock`= 0
+   2: `thousandBlock`= 1
+   3: `thousandBlock`= 2
+   4: `thousandBlock`= 3
+   5: `thousandBlock`= 4
+   6: `thousandBlock`= 5
+   7: `thousandBlock`= 6
+   8: `thousandBlock`= 7
+   9: `thousandBlock`= 8
+  10: `thousandBlock`= 9
+  11: `thousandBlock`= A
