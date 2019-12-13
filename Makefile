@@ -1,4 +1,4 @@
-CXX = g++ -std=gnu++17 -pthread
+CXX = g++ -std=gnu++17 -g -O50 -pthread
 
 test_hardlink: test_hardlink.cpp errnos.txt errnos.awk Makefile
 	$(CXX)   $(CFLAGS)  $< -o $@

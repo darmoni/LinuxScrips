@@ -52,8 +52,68 @@ void test_syntax_bool (bool val)
     cout << "test_syntax_bool (-1 == " << sval << ") returned " << answer << "\n";
 }
 
+std::string remove_ctrl(std::string const& s) {
+    std::string result;
+    for (int i=0; i<s.length(); ++i) {
+        if (s[i] >= 0x20)
+            result += s[i];
+    }
+    return result;
+}
+
+void remove_ctrl_cstrings(char* destp, char const* srcp, size_t size) {
+    for (size_t i=0; i<size; ++i) {
+        if (srcp[i] >= 0x20)
+            *destp++ = srcp[i];
+    }
+    *destp = 0;
+}
+
+void remove_ctrl_ref_result_it(std::string& result, std::string const& s)
+{
+    result.clear();
+    result.reserve(s.length());
+    for (auto it=s.begin(),end=s.end(); it != end; ++it) {
+        if (*it >= 0x20)
+            result += *it;
+    }
+}
+
+
 int main(void)
 {
+    string result;
+    const unsigned loops = 30000;
+    char fooresr [2000];
+    char foo[] = "This small change has a dramatic effect on performance.\n"
+    "The same timing test now showed an average of only 1.72 microseconds per call, a 13x improvement.\n"
+    "This improvement comes from eliminating all the calls to allocate temporary string objects to hold "
+    "the concatenation expression result, and the associated copying and deleting of temporaries.\n"
+    "Depending on the string implementation, allocation and copying on assignment are also eliminated";
+
+    const string foostr (foo);
+
+    for( int i = 0; i < loops; ++i )
+    {
+        ;//remove_ctrl_cstrings(fooresr, foo, foostr.size());
+    }
+
+    for( int i = 0; i < loops; ++i )
+    {
+        ;//remove_ctrl_ref_result_it(result, foo);
+    }
+
+    for( int i = 0; i < loops; ++i )
+    {
+        remove_ctrl_cstrings(fooresr, foo, foostr.size());
+        remove_ctrl_ref_result_it(result, foo);
+        remove_ctrl(foostr);
+    }
+    return (0);
+
+
+
+
     for( int val = -1; val < 2; ++val)
     {
         cout << "test_syntax_bool (" << val << ")\n";
