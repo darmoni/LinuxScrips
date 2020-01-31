@@ -1113,6 +1113,7 @@ source /etc/bash_completion.d/git-prompt
 #esac
 
 
+TOP_DIR=/home/nir/repo
 
 function _these_are_set_in_bashrc {
 #setting -up git prompt

@@ -1,0 +1,281 @@
+Agent_i.cpp:227:      DbQuery q("select a.id from account a, inbound i where "
+"i.accountId=a.id and a.isDeleted=0 and a.type=1 and i.phone = '%s' and a.parentId = %d;", phone_username.c_str(), parent_id_);
+
+Agent_i.cpp:288:	  DbQuery q("update agent_data set call_status = 'IU' where account_id=%d;",
+
+Agent_i.cpp:307:  DbQuery q("select inbound.phone from inbound left join destinations on inbound.accountId = destinations.accountId"
+            " left join account on account.id = destinations.accountId where "
+            "destinations.phone = '%s' and account.domain = '%s';",phone,domain);
+
+Agent_i.cpp:322:    DbQuery q("select agent_data.account_id,agent_data.parent_id,agent_data.phone_number,agent_data.hard_login_time, "
+              "agent_data.soft_login_time, agent_data.hard_logoff_time,agent_data.soft_logoff_time, "
+              "agent_data.unanswered_calls_limit, agent_data.unanswered_calls_cnt,agent_data.next_call_can_start, "
+              "agent_data.last_call_end_time,agent_data.calls_served, agent_data.is_queue_supervisor, agent_data.call_status, "
+              "account.phonePassword from agent_data left join account on account.id = agent_data.account_id left join inbound "
+              "on agent_data.account_id  = inbound.accountId "
+              "where agent_data.is_queue_supervisor < 2 and inbound.phone='%s' and account.domain='%s';",
+              extension,domain);
+
+Agent_i.cpp:343:    DbQuery q("select agent_data.account_id,agent_data.parent_id,agent_data.phone_number,agent_data.hard_login_time, "
+              "agent_data.soft_login_time, agent_data.hard_logoff_time,agent_data.soft_logoff_time, "
+              "agent_data.unanswered_calls_limit, agent_data.unanswered_calls_cnt,agent_data.next_call_can_start, "
+              "agent_data.last_call_end_time,agent_data.calls_served, agent_data.is_queue_supervisor, agent_data.call_status, "
+              "account.phonePassword from agent_data left join account on account.id = agent_data.account_id "
+              "where agent_data.is_queue_supervisor < 2 and account.id=%d;",
+              accountId);
+
+Queue_i.cpp:37:  DbQuery q("select " QUEUE_FIELDS " from account left join inbound "
+            "on account.id = inbound.accountId left join queue_data on account.id = "
+            "queue_data.account_id where inbound.phone=%s and account.domain='%s';",
+            extension,domain);
+            "where queue_data.account_id = %d;",
+            id);
+
+Queue_i.cpp:120:  DbQuery q("select " QUEUE_FIELDS " from queue_data left join account on account.id=queue_data.account_id "
+            "where queue_data.account_id = %d;",
+            id);
+
+Queue_i.cpp:149:  DbQuery q("select " QUEUE_FIELDS " from queue_data  left join account on account.id=queue_data.account_id "
+            "where queue_data.account_id = %d;",
+            overflow_account_id);
+
+QueueMan_i.cpp:408:      DbQuery q("select talked_seconds from queue_statistics where account_id = %ld limit 1;",_queue_id);
+QueueMan_i.cpp:728:        DbQuery q("UPDATE queue_records SET reason ='%s' WHERE id = %d;",result, record_id);
+QueueMan_i.cpp:829:		DbQuery q("SELECT COUNT(*) FROM agent_data LEFT JOIN agent_assignment ON agent_data.account_id = agent_assignment.agent_id "
+                                  "WHERE agent_assignment.queue_id=%d AND (agent_assignment.permanent = 1 OR agent_data.call_status != 'NA');",
+                                  qu->queue()->account_id());
+
+QueueMan_i.cpp:846:        DbQuery q("SELECT talked_seconds AS aver_time_on_the_call FROM queue_statistics WHERE account_id=%d;",
+                                  qu->queue()->account_id());
+
+QueueMan_i.cpp:881:	DbQuery q("SELECT queue_data.account_id, account.parentId FROM queue_data LEFT JOIN inbound on "
+                          "queue_data.account_id = inbound.accountId LEFT JOIN account ON inbound.accountId = account.id "
+                          "WHERE inbound.phone='%s' AND account.domain='%s';",
+                          extention,domain);
+
+QueueMan_i.cpp:903:	DbQuery q("SELECT queue_data.account_id, account.parentId FROM queue_data "
+                          "LEFT JOIN account ON queue_data.account_id=account.id WHERE account.id=%d;",id);
+
+QueueMan_i.cpp:1035:        DbQuery q("SELECT COUNT(agent_id) AS counter FROM agent_assignment WHERE agent_id = %d;", accountId);
+QueueMan_i.cpp:1044:        DbQuery q(query.c_str(), accountId, time(NULL), trace.c_str());
+QueueMan_i.cpp:1123:        DbQuery q("SELECT `from_name`, `from_phone`, `call_id` FROM `queue_records` WHERE `id` = %ld LIMIT 1", i->second.get_queue_record());
+QueueMan_i.cpp:1167:	DbQuery q("SELECT agent_data.account_id, agent_data.call_status, agent_data.login_status ,agent_assignment.permanent, "
+                          "agent_data.hard_logoff_time, agent_data.soft_logoff_time FROM agent_data LEFT JOIN "
+                          "agent_assignment ON agent_data.account_id = agent_assignment.agent_id "
+                          "WHERE agent_assignment.permanent IS NOT NULL and account_id=%d LIMIT 1", agent_id);
+
+QueueMan_i.cpp:1206:		DbQuery q("SELECT COUNT(*) FROM agent_data LEFT JOIN agent_assignment ON agent_data.account_id = agent_assignment.agent_id "
+                                  "WHERE agent_assignment.queue_id=%d AND (agent_assignment.permanent = 1 or login_status = 1);",
+                                  queue->account_id());
+
+QueueMan_i.cpp:1228:		DbQuery q("SELECT agent_data.account_id,agent_data.parent_id,agent_data.phone_number,"
+                                  "agent_data.hard_login_time, agent_data.soft_login_time, agent_data.hard_logoff_time,"
+                                  "agent_data.soft_logoff_time, agent_data.unanswered_calls_limit, "
+                                  "agent_data.unanswered_calls_cnt,"
+                                  "agent_data.next_call_can_start, "
+                                  "agent_data.last_call_end_time,"
+                                  "agent_data.calls_served, agent_data.is_queue_supervisor, agent_data.call_status, "
+                                  "account.phonePassword, agent_assignment.agent_priority, "
+                                  "agent_assignment.monitor_agent,email.emailAddress, address.description, "
+                                  "agent_assignment.permanent, agent_data.login_status, agent_data.last_call_assigned_time "
+                                  "FROM agent_data LEFT JOIN account ON account.id = agent_data.account_id "
+                                  "LEFT JOIN agent_assignment ON agent_data.account_id = agent_assignment.agent_id "
+                                  "LEFT JOIN email ON email.accountId = %d "
+                                  "LEFT JOIN address on address.accountId = agent_data.account_id "
+                                  "WHERE agent_assignment.queue_id=%d AND "
+                                  "agent_data.call_status = 'AV' and agent_data.is_queue_supervisor < 2 "
+                                  "and agent_data.next_call_can_start "
+                                  "< UNIX_TIMESTAMP() %s limit 1;",
+                                  queue->account_id(), queue->account_id(), strategy.c_str());
+
+QueueMan_i.cpp:1267:				DbQuery iq("INSERT INTO `agent_records` (`account_id` ,`ts`, `end_state`) VALUES (%d,%ld,'IU');",
+                                                   agent->account_id(), time(NULL));
+
+QueueMan_i.cpp:1366:				  DbQuery q("UPDATE queue_records SET agent_account_id = %d, connected_time = %ld "
+                                                "WHERE id = %ld;",
+                                                agent->account_id(), time(NULL), i->second.get_queue_record());
+
+QueueMan_i.cpp:1389:						DbQuery q("UPDATE queue_records SET agent_account_id = %d, connected_time = %ld "
+                                                        "WHERE id = %ld;",agent->account_id(),time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1413:				DbQuery q("UPDATE queue_records SET agent_account_id = %d, connected_time = %ld "
+                                        "WHERE id = %ld;",agent->account_id(), time(NULL), i->second.get_queue_record());
+
+QueueMan_i.cpp:1424:		DbQuery q("UPDATE queue_records SET stoptime = %ld, reason ='NOAGENTS' WHERE id = %ld;",
+                                  time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1491:                    DbQuery q("UPDATE `queue_records` SET `agent_account_id` = %d, `connected_time` = %ld WHERE `id` = %ld;",
+                            agent->account_id(),time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1505:				if (agent) DbQuery q("UPDATE `queue_records` SET `agent_account_id` = %d, "
+                                                  "`connected_time` = %ld WHERE `id` = %ld;",
+                                                  agent->account_id(),time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1526:					if (agent ) DbQuery q("UPDATE queue_records SET agent_account_id = %d,"
+                                                          "connected_time = %ld WHERE id = %ld;",
+                                                          agent->account_id(),time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1550:                if (agent ) DbQuery q("UPDATE queue_records SET agent_account_id = %d,"
+                                                  "connected_time = %ld WHERE id = %ld;",
+                                                  agent->account_id(),time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1562:		DbQuery q("UPDATE queue_records SET stoptime = %ld, reason ='NOSUCHQUEUE' WHERE id = %ld;",
+                                  time(NULL),i->second.get_queue_record());
+
+QueueMan_i.cpp:1615:		DbQuery q(query.c_str(),queue.account_id(),time(NULL),to,db_name.c_str(),number.c_str(), cdr_id.c_str(), key.c_str());
+                qr_rec = q.last_insert_id();
+
+QueueMan_i.cpp:1759:        DbQuery q("SELECT `name` FROM `queue_data` WHERE `account_id` = %d;",id);
+QueueMan_i.cpp:1800:	DbQuery q("SELECT file,type FROM queue_data_moh WHERE queue_id = %d AND is_active > 0 ORDER BY seq_of_play;", id);
+QueueMan_i.cpp:1847:        DbQuery q(query.c_str(), agent->account_id(), time(NULL), status, trace);
+QueueMan_i.cpp:1929:                    DbQuery q("SELECT agent_data.account_id,agent_data.parent_id,agent_data.phone_number,agent_data.hard_login_time, "
+                                                          "agent_data.soft_login_time, agent_data.hard_logoff_time,agent_data.soft_logoff_time, "
+                                                          "agent_data.unanswered_calls_limit, agent_data.unanswered_calls_cnt,agent_data.next_call_can_start, "
+                                                          "agent_data.last_call_end_time,agent_data.calls_served, agent_data.is_queue_supervisor, agent_data.call_status, "
+                                                          "account.phonePassword FROM agent_data LEFT JOIN account ON account.id = agent_data.account_id "
+                                                          "WHERE agent_data.is_queue_supervisor < 2 AND account.id=%ld LIMIT 1", id);
+
+QueueMan_i.cpp:1964:						DbQuery q("UPDATE agent_data SET call_status = 'TU',unanswered_calls_cnt = %d "
+                                                                  "WHERE account_id=%ld AND call_status='IU';", agent->unanswered_calls_cnt() + 1,
+                                                                  id /* agent->account_id()*/ );
+
+QueueMan_i.cpp:1980:						DbQuery q("UPDATE agent_data SET call_status = 'NA',login_status = 0,"
+                                                                  " unanswered_calls_cnt = %d, soft_logoff_time = %ld WHERE account_id=%ld;",
+                                                                  agent->unanswered_calls_cnt() + 1, time(NULL), id /* agent->account_id()*/);
+
+QueueMan_i.cpp:1984:						DbQuery qq("INSERT INTO agent_records (account_id,ts,"
+                                                                   "end_state, reason) VALUES (%ld,%ld,'NA','NOANSWER - agent is over the limit');",id/* agent->account_id()*/,
+                                                                   time(NULL));
+
+QueueMan_i.cpp:2010:                        DbQuery q("UPDATE agent_data SET call_status = 'TU' "
+                                  "WHERE account_id=%ld AND call_status = 'IU';",
+                                  id/* agent->account_id()*/);
+
+QueueMan_i.cpp:2025:						DbQuery q("UPDATE agent_data SET call_status = 'NA',login_status = 0,"
+                                                                  " unanswered_calls_cnt = %d, soft_logoff_time = %ld WHERE account_id=%ld;",
+                                                                  agent->unanswered_calls_cnt() + 1, time(NULL), id /* agent->account_id()*/);
+
+QueueMan_i.cpp:2029:						DbQuery qq("INSERT INTO agent_records (account_id,ts,"
+QueueMan_i.cpp:2055:						DbQuery q1("UPDATE queue_records SET stoptime = %ld, reason ='CALLEDOFF' WHERE id = %ld;",
+                                                                   "end_state, reason) VALUES (%ld,%ld,'NA','BUSY - agent is over the limit');",id/* agent->account_id()*/,
+                                                                   time(NULL));
+
+QueueMan_i.cpp:2087:						DbQuery q("UPDATE agent_data SET calls_served = %d, call_status = 'WU',"
+                                                                  "last_call_end_time = %ld,next_call_can_start = %ld, "
+                                                                  " unanswered_calls_cnt = 0 WHERE account_id=%ld AND call_status = 'IU';",
+                                                                  agent->calls_served() + 1,
+                                                                  time(NULL),time(NULL) + agent->wrapuptime(),id/* agent->account_id()*/);
+
+QueueMan_i.cpp:2101:						DbQuery q("UPDATE queue_records SET stoptime = %ld, reason ='ANSWERED',"
+                                                                  "disconnected_time = %ld WHERE id = %ld;",
+                                                                  time(NULL),time(NULL), qr->second.get_queue_record());
+
+QueueMan_i.cpp:2109:						DbQuery q("SELECT disconnected_time - connected_time, queue_account_id FROM queue_records WHERE id = %ld;",qur_id);
+QueueMan_i.cpp:2135:						DbQuery q("update queue_statistics set calls_served=%d,talked_seconds = (%d + calls_served*talked_seconds)/(1+calls_served) where account_id = %ld;",
+                                                                calls_served, time_on_the_call, answered_call_queue_id);
+
+QueueMan_i.cpp:2164:						DbQuery q1("UPDATE queue_records SET stoptime = %ld, reason ='ABANDONED' WHERE id = %ld;",
+                                                                   time(NULL),qr->second.get_queue_record());
+
+QueueMan_i.cpp:2192:						DbQuery q("UPDATE agent_data SET call_status = 'TU',unanswered_calls_cnt = %d "
+                                                                  "WHERE account_id=%ld AND call_status='IU';", agent->unanswered_calls_cnt() + 1,
+                                                                  id/* agent->account_id()*/);
+
+QueueMan_i.cpp:2209:						DbQuery q("UPDATE agent_data SET call_status = 'NA',login_status = 0,"
+                                                                  " unanswered_calls_cnt = %d, soft_logoff_time = %ld WHERE account_id=%ld;",
+                                                                  agent->unanswered_calls_cnt() + 1, time(NULL), id/* agent->account_id()*/);
+
+QueueMan_i.cpp:2213:						DbQuery qq("INSERT INTO agent_records (account_id,ts,end_state,reason) "
+                                                                   "VALUES (%ld,%ld,'NA','CANCEL - agent is over the limit');",
+                                                                   id/* agent->account_id()*/, time(NULL));
+                                                affected += qq.affected_rows();
+
+QueueMan_i.cpp:2229:            DbQuery q1("UPDATE queue_records SET stoptime = %ld, reason ='ABANDONED' WHERE id = %ld;",
+                                           time(NULL),qur_id);
+
+QueueMan_i.cpp:2238:                    DbQuery q1("SELECT  stoptime - starttime FROM queue_records WHERE id = %ld;", qur_id);
+QueueMan_i.cpp:2247:                    DbQuery q1("UPDATE queue_statistics "
+                        "SET calls_served = %d, waitingTime = (%d + %d*waitingTime)/%d WHERE waitingTime IS NOT NULL AND account_id = %ld;",
+                        buffer_size, waiting_time, buffer_size, 1+buffer_size, queue_id);
+
+QueueMan_i.cpp:2312:		DbQuery q("UPDATE agent_data SET phone_number = '%s',"
+                                  "hard_login_time = %ld, soft_login_time = 0, hard_logoff_time = 0,"
+                                  "soft_logoff_time = 0, unanswered_calls_cnt = 0,"
+                                  "next_call_can_start = 0, last_call_end_time = 0,"
+                                  "calls_served = 0, call_status = 'AV', login_status = 1 "
+                                  "WHERE account_id = %d;",
+                                  contact,time(NULL),id);
+
+QueueMan_i.cpp:2323:	DbQuery q("INSERT INTO agent_records (account_id,ts,end_state,from_phone) "
+                          "VALUES (%d,%ld,'AV','%s');",
+                          id, time(NULL),contact);
+
+QueueMan_i.cpp:2356:		DbQuery q("UPDATE agent_data SET phone_number = '%s',"
+                                  "soft_login_time = %ld,"
+                                  "soft_logoff_time = 0, unanswered_calls_cnt = 0,"
+                                  "next_call_can_start = 0, last_call_end_time = 0,"
+                                  "calls_served = 0, call_status = 'AV', login_status = 1 "
+                                  "WHERE account_id = %d;",
+                                  contact,time(NULL),id);
+
+
+QueueMan_i.cpp:2367:	DbQuery q("INSERT INTO agent_records (account_id,ts, end_state,from_phone) "
+                          "VALUES (%d,%ld,'AV','%s');",
+                          id, time(NULL),contact);
+
+QueueMan_i.cpp:2426:		DbQuery q("UPDATE agent_data SET phone_number = '',"
+                                  "soft_logoff_time = %ld, unanswered_calls_cnt = 0,"
+                                  "next_call_can_start = 0, last_call_end_time = 0,"
+                                  "calls_served = 0, call_status = 'NA', login_status = 0 "
+                                  "WHERE account_id = %d;",
+                                  time(NULL),id);
+
+QueueMan_i.cpp:2436:	DbQuery q("INSERT INTO agent_records (account_id,ts,end_state, from_phone,reason) "
+                          "VALUES (%d,%ld,'NA','%s','soft_logoff');",
+                          id, time(NULL), contact);
+
+QueueMan_i.cpp:2484:		DbQuery q("UPDATE agent_data SET phone_number = '',"
+                                  "hard_login_time = 0, soft_login_time = 0, hard_logoff_time = %ld,"
+                                  "soft_logoff_time = 0, unanswered_calls_cnt = 0,"
+                                  "next_call_can_start = 0, last_call_end_time = 0,"
+                                  "calls_served = 0, call_status = 'NA', login_status = 0 "
+                                  "WHERE account_id = %d;",
+                                  time(NULL),id);
+
+QueueMan_i.cpp:2495:	DbQuery q("INSERT INTO agent_records (account_id,ts, end_state, from_phone, reason) "
+                          "VALUES (%d,%ld,'NA','%s','hard_logoff');",
+                          id, time(NULL),contact);
+
+
+QueueMan_i.cpp:2506:	DbQuery q("SELECT monitor FROM queue_data WHERE account_id=%d;",id);
+QueueMan_i.cpp:2580:		      DbQuery q("update agent_data set call_status = '%s'"
+                                " where account_id = %d;",
+                                agent->call_status_saved(),id);
+                        //agent->call_status_saved(agent->call_status());
+                        _sender->send(0,id,agent->call_status_saved());
+                        release_agent(id);
+
+QueueMan_i.cpp:2629:    DbQuery q("SELECT COUNT(DISTINCT `agent_data`.`id`) FROM `agent_data` LEFT JOIN `agent_assignment` ON `agent_data`.`account_id` = `agent_assignment`.`agent_id` WHERE `agent_assignment`.`queue_id` = %d AND ( (`agent_assignment`.`permanent` = 0 AND `agent_data`.`login_status` = 0) OR (`agent_data`.`call_status` = 'NA') ) AND `agent_data`.`soft_logoff_time` > 1 ORDER BY `agent_data`.`account_id` ASC;", queue_id);
+
+QueueMan_i.cpp:2641:	DbQuery q("UPDATE agent_data set call_status = 'AV',next_call_can_start = 0 "
+                          "WHERE account_id = %d;",id);
+
+QueueMan_i.cpp:2646:		DbQuery q("INSERT INTO agent_records (account_id,ts,end_state) "
+                                  "VALUES (%d,%ld,'AV');",
+                                  id, time(NULL));
+
+QueueMan_i.cpp:2703:    DbQuery q(select_q.str().c_str(),id);
+QueueMan_i.cpp:2765:					DbQuery q("UPDATE queue_records SET agent_account_id = %d,connected_time = %ld WHERE id = %ld;",
+                                                          agent->account_id(),time(NULL),queue_records_id);
+
+QueueMan_i.cpp:2947:						DbQuery q("UPDATE agent_data SET call_status = '%s' "
+                                                                  "WHERE account_id=%d AND call_status = 'IU';",
+                                                                  agent->continue_wrapup_call_status(), id);
+
+QueueMan_i.cpp:2980:			DbQuery q("UPDATE agent_data SET call_status = 'AV' "
+                                          "WHERE account_id=%d AND (call_status = 'WU' OR call_status = 'TU');",
+                                          id);
+
+QueueMan_i.cpp:2986:				DbQuery q("INSERT INTO agent_records (account_id,ts,end_state) "
+                                                  "VALUES (%d,%ld,'AV');",
+                                                  id, time(NULL));
