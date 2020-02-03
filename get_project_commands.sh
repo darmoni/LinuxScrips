@@ -1,6 +1,6 @@
 #!/bin/bash
 
-servers='pbxdev.xcastlabs.com pps.siptalk.com'
+servers='pbxdev.xcastlabs.com'
 if [[ "Prepare" =~ "$*" ]] ; then
     for build_server in ${servers} ; do
         #echo 'Prepare ing'
