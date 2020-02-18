@@ -628,6 +628,18 @@ function xcweb {
    ssh -X xcast@$(webdev).$domain
 }
 
+
+function debug_broker1 {
+    domain="xbrokert1-chi.siptalk.com"
+    ssh -X xcast@$domain
+}
+
+function debug_broker2 {
+    domain="xbrokert2-chi.siptalk.com"
+    ssh -X xcast@$domain
+}
+
+
 function pbxdev {
     domain="pbxdev.xcastlabs.com"
     ssh -X ndarmoni@$domain
