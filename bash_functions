@@ -1141,7 +1141,9 @@ GIT_PS1_SHOWUPSTREAM='auto'
 GIT_PS1_SHOWCOLORHINTS='y'
 source /etc/bash_completion.d/git-prompt
 }
-
+#export CVSROOT=:ext:webcvs.xcastlabs.com:/usr/cvsroot
+export CVSROOT=:ext:ndarmoni@webcvs.xcastlabs.com:/usr/cvsroot
+export CVS_RSH=ssh
 #alias lsx='find  -type f -executable -maxdepth 1'
 alias gdbbt='gdb -q -n -ex bt -batch'
 alias gdbbtfull='gdb -q -n -ex "bt full" -batch'
