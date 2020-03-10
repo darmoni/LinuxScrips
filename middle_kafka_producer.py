@@ -119,7 +119,7 @@ def serialize_stat(sock, record, address = '', port = 3666, my_component_name = 
                 parts = record[k].split(',')
                 for method in parts:
                     [name, count] = method.split(':')
-                    fieldName = "{}CountOf'{}'s".format(subComp, name.capitalize())
+                    fieldName = "{}NumberOf'{}'s".format(subComp, name.capitalize())
                     fields[fieldName] = [subComp, TYPE_SUM, count]
                     buf = buf_template.format('Self', subComp, fieldName.replace(subComp,''), 'TYPE_MAX', 'StatBlock.Methods[method]').encode('utf-8')
                     syslog.syslog(syslog.LOG_DEBUG, buf)
