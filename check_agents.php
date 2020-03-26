@@ -1,6 +1,6 @@
 #!/usr/bin/php -f
 <?
-#ident "$Id:$"
+#ident "$Id$"
 
 $phpfile = pathinfo(__FILE__);
 chdir($phpfile['dirname']);
