@@ -15,7 +15,7 @@ elif [[ "RepoPrepare" =~ "$*" ]] ; then
         echo "
         Repo Preparing ${build_server}
         "
-        ssh ndarmoni@${build_server} "cd google_repo_rpm/.repo/manifests && make clean && make branches"
+        ssh ndarmoni@${build_server} "cd google_repo_rpm/.repo/manifests && make all"
     done
 elif [[ "Status" =~ "$*" ]] ; then
     for build_server in ${servers} ; do
