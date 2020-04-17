@@ -8,3 +8,4 @@ export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh;
 source $VIRTUALENVWRAPPER_SCRIPT;
 
 workon rpmbuilds && python manage.py runserver 0.0.0.0:8010
+

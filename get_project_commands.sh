@@ -29,7 +29,7 @@ elif [[ "RepoStatus" =~ "$*" ]] ; then
         echo "
         Repo Statusing ${build_server}
         "
-        ssh ndarmoni@${build_server} "cd google_repo_rpm/.repo/manifests && repo status"
+        ssh ndarmoni@${build_server} "cd google_repo_rpm/.repo/manifests && make status"
     done
 else
     ssh ndarmoni@pbxdev.xcastlabs.com "cd git_rpm_scripts ; ./change_manager.py $*"
