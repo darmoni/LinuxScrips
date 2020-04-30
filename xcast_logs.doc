@@ -1,0 +1,131 @@
+New flog procedure
+
+<log root>=~xcast/logs
+[servers]
+XBROKER=<log root>/xbroker
+RESIDENTIAL=logs-residential-la.xcastlabs.net
+PBX=logs-pbx-la.xcastlabs.net
+XBROKER=logs-pbx-la.xcastlabs.net
+CLIENT DEVICES=logs-devices-la.xcastlabs.net
+NETWORKING=logs-networking-la.xcastlabs.net
+WEB=logs-web-la.xcastlabs.net
+
+[logroot]
+XBROKER=<log root>/xbroker
+GLBPROXY=<log root>/sbc
+PBX(middle)=<log root>/pbx
+RESIDENTIAL=<log root>/residential
+CLIENT DEVICES=<log root>/devices
+NETWORKING=<log root>/networking
+
+[log_name]
+container=<log root>/servers/<host>/<date>
+middle=pbx-middle-<host>.<date>.log
+xbroker=xbroker<host_last_ip4_part>-xbroker.<date>.log
+
+case study GLBPROXY:
+    ssh ndarmoni@logs-glbproxy-la.xcastlabs.net
+    ls -ltr ~xcast/logs/sbc/*<date>*log
+    -rw-r--r-- 1 xcast xcast 420781577126 Apr 16 12:03 /usr/local/registrator/logs/sbc/sbc-glbproxy.<date>.log
+
+find ~xcast/logs -follow -type f | egrep '*20200416*.log'
+/usr/local/registrator/logs/residential/res-mslave.20200416.log
+/usr/local/registrator/logs/residential/res-TIFFOpen.20200416.log
+/usr/local/registrator/logs/residential/res-expr.20200416.log
+/usr/local/registrator/logs/residential/res-middle-38.102.250.10-7064.20200416.log
+/usr/local/registrator/logs/residential/res-clipped.20200416.log
+/usr/local/registrator/logs/residential/res-.20200416.log
+/usr/local/registrator/logs/residential/res-by.20200416.log
+/usr/local/registrator/logs/residential/res-dither.20200416.log
+/usr/local/registrator/logs/residential/res-gain.20200416.log
+/usr/local/registrator/logs/residential/res-read.20200416.log
+/usr/local/registrator/logs/residential/res-fserver.20200416.log
+/usr/local/registrator/logs/residential/res-vgproxy.20200416.log
+/usr/local/registrator/logs/residential/res-mserver.20200416.log
+/usr/local/registrator/logs/sbc/sbc-glbproxy.20200416.log
+/usr/local/registrator/logs/servers/web4n2-la.siptalk.com/20200416/logrotate.log
+/usr/local/registrator/logs/servers/web4n1-la.siptalk.com/20200416/logrotate.log
+
+
+
+Based on Email from Alex:
+
+Everyone,
+
+I am planning gradually move log traffic to new log servers.
+
+Since we are separating log traffic between two new servers, I created a number of aliases in DNS to avoid the confusion.
+
+GLBPROXY -> logs-glbproxy-la.xcastlabs.net
+RESIDENTIAL -> logs-residential-la.xcastlabs.net
+PBX -> logs-pbx-la.xcastlabs.net
+XBROKER -> logs-pbx-la.xcastlabs.net
+CLIENT DEVICES -> logs-devices-la.xcastlabs.net
+NETWORKING -> logs-networking-la.xcastlabs.net
+WEB -> logs-web-la.xcastlabs.net
+
+I will add more aliases if needed as we migrate.
+
+Servers still have user xcast but xcast login is going away and you will all have to use your exchange user name and password in order to get in and work.
+As most operations can be done as non-root, sudo will be limited to admin group.  Each user will be able to run its cron jobs but I would like to limit things on those servers to log related operations.
+
+Log format and location:
+Logs will no longer appear in the root of /usr/local/registrator/logs
+Right now, we will have following subdirectories driven by rsyslogd templates
+
+XBROKER -> <log root>/xbroker
+GLBPROXY -> <log root>/sbc
+PBX(middle) -> <log root>/pbx
+RESIDENTIAL -> <log root>/residential
+CLIENT DEVICES -> <log root>/devices           ### Customer devices we log
+NETWORKING -> <log root>/networking   ### Switches, routers, etc …
+
+There will be no log rotation, no old, old-xbroker, old-sbc directories.  Rsyslog will be rotating logs daily.
+
+Log names will be written in the following format:
+
+pbx-middle-38.102.250.50.20200410.log
+xbroker158-xbroker.20200410.log
+
+For now, all container and server logs will remain the same
+
+<log root>/servers/<host>/<date>
+
+We will deal with them in the next phase.
+
+
+For voice related traffic:
+
+First step is moving xbroker and glbproxy logs
+Second step is moving PBX logs including all container related logs
+Third step is moving Residential logs
+
+As we discussed with Steve and Russel, we should be able to get read of log scrapers and use kafka / clickhouse db for registration monitoring.  I will confirm before moving PBX and residential logs
+Due to a huge number of logs that are larger than 10G and few are larger than 100G, I cannot sync old voice logs to new server.  However, Dale implemented new code on his Xtools that is searching SIP logs on both new and old server.  It has been pushed to xtools.siptalk.com and seems to be stable.
+
+For web related traffic:
+
+Steve and Russel,
+
+As I mentioned before I don’t think we need to sync any of your logs to new log servers.  I plan to work with you by switching each group of the web servers and testing right after that. I believe that no restart of tomcat is needed as you send logs to a local logserver on each web node, but it would be a good idea to confirm it again.
+
+Device support traffic:
+
+I will work with Victor Shcherbakov to complete addition of new public IP addresses to our firewalls. The NAT riles will be created and pointed to a new log server with proper alias similar to what we have above.  Meanwhile logserver3-la public IP will be available.  I will send documentation to admins on how to use UFW (uncomplicated firewall) in order to add remove rules allowing for outside devices to rich our log servers.
+
+Victor please create a PAT rule
+8.3.254.31:514 -> 10.0.75.31:514
+
+Logserver will have a hostname logs-clients-external.xcastlabs.net with port 514.
+
+Steve,
+
+You will probably add it to your custom config at some point.
+
+Deadlines:
+
+I would really like to start moving traffic today unless I hear from you.  I will start with step one
+
+GLBPROXY and XBROKERS.
+
+
