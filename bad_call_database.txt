@@ -151,3 +151,21 @@ Case 3.1: Press '3' at prompt
 Expected Response: Q.3 Verification line then Q.4 and then Q.4.2
 Actual Response: Q.4 and then Q.4.2(WRONG)
 
+CREATE TABLE `bad_call_data` (
+  `id` int(11) NOT NULL auto_increment,
+  `caller_details` varchar(64) NOT NULL default '',
+  `timestamp_of_feedback_call` int(11) default '0',
+  `last_outgoing` int(1) default '0',
+  `last_incoming` int(1) default '0',
+  `other_side` int(1) default '0',
+  `my_side` int(1) default '0',
+  `voice_mail` varchar(128) default '',
+  `low_volume` int(1) default '0',
+  `chopped_words` int(1) default '0',
+  `background_noise` int(1) default '0',
+  `static_interference` int(1) default '0',
+  `repeat_sentences` int(1) default '0',
+  `call_completed` int(1) default '0',
+  `resolution_recommendation` varchar(64) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
