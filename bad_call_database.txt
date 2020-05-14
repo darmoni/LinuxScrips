@@ -152,14 +152,115 @@ Expected Response: Q.3 Verification line then Q.4 and then Q.4.2
 Actual Response: Q.4 and then Q.4.2(WRONG)
 
 CREATE TABLE `bad_call_data` (
+    `id` int(11) NOT NULL auto_increment,
+    `device` int(11) default NULL,
+    `user`  int(11) default NULL,
+    `callid` varchar(64) NOT NULL default '',
+    `timestamp_of_feedback_call` int(11) default '0',
+    `last_outgoing` int(1) default '0',
+    `last_incoming` int(1) default '0',
+    `other_side` int(1) default '0',
+    `my_side` int(1) default '0',
+    `voice_mail` varchar(128) default '',
+    `low_volume` int(1) default '0',
+    `chopped_words` int(1) default '0',
+    `background_noise` int(1) default '0',
+    `static_interference` int(1) default '0',
+    `repeat_sentences` int(1) default '0',
+    `call_completed` int(1) default '0',
+    `resolution_recommendation` varchar(64) NOT NULL default '',
+    PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+ALTER TABLE `bad_call_data`
+ADD `device` int(11) default NULL,
+ADD `user` int(11) default NULL;
+
+
+What do we say in the questions:
+
+additional.wav  'If ypu have additional details and want to leave a voice message please press 1 now. press 0 if you want to be connected to customer service'
+automated_system.wav    'Thank you for calling an automated reporting system. If you would like to report an issue about a very recent phone call with us, please press '1' '
+choose_one.wav  'Please  choose_one of the following options'
+direction.wav   'Press '1' if the problem was with last outgoing call, or press '2' for incoming call. Press 3 if both recent calls had problems'
+expirience.wav  'Please provide your experience after the beep. When finished press '#' or simply hang up'
+invalid_entry.wav   'Invalid entry'
+reason.wav  'If you were told by the other person that they can't hear you well, press '1'. If only you have noticed the problem, press '2', or press '3' if both sides noticed the problem. Press '4' if call was inerrupted unexpectedly'
+thanks_bye.wav  'Thank you, your report is noted, you may hangup now'
+
+INSERT INTO  `emailQueue` (`type`, `state`, `parameters`) VALUES('CallTroubleReport', 10, '{\"callTroubleId\": $new_id}')";
+
+
+SELECT `id`, `phone_account_id`, `caller_account_id`, FROM_UNIXTIME(`timestamp_of_feedback_call`) as log_time, `last_outgoing`, `last_incoming`, `other_side`, `my_side`, `voicemail`, `call_completed`, `resolution_recommendation`  FROM `bad_call_data` ORDER BY `timestamp_of_feedback_call` DESC LIMIT 10;
+
+SELECT `id`, `phone_account_id`, `caller_account_id`, FROM_UNIXTIME(`timestamp_of_feedback_call`) as log_time, `last_outgoing` + 2 * `last_incoming` as direction, `other_side` +2 * `my_side` as `noticed_by`, `voicemail`, `call_completed`, `resolution_recommendation`  FROM `bad_call_data` ORDER BY `timestamp_of_feedback_call` DESC LIMIT 2;
++----+--------+------+---------------------+-----------+------------+----------------------------------------------------------------------------------------------------------------------+----------------+---------------------------+
+| id | device | user | log_time            | direction | noticed_by | voice_mail                                                                                                           | call_completed | resolution_recommendation |
++----+--------+------+---------------------+-----------+------------+----------------------------------------------------------------------------------------------------------------------+----------------+---------------------------+
+| 64 |  10664 | 1565 | 2020-05-18 11:30:08 |         1 |          1 | /usr/local/registrator/prompts/personal/voicemail/siptalk64.xcastlabs.com/0a/bad_audio_report-1589819401.6681.84.wav |              1 | Call Back to caller       |
+| 63 |  10664 | 1565 | 2020-05-18 11:23:11 |         1 |          2 | 0                                                                                                                    |              1 | Call Back to caller       |
++----+--------+------+---------------------+-----------+------------+----------------------------------------------------------------------------------------------------------------------+----------------+---------------------------+
+
+ you last <incoming|outgoing> call, <you| other party | both of you> had to <repeat sentences | experienced < chopped words | low volume | background noise | static interference> >.
+
+
+Raw hints into how to incorporate the information for human consumption:
+BODY = "Caller (id=$user reported at $log time from device id $device that <Which Call> recent call(s) had audio quality issues. <Who noticed the problem> noticed the problem. <Was the call interrupted >.
+There is a recording of the situation in file <`voicemail`>"
+
+
+
+
+
+CREATE TABLE `bad_call_data` (
+    `id` int(11) NOT NULL auto_increment,
+    `phone_account_id` int(11) default NULL,
+    `caller_account_id`  int(11) default NULL,
+    `callid` varchar(64) NOT NULL default '',
+    `timestamp_of_feedback_call` int(11) default '0',
+    `last_outgoing` int(1) default '0',
+    `last_incoming` int(1) default '0',
+    `other_side` int(1) default '0',
+    `my_side` int(1) default '0',
+    `voicemail` varchar(128) default '',
+    `low_volume` int(1) default '0',
+    `chopped_words` int(1) default '0',
+    `background_noise` int(1) default '0',
+    `static_interference` int(1) default '0',
+    `repeat_sentences` int(1) default '0',
+    `call_completed` int(1) default '0',
+    `resolution_recommendation` varchar(64) NOT NULL default '',
+    PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+MariaDB:
+#ALTER TABLE `bad_call_data`
+#RENAME COLUMN  `device` TO `phone_account_id`,
+
+Prceedure for ENGINE=MyISAM:
+
+ALTER TABLE `bad_call_data`
+CHANGE `user` `caller_account_id` INT(11) NULL DEFAULT NULL,
+CHANGE `device` `phone_account_id` INT(11) NULL DEFAULT NULL,
+ALTER TABLE `bad_call_data` CHANGE `voice_mail` `voicemail`  varchar(128) default '';
+
+
+
+SHOW CREATE TABLE `bad_call_data`;
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table         | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| bad_call_data | CREATE TABLE `bad_call_data` (
   `id` int(11) NOT NULL auto_increment,
+  `phone_account_id` int(11) default NULL,
+  `caller_account_id` int(11) default NULL,
   `caller_details` varchar(64) NOT NULL default '',
   `timestamp_of_feedback_call` int(11) default '0',
   `last_outgoing` int(1) default '0',
   `last_incoming` int(1) default '0',
   `other_side` int(1) default '0',
   `my_side` int(1) default '0',
-  `voice_mail` varchar(128) default '',
+  `voicemail` varchar(128) default '',
   `low_volume` int(1) default '0',
   `chopped_words` int(1) default '0',
   `background_noise` int(1) default '0',
@@ -168,4 +269,14 @@ CREATE TABLE `bad_call_data` (
   `call_completed` int(1) default '0',
   `resolution_recommendation` varchar(64) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=latin1 |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+SELECT `id`, `phone_account_id`, `caller_account_id`, FROM_UNIXTIME(`timestamp_of_feedback_call`) as log_time, `last_outgoing` + 2 * `last_incoming` as direction, `other_side` +2 * `my_side` as `noticed_by`, `voicemail`, `call_completed`, `resolution_recommendation`  FROM `bad_call_data` ORDER BY `timestamp_of_feedback_call` DESC LIMIT 2;
++----+------------------+-------------------+---------------------+-----------+------------+-----------+----------------+---------------------------+
+| id | phone_account_id | caller_account_id | log_time            | direction | noticed_by | voicemail | call_completed | resolution_recommendation |
++----+------------------+-------------------+---------------------+-----------+------------+-----------+----------------+---------------------------+
+| 66 |             7282 |             16064 | 2020-05-19 08:11:48 |         3 |          3 | 0         |              1 | Call Back to caller       |
+| 65 |             7282 |             16064 | 2020-05-19 08:09:44 |         3 |          0 | 0         |              0 | Call Back to caller       |
++----+------------------+-------------------+---------------------+-----------+------------+-----------+----------------+---------------------------+
+2 rows in set (0.00 sec)
