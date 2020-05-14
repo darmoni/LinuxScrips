@@ -1148,7 +1148,19 @@ export CVS_RSH=ssh
 alias gdbbt='gdb -q -n -ex bt -batch'
 alias gdbbtfull='gdb -q -n -ex "bt full" -batch'
 alias rm='rm -i'
+alias python='python3'
 alias wdiff='git difftool -y -x "diff -y -W $COLUMNS"'
+
+
+#SEE ~/ssh/config for Hostname Aliases
+#alias GLBPROXY='logs-glbproxy-la.xcastlabs.net'
+#alias NETWORKING='logs-networking-la.xcastlabs.net'
+#alias PBX='logs-pbx-la.xcastlabs.net'
+#alias RESIDENTIAL='logs-residential-la.xcastlabs.net'
+#alias WEB='logs-web-la.xcastlabs.net'
+#alias XBROKER='logs-pbx-la.xcastlabs.net'
+
+
 #usage  mserver]$ for core in `ls -1tr` ; do echo $core ; gdbbt /usr/local/registrator/lib/mserver/app/mapp $core; done > mapp.bt.txt 2>&1
 #10909090909909 * 979090909090909 +1
 

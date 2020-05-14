@@ -7,4 +7,4 @@ export VIRTUALENVWRAPPER_LOG_FILE=hook.log;
 export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh;
 source $VIRTUALENVWRAPPER_SCRIPT;
 
-workon rpmbuilds && python manage.py runserver
+workon rpmbuilds && python manage.py runserver 0.0.0.0:8010
