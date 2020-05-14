@@ -1,9 +1,10 @@
 # Using sudo
 TRYUNNEL=0
 if [ ! $(pgrep -f vpnc-connect) ]; then sudo vpnc-connect default; sudo ufw enable
-else echo 'VPN is Already on';
-TRYUNNEL=1
 ssh nir@ubuntu-darmoni.xcastlabs.com 'nohup  ~/bin/start_rpmbuilds.sh &'
+else echo 'VPN is Already on'; \
+TRYUNNEL=1
+ssh nir@ubuntu-darmoni.xcastlabs.com 'ls -l > /dev/null'
 fi
 
 if [ "1" != "$TRYUNNEL" ] ; then echo "done";
