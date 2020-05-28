@@ -1,0 +1,141 @@
+ps -ef | grep mserver
+
+cd ~/lib/mserver/app
+mv XXScript XXScript.20200528; ln -s XXScript.PlayGain XXScript
+mv XScript XScript.20200528; ln -s XScript.PlayGain XScript
+mv vmail vmail.20200528; ln -s vmail.PlayGain vmail
+
+mserver_ctl stop; fserver_ctl stop; cserver_ctl stop
+cp /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/hstarter/hstarter /usr/local/registrator/lib/mserver/hstarter.PlayGain
+cp /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/mserver/mserver ~/bin/mserver.PlayGain
+cp /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libhermes.so ~/lib/mserver/libhermes.so.PlayGain
+cp /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript.PlayGain
+cp /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript.PlayGain
+cp /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail.PlayGain
+
+mserver_ctl start
+
+ps -ef | grep mserver
+
+md5sum /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/hstarter/hstarter /usr/local/registrator/lib/mserver/hstarter.PlayGain
+md5sum /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/mserver/mserver ~/bin/mserver.PlayGain
+md5sum /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libhermes.so ~/lib/mserver/libhermes.so.PlayGain
+md5sum /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript.PlayGain
+md5sum /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript.PlayGain
+md5sum /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail.PlayGain
+
+
+ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/hstarter/hstarter /usr/local/registrator/lib/mserver/hstarter.PlayGain
+ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/mserver/mserver ~/bin/mserver.PlayGain
+ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libhermes.so ~/lib/mserver/libhermes.so.PlayGain
+ls -l /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript.PlayGain
+ls -l /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript.PlayGain
+ls -l /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail.PlayGain
+
+
+
+[XScript.cpp]
+
+RetMsg_t* ex_PLAY(Action* act, RetMsg_t* last)
+{
+    MsgPlayFile msg;
+    msg.Gain = 1.011f;
+    size_t ni = act->items.size();
+    for(size_t i=2; i<ni; i++) {
+        std::string val = Vars.exec(act->items[i].c_str()+2);
+        switch( act->items[i][0] ) {
+
+            case 'F':
+                msg.Path = val;
+                break;
+
+            case 'X':
+                msg.TrmDTMF = Digits(val.c_str());
+                break;
+
+            case 'O':
+                msg.Offset = atoi(val.c_str());
+                break;
+
+            case 'I':
+                msg.ItemNo = atoi(val.c_str());
+                break;
+
+            case 'V':
+                tolower(val);
+                if( val == "off" || val == "no" ) {
+                    msg.Options |= MsgPlayFile::POPT_NOVIDEO;
+                }
+                break;
+
+            case 'L':
+                msg.ALink = val;
+                break;
+        }
+    }
+
+    return Appl.SendCmd(msg, !act->async);
+}
+
+
+
+[XXScript.cpp]                                                                                                                                                                                                                                                                 2182,2-8      75%
+
+
+                break;
+
+            case 'G':
+                msg.Gain = atof(val.c_str());
+                if( msg.Gain < 0.1 || msg.Gain > 10.0 )
+                    msg.Gain = 1.0;
+                break;
+
+Full code
+
+std::unique_ptr<RetMsg_t> ex_PLAY(Action* act, std::unique_ptr<RetMsg_t> last)
+{
+    MsgPlayFile msg;
+    size_t ni = act->items.size();
+    for(size_t i=2; i<ni; i++) {
+        std::string val = Vars.exec(act->items[i].c_str()+2);
+        switch( act->items[i][0] ) {
+
+            case 'F':
+                msg.Path = val;
+                break;
+
+            case 'X':
+                msg.TrmDTMF = Digits(val.c_str());
+                break;
+
+            case 'O':
+                msg.Offset = atoi(val.c_str());
+                break;
+
+            case 'G':
+                msg.Gain = atof(val.c_str());
+                if( msg.Gain < 0.1 || msg.Gain > 10.0 )
+                    msg.Gain = 1.0;
+                break;
+
+            case 'I':
+                msg.ItemNo = atoi(val.c_str());
+                break;
+
+            case 'V':
+                tolower(val);
+                if( val == "off" || val == "no" ) {
+                    msg.Options |= MsgPlayFile::POPT_NOVIDEO;
+                }
+                break;
+
+            case 'L':
+                msg.ALink = val;
+                break;
+        }
+    }
+
+    return Appl.SendCmd(msg, !act->async);
+}
+
+
