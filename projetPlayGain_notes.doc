@@ -4,6 +4,8 @@ cd ~/lib/mserver/app
 mv XXScript XXScript.20200528; ln -s XXScript.PlayGain XXScript
 mv XScript XScript.20200528; ln -s XScript.PlayGain XScript
 mv vmail vmail.20200528; ln -s vmail.PlayGain vmail
+mv mapp mapp.20200528; ln -s mapp.PlayGain mapp
+
 
 mserver_ctl stop; fserver_ctl stop; cserver_ctl stop
 cp /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/hstarter/hstarter /usr/local/registrator/lib/mserver/hstarter.PlayGain
@@ -12,6 +14,7 @@ cp /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libherme
 cp /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript.PlayGain
 cp /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript.PlayGain
 cp /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail.PlayGain
+cp /net/home/ndarmoni/git_work/Registrator/mapp/mapp ~/lib/mserver/app/mapp.PlayGain
 
 mserver_ctl start
 
@@ -23,14 +26,15 @@ md5sum /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libh
 md5sum /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript.PlayGain
 md5sum /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript.PlayGain
 md5sum /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail.PlayGain
+md5sum /net/home/ndarmoni/git_work/Registrator/mapp/mapp ~/lib/mserver/app/mapp.PlayGain
 
 
-ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/hstarter/hstarter /usr/local/registrator/lib/mserver/hstarter.PlayGain
-ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/mserver/mserver ~/bin/mserver.PlayGain
-ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libhermes.so ~/lib/mserver/libhermes.so.PlayGain
-ls -l /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript.PlayGain
-ls -l /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript.PlayGain
-ls -l /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail.PlayGain
+ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/hstarter/hstarter /usr/local/registrator/lib/mserver/hstarter
+ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/mserver/mserver ~/bin/mserver
+ls -l /net/home/ndarmoni/git_work/Registrator/mediaframework/Hermes/libs64/libhermes.so ~/lib/mserver/libhermes.so
+ls -l /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XScript ~/lib/mserver/app/XScript
+ls -l /net/home/ndarmoni/git_work/Registrator/middle/stack_opt/mserver/XXScript ~/lib/mserver/app/XXScript
+ls -l /net/home/ndarmoni/git_work/Registrator/xmapp/vmail ~/lib/mserver/app/vmail
 
 
 

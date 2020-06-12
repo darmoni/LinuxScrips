@@ -280,3 +280,41 @@ SELECT `id`, `phone_account_id`, `caller_account_id`, FROM_UNIXTIME(`timestamp_o
 | 65 |             7282 |             16064 | 2020-05-19 08:09:44 |         3 |          0 | 0         |              0 | Call Back to caller       |
 +----+------------------+-------------------+---------------------+-----------+------------+-----------+----------------+---------------------------+
 2 rows in set (0.00 sec)
+
+
+CREATE TABLE `bad_call_data` (
+  `id` int(11) NOT NULL auto_increment,
+  `phone_account_id` int(11) default NULL,
+  `caller_account_id` int(11) default NULL,
+  `caller_details` varchar(64) NOT NULL default '',
+  `timestamp_of_feedback_call` int(11) default '0',
+  `voicemail` varchar(128) default '',
+  `resolution_recommendation` varchar(64) NOT NULL default '',
+  `survey_answers` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `bad_call_data`
+ADD `survey_answers` text;
+
+
+survey_answers = '{
+  "last_outgoing": 0,
+  "last_incoming": 0,
+  "other_side": 0,
+  "my_side": 0,
+  "low_volume": 0,
+  "chopped_words": 0,
+  "background_noise": 0,
+  "static_interference": 0,
+  "repeat_sentences": 0,
+  "call_completed": 0
+}'
+
+
+ls -l /net/home/ndarmoni/git_rpm_scripts/Registrator/scripts/utils/process_bad_audio_complaint.php ~xcast/bin/process_bad_audio_complaint.php.fix_name
+
+Server: pbxdata-virt-la.siptalk.com:3306
+￼Database: sip
+￼Table: bad_call_data
