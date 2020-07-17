@@ -1,0 +1,25 @@
+rpm -qif /usr/local/registrator/bin/qman
+Name        : gtt-qman
+Version     : 2.0
+Release     : 20.el7
+Architecture: x86_64
+Install Date: Tue 18 Feb 2020 11:09:29 AM PST
+Group       : Applications/Communication
+Size        : 4442775
+License     : XCastLabs, Inc.
+Signature   : (none)
+Source RPM  : gtt-qman-2.0-20.el7.src.rpm
+Build Date  : Wed 05 Feb 2020 08:52:49 AM PST
+Build Host  : pbxdev.xcastlabs.com
+Relocations : (not relocatable)
+Vendor      : XCastLabs, Inc.
+Summary     : qman
+Description :
+ACD Application
+
+    ACD_GITTAG=R2020-02-05
+    DB_GITTAG=R2020-01-31
+
+    UTILS_GITTAG=R2020-01-16
+    EVSRV_GITTAG=R2020-01-10
+[xcast@qman-pbx-production-faa1b808 ~]$
