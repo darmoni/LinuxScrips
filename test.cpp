@@ -82,6 +82,10 @@ void remove_ctrl_ref_result_it(std::string& result, std::string const& s)
 
 int main(void)
 {
+
+
+    float f; double d; int32_t i;
+    cout << "float f; double d; int16_t i; sizeof(f) = " << sizeof(f) << " sizeof double = " << sizeof(d) << " sizeof (int32_t i) " << sizeof (i) << "\n";
     string result;
     const unsigned loops = 30000;
     char fooresr [2000];

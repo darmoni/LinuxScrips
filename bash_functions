@@ -625,24 +625,24 @@ function clickit {
 
 function xcweb {
    domain="xcastlabs.com"
-   ssh -X xcast@$(webdev).$domain
+   ssh xcast@$(webdev).$domain
 }
 
 
 function debug_broker1 {
     domain="xbrokert1-chi.siptalk.com"
-    ssh -X xcast@$domain
+    ssh xcast@$domain
 }
 
 function debug_broker2 {
     domain="xbrokert2-chi.siptalk.com"
-    ssh -X xcast@$domain
+    ssh xcast@$domain
 }
 
 
 function pbxdev {
     domain="pbxdev.xcastlabs.com"
-    ssh -X ndarmoni@$domain
+    ssh ndarmoni@$domain
 }
 
 function xc {
@@ -652,7 +652,7 @@ function xc {
 
 function dev {
     domain="xcastlabs.com"
-    ssh -X ndarmoni@$(dev64).$domain
+    ssh ndarmoni@$(dev64).$domain
 }
 
 function mount_webdev {

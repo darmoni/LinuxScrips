@@ -1,6 +1,15 @@
 # Using sudo
-if [ "" == "$(pgrep -f vpnc-connect)" ]; then sudo vpnc-connect default
-else echo 'VPN is Already on'; \
-ssh nir@ubuntu-darmoni.xcastlabs.com 'ls -l > /dev/null'
-[[ $(pgrep -f 'ssh -D ') ]] && echo 'Tunnel is already on' || ssh -D 1080  xcast@10.10.10.31
+TRYUNNEL=0
+if [ ! $(pgrep -f vpnc-connect) ]; then sudo vpnc-connect default; sudo ufw enable
+else echo 'VPN is Already on';
+TRYUNNEL=1
+ssh nir@ubuntu-darmoni.xcastlabs.com 'nohup  ~/bin/start_rpmbuilds.sh &'
 fi
+
+if [ "1" != "$TRYUNNEL" ] ; then echo "done";
+else if [ $(pgrep -f 'ssh -D ') ]
+	then echo 'Tunnel is already on';
+	else ssh -D 1080  nir@10.10.10.55;
+	fi
+fi
+
