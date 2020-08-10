@@ -6,3 +6,60 @@ mysql> select * from queue_records WHERE `reason` not in ('ABANDON', 'ANSWERED',
 | 246243 |            15999 |            25692 | WIRELESS CALLER | 8472248888 |          | 1595637369 | 1595637397 |     1595637374 |        1595637397 | INTERCEPTED | 121027  | NULL       |
 +--------+------------------+------------------+-----------------+------------+----------+------------+------------+----------------+-------------------+-------------+---------+------------+
 2 rows in set (0.19 sec)
+
+
+
+select * from agent_records WHERE `reason` not in ('ABANDON', 'ANSWERED', 'ANSWER', '0', 'NOAGENTS', 'ABANDONED', 'CALLEDOFF', '', 'NO_AGENTS', 'NO_KEEP_ALIVE', 'LOOP_OVERFLOw', 'MAX_DEPTH', 'BUSY', 'NOANSWER', 'schedule_soft_logoff', 'CANCEL - BUSY - agent is over th', 'NOANSWER - BUSY - agent is over', 'schedule_hard_logoff', 'error code 486 BUSY', 'NOANSWER - agent is over the lim' ,'error code 481 ABANDON', 'CANCEL - agent is over the limit', 'error code 408 ABANDON', 'error code 404 ABANDON', 'error code 500 ABANDON', 'error code 603 NOANSWER', 'error code 480 ABANDON', 'agent is not assigned to an ACD', 'error code 487 ABANDON', 'error code 503 ABANDON', 'error code 302 ABANDON') LIMIT 3;
++--------+------------+------------+------------+-----------+-----------------------+----------+----------------+
+| id     | account_id | from_phone | ts         | end_state | reason                | queue_id | call_record_id |
++--------+------------+------------+------------+-----------+-----------------------+----------+----------------+
+| 416037 |      25692 |            | 1551151566 | TU        | AGENT_HANGUP          |        0 |              0 |
+| 416040 |      25692 |            | 1551155651 | TU        | AGENT_HANGUP          |        0 |              0 |
+| 416061 |      25692 |            | 1551157659 | NA        | Too many missed calls |        0 |              0 |
++--------+------------+------------+------------+-----------+-----------------------+----------+----------------+
+3 rows in set (0.18 sec)
+
+
+
+SELECT `reason`, COUNT(`reason`) AS REASONS FROM `agent_records` GROUP BY `reason` ORDER BY REASONS DESC LIMIT 60;
++----------------------------------+---------+
+| reason                           | REASONS |
++----------------------------------+---------+
+|                                  |   30719 |
+| error code 486 BUSY              |   30398 |
+| ANSWER                           |   26100 |
+| error code 404 ABANDON           |   13583 |
+| 404                              |    9614 |
+| NOANSWER                         |    2464 |
+| error code 408 ABANDON           |     836 |
+| schedule_soft_logoff             |     560 |
+| schedule_hard_logoff             |     509 |
+| ABANDON                          |     504 |
+| BUSY                             |     324 |
+| 486                              |     226 |
+| Timeout                          |     215 |
+| External Activity                |     196 |
+| error code 480 ABANDON           |     110 |
+| agent is not assigned to an ACD  |     104 |
+| 302                              |      97 |
+| Too many missed calls            |      94 |
+| NOANSWER - agent is over the lim |      73 |
+| AGENT_HANGUP                     |      49 |
+| CANCEL - agent is over the limit |      41 |
+| error code 500 ABANDON           |      33 |
+| error code 603 NOANSWER          |      32 |
+| error code 503 ABANDON           |      15 |
+| NOANSWER - BUSY - agent is over  |      13 |
+| CANCEL - BUSY - agent is over th |       9 |
+| error code 302 ABANDON           |       9 |
+| error code 481 ABANDON           |       9 |
+| 408                              |       8 |
+| 0                                |       8 |
+| 500                              |       5 |
+| error code 487 ABANDON           |       4 |
+| 491                              |       1 |
+| 410                              |       1 |
+| NULL                             |       0 |
++----------------------------------+---------+
+35 rows in set (0.41 sec)
+
