@@ -39,5 +39,4 @@ if [ "" == "$(pgrep -f vpnc-connect)" ]; then sudo vpnc-connect default
 else echo 'VPN is Already on'
 [[ $(ps -ef | grep 'ssh -D ' | grep -v $$ ) ]] && echo 'Tunnel is already on' || ssh -D 1080  xcast@10.10.10.31
 fi
- 
-   
+
