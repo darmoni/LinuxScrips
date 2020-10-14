@@ -142,3 +142,4 @@ int main(void)
     //cout << "After trim\n'" << s.replace(pos,5, " had ") << "'\n";
     return 0;
 }
+ 
