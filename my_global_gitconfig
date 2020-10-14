@@ -11,7 +11,8 @@
 	clean = indent
 	smudge = cat
 [filter "dater"]
-	smudge = expand_date %f
+    #smudge = cat
+    smudge = expand_date %f
 	clean = perl -pe \"s/\\\\\\$Date[^\\\\\\$]*\\\\\\$/\\\\\\$Date\\\\\\$/\"
 [status]
         submodulesummary = 1

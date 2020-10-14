@@ -33,4 +33,4 @@ else if [ $(pgrep -f 'ssh -D ') ]
 	else ssh -D 1080  ndarmoni@10.10.10.31;
 	fi
 fi
-   
+
