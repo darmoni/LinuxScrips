@@ -4,4 +4,4 @@
 main_process=$(pgrep -f ${app_name})
 watch -n 0.3 "ps -LF H -p ${main_process}"
 
-  
+   
