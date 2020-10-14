@@ -1,0 +1,107 @@
+[user]
+	name = 
+	email = 
+[core]
+	editor = vim
+	pager = less -x4
+	autocrlf = input
+[push]
+	default = simple
+[filter "indent"]
+	clean = indent
+	smudge = cat
+[filter "dater"]
+	smudge = expand_date %f
+	clean = perl -pe \"s/\\\\\\$Date[^\\\\\\$]*\\\\\\$/\\\\\\$Date\\\\\\$/\"
+[status]
+        submodulesummary = 1
+[tag]
+    sort = -creatordate
+[format]
+    pretty = %at %ar %h %an\t%s
+
+[alias]
+	unstage = reset HEAD --
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	visual = !gitg
+    last = log --pretty=full -1 HEAD
+    sst = submodule status --recursive
+# From https://gist.github.com/robmiller/6018582
+# Working with branches
+#
+# Get the current branch name (not so useful in itself, but used in
+# other aliases)
+#branch-name = "!git rev-parse --abbrev-ref HEAD"
+branch-name = "!git symbolic-ref HEAD --short"
+# Push the current branch to the remote "origin", and set it to track
+# the upstream branch
+publish = "!git push -u origin $(git branch-name)"
+# Delete the remote version of the current branch
+unpublish = "!git push origin :$(git branch-name)"
+# Delete a branch and recreate it from master — useful if you have, say,
+# a development branch and a master branch and they could conceivably go
+# out of sync
+recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
+# Fire up your difftool (e.g. Kaleidescope) with all the changes that
+# are on the current branch.
+code-review = difftool origin/master...
+# Given a merge commit, find the span of commits that exist(ed) on that
+# branch. Again, not so useful in itself, but used by other aliases.
+merge-span = "!f() { echo $(git log -1 $2 --merges --pretty=format:%P | cut -d' ' -f1)$1$(git log -1 $2 --merges --pretty=format:%P | cut -d' ' -f2); }; f"
+# Find the commits that were introduced by a merge
+merge-log = "!git log `git merge-span .. $1`"
+# Show the changes that were introduced by a merge
+merge-diff = "!git diff `git merge-span ... $1`"
+# As above, but in your difftool
+merge-difftool = "!git difftool `git merge-span ... $1`"
+# Interactively rebase all the commits on the current branch
+rebase-branch = "!git rebase -i `git merge-base master HEAD`"
+#
+# Working with files
+#
+# Unstage any files that have been added to the staging area
+unstage = reset HEAD
+# Show changes that have been staged
+diffc = diff --cached
+# Mark a file as "assume unchanged", which means that Git will treat it
+# as though there are no changes to it even if there are. Useful for
+# temporary changes to tracked files
+assume = update-index --assume-unchanged
+# Reverse the above
+unassume = update-index --no-assume-unchanged
+# Show the files that are currently assume-unchanged
+assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+# Checkout our version of a file and add it
+ours = "!f() { git checkout --ours $@ && git add $@; }; f"
+# Checkout their version of a file and add it
+theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+# Delete any branches that have been merged into master
+# See also: https://gist.github.com/robmiller/5133264
+delete-merged-branches = "!git co master && git branch --no-color --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+# Save all work into a commit "FIRE"
+fire = "!git add -A && git commit -m 'FIRE FIRE FIRE' && git push origin fire-branch"
+# pu, "push upstream" (sets upstream if unset, pushes) - a more reliable version of an alias I found on stack overflow:
+pu=![[ $(git config branch.$(git symbolic-ref --short HEAD).merge) = '' ]] && git push -u origin $(git symbolic-ref --short HEAD) || git push
+# po, "prune origin" (deletes merged branches):
+po=remote prune origin
+#bc, or "branch commit" - like git commit -m, but prefixes commit message with the branch name in brackets. Reads commit message from stdin, and limited to a single line. Aborts if nothing is added to the message.
+bc = "!f() { bname=\"[$(git symbolic-ref --short HEAD)] \"; test -n ${#bname} && [ ${#bname} -lt ${#REPLY} ] && git commit -m \"$REPLY\" || echo aborted; }; f; unset f bname"
+# Run merge test to check for any conflicts beforehand.
+mergetest = "!f(){ git merge --no-commit --no-ff \"$1\"; git merge --abort; echo \"Merge aborted\"; };f "
+sdiff = !git diff && git submodule foreach 'git diff'
+spush = push --recurse-submodules=on-demand
+supdate = submodule update --remote --merge
+spull = !git pull && git submodule sync --recursive && git submodule update --init --recursive
+[diff]
+    submodule = log
+	tool = meld
+[rerere]
+	enabled = true
+	autoupdate = true
+[submodule]
+	recurse = true
+[color]
+	ui = auto

@@ -25,3 +25,4 @@ sudo systemctl start rpm_django
 echo "     $cmd"
 #for line in $(echo $cmd | tr ";" "\n"); eval "'$line'"; done
 eval "$cmd"
+ 

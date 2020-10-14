@@ -21,3 +21,4 @@ for y in range (100):
     q.put({'x':x,'y':y,'x+y':x + y * 100})
   q.join()
   print "Batch " + str(y) + " Done"
+ 
