@@ -34,9 +34,6 @@ else if [ $(pgrep -f 'ssh -D ') ]
 	fi
 fi
 
- 
- 
-=======
 # Using sudo
 if [ "" == "$(pgrep -f vpnc-connect)" ]; then sudo vpnc-connect default
 else echo 'VPN is Already on'
