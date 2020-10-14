@@ -10,7 +10,7 @@ def main(argv):
     data = sys.stdin.read()
     args = shlex.split('git log --pretty=format:"%ad" -1 ' + param)
     last_date = check_output(args).decode()
-    print(data.replace('$Date$', '$Date: ' + last_date + '$'), end=''),
+    print(data.replace('$Date$', '$Date: ' + last_date + '$'), end='')
 if __name__ == "__main__":
     main(sys.argv[1:])
 
