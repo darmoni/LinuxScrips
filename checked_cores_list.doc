@@ -1,0 +1,4 @@
+-rw------- 1 xcast xcast 131899392 Nov  1 22:39 ./production/pbxsm/vgproxy/core.vgproxy.90.vgproxy-pbxsm-production-ff00505b.node.consul.1604299144
+-rw------- 1 xcast xcast  11558912 Nov  4 12:30 ./production/pbxsm/fserver/core.hstarter.17090.fserver-pbxsm-production-590606eb.node.consul.1604521808
+-rw------- 1 xcast xcast  82444288 Nov  7 00:28 ./production/pbxsm/mserver/core.mserver.107.mserver-pbxsm-production-6242b954.node.consul.1604737709
+-rw------- 1 xcast xcast 142299136 Nov 15 00:11 ./production/pbxsm/vgproxy/core.vgproxy.91.vgproxy-pbxsm-production-ff00505b.node.consul.1605427864
