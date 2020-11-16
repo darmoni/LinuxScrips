@@ -12,15 +12,16 @@ processed = []
 filter = 'pbxsm-production'
 
 def read_processed(file):
-    try:
-        with open(file) as f:
-            for line in f.readlines():
-                processed.append(line.strip())
-                #print("found in processed file ", processed)
-    except Exception:
-        print("problem with file {}".format(file))
-        exit()
-
+	try:
+		with open(file) as f:
+			for aline in f.readlines():
+				line = aline.strip()
+				processed.append(line)
+				#print("found in processed file ", processed)
+	except Exception:
+		print("problem with file {}".format(file))
+		exit()
+					
 def core_parts(new_core, platform):
     pos = new_core.find(platform)
 
@@ -52,7 +53,8 @@ temp = stdin.read().splitlines()
 read_cores (temp)
 
 for p in processed:
-    print("Processed core: '{}'".format(p))
+	if len(p) > 2:
+		print("Processed core: '{}'".format(p))
 #print("found in new cores list ", new_cores)
 
 for line in new_cores:
