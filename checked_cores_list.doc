@@ -1,4 +1,12 @@
--rw------- 1 xcast xcast 131899392 Nov  1 22:39 ./production/pbxsm/vgproxy/core.vgproxy.90.vgproxy-pbxsm-production-ff00505b.node.consul.1604299144
--rw------- 1 xcast xcast  11558912 Nov  4 12:30 ./production/pbxsm/fserver/core.hstarter.17090.fserver-pbxsm-production-590606eb.node.consul.1604521808
--rw------- 1 xcast xcast  82444288 Nov  7 00:28 ./production/pbxsm/mserver/core.mserver.107.mserver-pbxsm-production-6242b954.node.consul.1604737709
--rw------- 1 xcast xcast 142299136 Nov 15 00:11 ./production/pbxsm/vgproxy/core.vgproxy.91.vgproxy-pbxsm-production-ff00505b.node.consul.1605427864
+Path,Comment
+-rw------- 1 xcast xcast 131899392 Nov  1 22:39 ./production/pbxsm/vgproxy/core.vgproxy.90.vgproxy-pbxsm-production-ff00505b.node.consul.1604299144,Restart
+-rw------- 1 xcast xcast 195420160 Nov  2 08:30 ./production/pbxsm/vgproxy/core.vgproxy.90.vgproxy-pbxsm-production-ff00505b.node.consul.1604334628,Still Open
+-rw------- 1 xcast xcast  11558912 Nov  4 12:30 ./production/pbxsm/fserver/core.hstarter.17090.fserver-pbxsm-production-590606eb.node.consul.1604521808,InFax
+-rw------- 1 xcast xcast  82444288 Nov  7 00:28 ./production/pbxsm/mserver/core.mserver.107.mserver-pbxsm-production-6242b954.node.consul.1604737709,Still Open
+-rw------- 1 xcast xcast  11300864 Nov  9 12:37 ./production/pbxsm/fserver/core.hstarter.10690.fserver-pbxsm-production-d8ea1c11.node.consul.1604954237,InFax
+-rw------- 1 xcast xcast  11431936 Nov 10 12:16 ./production/pbxsm/fserver/core.hstarter.1491.fserver-pbxsm-production-c6102780.node.consul.1605039395,InFax
+-rw------- 1 xcast xcast  12443648 Nov 11 13:15 ./production/pbxsm/fserver/core.hstarter.37900.fserver-pbxsm-production-c6102780.node.consul.1605129349,InFax
+-rw------- 1 xcast xcast  11436032 Nov 13 09:02 ./production/pbxsm/fserver/core.hstarter.39929.fserver-pbxsm-production-d8ea1c11.node.consul.1605286940,InFax
+-rw------- 1 xcast xcast 142299136 Nov 15 00:11 ./production/pbxsm/vgproxy/core.vgproxy.91.vgproxy-pbxsm-production-ff00505b.node.consul.1605427864,Restart
+-rw------- 1 xcast xcast  11431936 Nov 18 07:09 ./production/pbxsm/fserver/core.hstarter.27986.fserver-pbxsm-production-590606eb.node.consul.1605712170,InFax
+-rw------- 1 xcast xcast  15015936 Nov 20 13:57 ./production/pbxsm/rserver/core.hstarter.11829.rserver-pbxsm-production-8d13ead9.node.consul.1605909455,Old media

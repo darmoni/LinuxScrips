@@ -1,0 +1,28 @@
+
+cd ~/el6/container
+./.enter
+
+
+
+[container:ndarmoni@voicedev1:~$] find / -name git
+/opt/rh/sclo-git212/root/usr/bin/git
+/opt/rh/sclo-git212/root/usr/libexec/git-core/git
+ln -s /opt/rh/sclo-git212/root/usr/libexec/git-core/git /usr/local/bin/
+
+git clone git@scm.xcastlabs.net:contrib/local_bin.git ~/bin
+. bin/bash_functions
+
+git clone git@scm.xcastlabs.net:chi/phoneplatform/rpm_scripts.git ~/git_rpm_scripts
+ln -s /home/ndarmoni/git_rpm_scripts rpm_scripts
+
+cp bin/bashrc.keep ~/.bashrc
+
+refresh
+
+work_rpm
+git pull
+
+cp gitconfig_stub.sample ~/.gitconfig
+git clone git@scm.xcastlabs.net:chi/phoneplatform/manifest.git
+make Registrator/.git
+make clean
