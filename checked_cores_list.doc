@@ -10,3 +10,4 @@ Path,Comment
 -rw------- 1 xcast xcast 142299136 Nov 15 00:11 ./production/pbxsm/vgproxy/core.vgproxy.91.vgproxy-pbxsm-production-ff00505b.node.consul.1605427864,Restart
 -rw------- 1 xcast xcast  11431936 Nov 18 07:09 ./production/pbxsm/fserver/core.hstarter.27986.fserver-pbxsm-production-590606eb.node.consul.1605712170,InFax
 -rw------- 1 xcast xcast  15015936 Nov 20 13:57 ./production/pbxsm/rserver/core.hstarter.11829.rserver-pbxsm-production-8d13ead9.node.consul.1605909455,Old media
+-rw------- 1 xcast xcast  66064384 Nov 29 02:53 ./production/pbxsm/rserver/core.rserver.107.rserver-pbxsm-production-b1dfbad7.node.consul.1606647238,Restart

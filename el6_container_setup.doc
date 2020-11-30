@@ -15,6 +15,9 @@ git clone git@scm.xcastlabs.net:contrib/local_bin.git ~/bin
 git clone git@scm.xcastlabs.net:chi/phoneplatform/rpm_scripts.git ~/git_rpm_scripts
 ln -s /home/ndarmoni/git_rpm_scripts rpm_scripts
 
+echo '/usr/bin/readlink -e "$@"' > /usr/local/bin/realpath ;  chmod +x /usr/local/bin/realpath
+
+
 cp bin/bashrc.keep ~/.bashrc
 
 refresh
