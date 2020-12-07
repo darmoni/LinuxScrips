@@ -1,4 +1,4 @@
-import urllib
+import urllib, requests
 
 import urllib.request
 import urllib.parse
@@ -14,8 +14,62 @@ url = 'http://10.10.10.55:8010/2/detail'
 
 #print(f.status, f.reason)
 headers = {}
+django_csrf = 'csrfmiddlewaretoken'
+value_csrf = ''
 
-#exit(0)
+params = {'id' : 'choice1', 'value' :'822'}
+
+
+def post_requests(url, post_params):
+	r1 = requests.get(url)
+	print(r1.text)
+	rows = r1.text.splitlines()
+	for row in rows:
+		if row.find(django_csrf) > -1:
+			csrf_parts = row.split()
+			for csrf_part in csrf_parts:
+				if csrf_part.find('value=') == 0:
+					value_csrf = csrf_part.split('=')[1].replace('"','').replace(">","")
+					print(" value_csrf = '{}'".format(value_csrf))
+				if csrf_part.find('name=') == 0:
+					name = csrf_part.split('=')[1]
+					if django_csrf == name:
+						print("found {} in {}". format(django_csrf, row))
+			#print(csrf_parts)
+	cookies = r1.cookies
+	print(cookies)
+	#cookie_part_1 = set_cookie.split(";")[0]
+	#print(cookie_part_1)
+	#(token, value) = cookie_part_1.split('=')
+	post_params.update({django_csrf: value_csrf})
+	
+	params = urllib.parse.urlencode(post_params)
+	params.encode('ascii')
+	print(params)
+	r2 = requests.post(url, data = params, cookies = cookies)
+	print(r2.text)
+
+post_requests(url, params)
+exit(0)
+
+def post_request(url, params):
+	params = urllib.parse.urlencode(params)
+	params = params.encode('ascii')
+	try:
+		with urllib.request.urlopen(url, params) as f:
+			print(f.status, f.reason)
+			print(f.read().decode('utf-8'))
+	except urllib.error.HTTPError as inst:
+		print("Error in reading url = '{}', params = {}".format(url, params))
+		print (type(inst))
+		print (inst.args)
+		print (inst)
+		print (__file__, 'Oops')
+		exit()
+
+post_request(url, params)
+exit(0)
+
 def post_to_url(url, cookies, data):
 	print("post_to_url ({}, {}, {})".format(url, cookies, data))
 	params = urllib.parse.urlencode(data)
