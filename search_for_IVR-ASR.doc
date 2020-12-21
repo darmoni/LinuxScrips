@@ -1,0 +1,39 @@
+Research IVR/ASR,Comments
+https://www.genesys.com/pricing,full call center solution
+https://www.microsip.org.softphone,For Windows
+https://www.techradar.com/best/best-interactive-voice-response-ivr-services,List of solutions
+https://www.ringcentral.com/aff/office.html?BMID=AFF_TECHRADAR_OFF&PID=1100210026&CID=AFF&AID=0&SID=trd-us-3169010158031443500#ring-aff, 
+https://www.five9.com/products/virtual-contact-center/ivr,IV is optional as part of the Five9 Product
+
+
+
+https://xcastlabs.zendesk.com/agent/tickets/82865
+
+
+
+Name	Strategy	Numbers	Actions
+Billing Queue	Least Recent	1013	Select ACD Billing Queue Delete ACD Billing Queue	no overflow
+Camarillo ALL Queue Members	Most skilled	3010	Select ACD Camarillo ALL Queue Members Delete ACD Camarillo ALL Queue Members	no overflow
+Camarillo Overflow	Least Recent	3001	Select ACD Camarillo Overflow Delete ACD Camarillo Overflow 	no overflow
+Camarillo Phone Girls	Least Recent	3000	Select ACD Camarillo Phone Girls Delete ACD Camarillo Phone Girls	Camarillo Overflow
+Conejo Simi Eye	Least Recent	4010	Select ACD Conejo Simi Eye Delete ACD Conejo Simi Eye 	no overflow
+LEMG Main	Least Recent	2010	Select ACD LEMG Main Delete ACD LEMG Main	LEMG Overflow
+LEMG Overflow	Least Recent	2011	Select ACD LEMG Overflow Delete ACD LEMG Overflow 	no overflow
+Overflow 2	Least Recent	1007	Select ACD Overflow 2 Delete ACD Overflow 2	Phone Girls
+Overflow Queue	Least Recent	1009	Select ACD Overflow Queue Delete ACD Overflow Queue	Overflow 2
+Phone Girls	Least Recent	1008	Select ACD Phone Girls Delete ACD Phone Girls	Overflow Queue
+
+
+
+el5 build machine
+uname -a
+Linux res1n2-chi.siptalk.com 2.6.18-419.el5.centos.plus #1 SMP Sat Feb 25 15:50:12 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+
+
+
+Account Name
+XCast Labs.1
+
+Account ID
+ca927782-353a-4618-b509-dd34755a8a29
+N1r\/0ice
