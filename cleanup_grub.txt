@@ -1,0 +1,190 @@
+https://www.cyberciti.biz/faq/ubuntu-18-04-remove-all-unused-old-kernels/
+
+Author: Vivek Gite Last updated: October 28, 2020 3 comments
+￼
+￼How do I remove all unused old kernels in Ubuntu Linux 18.04/20.04 LTS using the command line?
+
+Over time you get many Linux kernel packages installed on Ubuntu Linux 16.04 or 18.04 LTS server. All unused Linux kernel takes disk space on Ubuntu server, hence you must delete them from the system. This page shows you how to remove old kernels from an Ubuntu server install. The following commands works with Ubuntu 18.04 and 20.04 LTS server or desktop systems.
+Ubuntu 18.04 remove kernel that is not used
+The procedure to delete all unused old kernels on Ubuntu Linux version 18.04 and 20.04 LTS is as follows:
+
+First, boot into a new kernel
+List all other older kernel using the dpkg command
+Note down system disk space usage by running the df -H command
+Delete all unused old kernels, run: sudo apt --purge autoremove
+Verify it
+
+How to list all installed Linux kernel
+
+
+sudo dpkg --list | egrep -i --color 'linux-image|linux-headers'
+[sudo] password for nir: 
+ii  linux-headers-5.4.0-45                        5.4.0-45.49                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-45-generic                5.4.0-45.49                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+ii  linux-headers-5.4.0-48                        5.4.0-48.52                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-48-generic                5.4.0-48.52                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+ii  linux-headers-5.4.0-51                        5.4.0-51.56                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-51-generic                5.4.0-51.56                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+ii  linux-headers-5.4.0-53                        5.4.0-53.59                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-53-generic                5.4.0-53.59                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+ii  linux-headers-5.4.0-54                        5.4.0-54.60                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-54-generic                5.4.0-54.60                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+ii  linux-headers-5.4.0-56                        5.4.0-56.62                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-56-generic                5.4.0-56.62                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+ii  linux-headers-5.4.0-58                        5.4.0-58.64                                all          Header files related to Linux kernel version 5.4.0
+ii  linux-headers-5.4.0-58-generic                5.4.0-58.64                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+iU  linux-headers-5.4.0-59                        5.4.0-59.65                                all          Header files related to Linux kernel version 5.4.0
+iU  linux-headers-5.4.0-59-generic                5.4.0-59.65                                amd64        Linux kernel headers for version 5.4.0 on 64 bit x86 SMP
+iU  linux-headers-5.8.0-34-generic                5.8.0-34.37~20.04.2                        amd64        Linux kernel headers for version 5.8.0 on 64 bit x86 SMP
+iU  linux-headers-generic-hwe-20.04               5.8.0.34.37~20.04.20                       amd64        Generic Linux kernel headers
+rc  linux-image-5.4.0-42-generic                  5.4.0-42.46                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-45-generic                  5.4.0-45.49                                amd64        Signed kernel image generic
+rc  linux-image-5.4.0-47-generic                  5.4.0-47.51                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-48-generic                  5.4.0-48.52                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-51-generic                  5.4.0-51.56                                amd64        Signed kernel image generic
+rc  linux-image-5.4.0-52-generic                  5.4.0-52.57                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-53-generic                  5.4.0-53.59                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-54-generic                  5.4.0-54.60                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-56-generic                  5.4.0-56.62                                amd64        Signed kernel image generic
+ii  linux-image-5.4.0-58-generic                  5.4.0-58.64                                amd64        Signed kernel image generic
+iU  linux-image-generic-hwe-20.04                 5.8.0.34.37~20.04.20                       amd64        Generic Linux kernel image
+
+Also note down the amount of disk space available on the file system by typing the following df command:
+df -H
+
+How to remove old kernel versions on Ubuntu 18.04 or above
+Type the following apt command or apt-get command:
+sudo apt --purge autoremove
+
+OR
+sudo apt-get --purge autoremove
+
+Dealing with Ubuntu 16.04 LTS and older
+First, get list of currently running Linux kernel, run:
+v="$(uname -r | awk -F '-virtual' '{ print $1}')"
+echo "$v"
+
+Sample outputs:
+5.8.0-34-generic
+
+Next, I am going to create a list that tells not to delete currently running Linux kernel as follows:
+
+i="linux-headers-virtual|linux-image-virtual|linux-headers-generic-hwe-|linux-image-generic-hwe-|linux-headers-${v}|linux-image-$(uname -r)|linux-image-generic|linux-headers-generic"
+echo "$i"
+
+Here is a list of the kernel that needs to be deleted:
+
+dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
+linux-image-5.4.0-45-generic
+linux-image-5.4.0-48-generic
+linux-image-5.4.0-51-generic
+linux-image-5.4.0-53-generic
+linux-image-5.4.0-54-generic
+linux-image-5.4.0-56-generic
+
+Finally, I am going to delete all unwated and older Linux kernels on my Ubuntu Linux 16.04 LTS server, run:
+
+$ sudo -i
+i="linux-headers-virtual|linux-image-virtual|linux-headers-generic-hwe-|linux-image-generic-hwe-|linux-headers-${v}|linux-image-$(uname -r)|linux-image-generic|linux-headers-generic"
+echo "$i"
+dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
+# apt-get --purge remove $(dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i")
+
+Result
+
+Removing linux-headers-5.4.0-45-generic (5.4.0-45.49) ...
+Removing linux-headers-5.4.0-45 (5.4.0-45.49) ...
+Removing linux-headers-5.4.0-48-generic (5.4.0-48.52) ...
+Removing linux-headers-5.4.0-48 (5.4.0-48.52) ...
+Removing linux-headers-5.4.0-51-generic (5.4.0-51.56) ...
+Removing linux-headers-5.4.0-51 (5.4.0-51.56) ...
+Removing linux-headers-5.4.0-53-generic (5.4.0-53.59) ...
+Removing linux-headers-5.4.0-53 (5.4.0-53.59) ...
+Removing linux-headers-5.4.0-54-generic (5.4.0-54.60) ...
+Removing linux-headers-5.4.0-54 (5.4.0-54.60) ...
+Removing linux-headers-5.4.0-56-generic (5.4.0-56.62) ...
+Removing linux-headers-5.4.0-56 (5.4.0-56.62) ...
+Removing linux-headers-5.4.0-59-generic (5.4.0-59.65) ...
+Removing linux-headers-5.4.0-59 (5.4.0-59.65) ...
+Removing linux-headers-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+Removing linux-modules-extra-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+Removing linux-image-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+I: /boot/vmlinuz.old is now a symlink to vmlinuz-5.8.0-36-generic
+I: /boot/initrd.img.old is now a symlink to initrd.img-5.8.0-36-generic
+/etc/kernel/postrm.d/initramfs-tools:
+update-initramfs: Deleting /boot/initrd.img-5.8.0-34-generic
+/etc/kernel/postrm.d/zz-update-grub:
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/init-select.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-5.8.0-36-generic
+Found initrd image: /boot/initrd.img-5.8.0-36-generic
+Found memtest86+ image: /memtest86+.elf
+Found memtest86+ image: /memtest86+.bin
+done
+Selecting previously unselected package linux-image-unsigned-5.8.0-34-generic.
+(Reading database ... 269277 files and directories currently installed.)
+Preparing to unpack .../linux-image-unsigned-5.8.0-34-generic_5.8.0-34.37~20.04.2_amd64.deb ...
+Unpacking linux-image-unsigned-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+Setting up linux-image-unsigned-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+I: /boot/vmlinuz is now a symlink to vmlinuz-5.8.0-34-generic
+I: /boot/initrd.img is now a symlink to initrd.img-5.8.0-34-generic
+(Reading database ... 269281 files and directories currently installed.)
+Purging configuration files for linux-image-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+I: /boot/vmlinuz is now a symlink to vmlinuz-5.8.0-36-generic
+I: /boot/initrd.img is now a symlink to initrd.img-5.8.0-36-generic
+/var/lib/dpkg/info/linux-image-5.8.0-34-generic.postrm ... removing pending trigger
+rmdir: failed to remove '/lib/modules/5.8.0-34-generic': Directory not empty
+Purging configuration files for linux-modules-extra-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+Processing triggers for linux-image-unsigned-5.8.0-34-generic (5.8.0-34.37~20.04.2) ...
+
+
+Again run the df command:
+df -H
+
+dpkg --list | egrep -i 'linux-image|linux-headers' | awk '/ii/{ print $2}' | egrep -v "$i"
+linux-headers-5.4.0-45
+linux-headers-5.4.0-45-generic
+linux-headers-5.4.0-48
+linux-headers-5.4.0-48-generic
+linux-headers-5.4.0-51
+linux-headers-5.4.0-51-generic
+linux-headers-5.4.0-53
+linux-headers-5.4.0-53-generic
+linux-headers-5.4.0-54
+linux-headers-5.4.0-54-generic
+linux-headers-5.4.0-56
+linux-headers-5.4.0-56-generic
+linux-headers-5.4.0-59
+linux-headers-5.4.0-59-generic
+linux-headers-5.8.0-36-generic
+linux-image-5.8.0-36-generic
+
+How to update grub
+Ubuntu and many other Linux distributions provide a handy command line utility called update-grub.
+
+To update grub, all you have to do is to run this command in the terminal with sudo.
+
+sudo update-grub
+Sourcing file `/etc/default/grub'
+Sourcing file `/etc/default/grub.d/init-select.cfg'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-5.8.0-36-generic
+Found initrd image: /boot/initrd.img-5.8.0-36-generic
+Found linux image: /boot/vmlinuz-5.8.0-34-generic
+Found memtest86+ image: /memtest86+.elf
+Found memtest86+ image: /memtest86+.bin
+done
+
+df -H
+Filesystem                 Size  Used Avail Use% Mounted on
+udev                       4.1G     0  4.1G   0% /dev
+tmpfs                      822M  1.8M  820M   1% /run
+/dev/mapper/vgubuntu-root  243G   20G  211G   9% /
+tmpfs                      4.2G   34M  4.1G   1% /dev/shm
+tmpfs                      5.3M  4.1k  5.3M   1% /run/lock
+tmpfs                      4.2G     0  4.2G   0% /sys/fs/cgroup
+/dev/nvme0n1p5             738M  160M  525M  24% /boot
+/dev/nvme0n1p1             536M  6.4M  530M   2% /boot/efi
+tmpfs                      822M   13k  822M   1% /run/user/1000
+

@@ -1,0 +1,7 @@
+Cleanup grub2
+
+Not Tested
+
+https://ubuntuhandbook.org/index.php/2020/06/hide-grub-boot-menu-ubuntu-20-04-lts/
+
+sudo -H gedit /etc/grub.d/30_os-prober
